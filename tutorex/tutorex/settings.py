@@ -25,7 +25,7 @@ SECRET_KEY = 'otbziimne0%k@nngq*1mb6ryz#5z=gb!50y$d$&ydn77zi)03t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tutorex-test.herokuapp.com', 'tutorex-app.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['tutorex-test.herokuapp.com', 'tutorex-app.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'lessons',
+    'users',
 ]
 
 MIDDLEWARE = [
