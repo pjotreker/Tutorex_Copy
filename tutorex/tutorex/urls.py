@@ -21,5 +21,7 @@ from users import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', user_views.signup, name='signup-view'),
-    path('signup/done', user_views.UserCreatedView.as_view(), name='user-created-success')
+    path('signup/done', user_views.UserCreatedView.as_view(), name='user-created-success'),
+    path('user/<user_uid>/activate/<token>', user_views.ActivateUserView.as_view(), name='user-activate'),
+    path('user/<user_id>/activated', user_views.UserActivatedView.as_view(), name="user-activated-view"),
 ]

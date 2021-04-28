@@ -1,8 +1,15 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.generic import TemplateView, View
+
 from .forms import SignUpForm
 from .models import BaseUser
+from .tokens import account_invitation_token
+
+
 # Create your views here.
 
 
@@ -28,6 +35,18 @@ def signup(request):
                                                     is_active=False,
                                                     is_teacher=is_teacher)
             new_user.save()
+            token = account_invitation_token.make_token(user=new_user)
+            user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
+            activate_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/activate/{token}"
+            mail_sent = send_mail(
+                "Tutorex - aktywuj swoje konto",
+                f"Oto twój link aktywacyjny, kliknij w niego aby aktywować swoje konto w aplikacji Tutorex: {activate_url}",
+                settings.EMAIL_HOST_USER,
+                [email], fail_silently=False
+            )
+            if mail_sent == 0:
+                raise ValueError("Nie udało się wysłać maila aktywacyjnego!")
+
             return redirect('user-created-success')
 
     form = SignUpForm()
@@ -38,13 +57,30 @@ class UserCreatedView(TemplateView):
     template_name = "user_created.html"
 
 
-# class SignUpView(FormView):
-#     template_name = 'signup_form.html'
-#     form_class = SignUpForm
-#     success_url = '/'
-#
-#     def form_valid(self, form):
-#         breakpoint()
-#         if form.password != form.password2:
-#             raise ValueError("Hasła nie są identyczne!")
-#         return super().form_valid(form)
+class ActivateUserView(View):
+
+    def get(self, request, user_uid, token, *args, **kwargs):
+        user = None
+        try:
+            user_id = force_text(urlsafe_base64_decode(user_uid))
+            user = BaseUser.objects.get(pk=user_id)
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user is not None and not user.is_active and account_invitation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return redirect('user-activated-view', user_id=user.id)
+        else:
+            raise ValueError(
+                "Nie udało się aktywować konta, być może link użyty do aktywacji jest nieprawidłowy, albo został już wykorzystany!"
+            )
+
+class UserActivatedView(View):
+
+    def get(self, request, user_id, *args, **kwargs):
+        user = BaseUser.objects.get(pk=user_id)
+        context = {'user': user}
+
+        return render(request, "user_activated.html", context=context)
+
+
