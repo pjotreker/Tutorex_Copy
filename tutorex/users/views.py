@@ -16,10 +16,17 @@ def signup(request):
             birthday = form.cleaned_data.get('birthday')
             password = form.cleaned_data.get('password')
             password2 = form.cleaned_data.get('password2')
+            is_teacher = form.cleaned_data.get('is_teacher', False)
             if password != password2:
                 raise ValueError("Hasła nie są identyczne!")
 
-            new_user = BaseUser.objects.create_user(email=email, password=password, first_name=first_name, birthday=birthday, last_name=last_name, is_active=False)
+            new_user = BaseUser.objects.create_user(email=email,
+                                                    password=password,
+                                                    first_name=first_name,
+                                                    birthday=birthday,
+                                                    last_name=last_name,
+                                                    is_active=False,
+                                                    is_teacher=is_teacher)
             new_user.save()
             return redirect('user-created-success')
 

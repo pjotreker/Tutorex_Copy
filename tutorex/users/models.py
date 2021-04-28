@@ -18,6 +18,8 @@ class BaseUser(AbstractUser):
 
     birthday = models.DateField()
     is_adult = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=False)
+
     phone_number = PhoneNumberField(null=True)
 
     def __str__(self):

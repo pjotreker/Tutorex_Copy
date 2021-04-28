@@ -15,4 +15,4 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = BaseUser
-        fields = ["first_name", "last_name", "email", "password", "password2"]
+        fields = ["first_name", "last_name", "email", "password", "password2", "is_teacher"]
