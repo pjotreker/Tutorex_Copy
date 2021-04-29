@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
@@ -6,8 +7,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserDataForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
@@ -59,6 +61,7 @@ class UserCreatedView(TemplateView):
     template_name = "user_created.html"
 
 
+
 class ActivateUserView(View):
 
     def get(self, request, user_uid, token, *args, **kwargs):
@@ -85,6 +88,13 @@ class UserActivatedView(View):
         context = {'user': user}
 
         return render(request, "user_activated.html", context=context)
+
+
+def index_view(request):
+    user = None
+    if request.user.is_authenticated:
+        user = request.user
+    return render(request, "index.html", {'is_authenticated': request.user.is_authenticated, 'user': user})
 
 
 def user_login(request):
@@ -117,3 +127,41 @@ def user_logout(request):
         logout(request)
         return redirect('user-login')
 
+
+class EditUserProfileView(LoginRequiredMixin, View):
+
+    def get(self, request, user_id, *args, **kwargs):
+        user = None
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id:
+                return HttpResponseForbidden("You cannot edit data of users except your own!")
+
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+            raise ValueError("Ojojojoj! Coś poszło nie tak :(")
+        form = UpdateUserDataForm()
+        return render(request, "profile_form.html", {form: 'form', 'user': user})
+
+    def post(self, request, user_id, *args, **kwargs):
+        user = None
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id:
+                return HttpResponseForbidden("You cannot edit data of users except your own!")
+
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+            raise ValueError("Ojojojoj! Coś poszło nie tak :(")
+        form = UpdateUserDataForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            phone_number = form.cleaned_data.get('phone_number')
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.phone_number = phone_number
+            user.save()
+        return redirect('index')

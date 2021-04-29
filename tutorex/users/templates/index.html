@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+  <h1>TUTOREX</h1>
+  {% if is_authenticated %}
+<!--    <h4>Witaj {{ user.first_name }} {{ user.last_name }}</h4>-->
+    <h4>Witaj {{ user }}</h4>
+    <p><a href="/user/{{ user.id }}/edit">Edytuj profil</a></p>
+    </br>
+    <form method="post" action="/logout/">
+    {% csrf_token %}
+        <input type="submit" value="Wyloguj się">
+    </form>
+  {% else %}
+    <p><a href="/signup/">Zarejestruj się</a></p>
+  {% endif %}
+</body>
+</html>
