@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .forms import SignUpForm
 from .models import BaseUser
@@ -75,6 +77,7 @@ class ActivateUserView(View):
                 "Nie udało się aktywować konta, być może link użyty do aktywacji jest nieprawidłowy, albo został już wykorzystany!"
             )
 
+
 class UserActivatedView(View):
 
     def get(self, request, user_id, *args, **kwargs):
@@ -83,4 +86,34 @@ class UserActivatedView(View):
 
         return render(request, "user_activated.html", context=context)
 
+
+def user_login(request):
+    context = {}
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user:
+            login(request, user)
+            if request.GET.get("next", None):
+                return redirect(request.GET["next"])
+            return redirect('user-success')
+        else:
+            context["error"] = "Email lub haslo są nieprawidlowe"
+            return render(request, "login.html", context=context)
+    else:
+        return render(request, "login.html", context=context)
+
+
+@login_required(login_url="/login/")
+def success(request):
+    context = {}
+    context["user"] = request.user
+    return render(request, "success.html", context=context)
+
+
+def user_logout(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('user-login')
 
