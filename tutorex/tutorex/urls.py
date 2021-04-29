@@ -24,7 +24,7 @@ urlpatterns = [
     path('signup/done', user_views.UserCreatedView.as_view(), name='user-created-success'),
     path('user/<user_uid>/activate/<token>', user_views.ActivateUserView.as_view(), name='user-activate'),
     path('user/<user_id>/activated', user_views.UserActivatedView.as_view(), name="user-activated-view"),
-    path('login/', user_views.UserLogin, name='user-login'),
-    path('success/', user_views.Success, name='user-success'),
-    path('logout/', user_views.UserLogout, name='user-logout')
+    path('login/', user_views.user_login, name='user-login'),
+    path('success/', user_views.success, name='user-success'),
+    path('logout/', user_views.user_logout, name='user-logout')
 ]

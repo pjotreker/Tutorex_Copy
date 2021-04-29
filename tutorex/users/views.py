@@ -87,11 +87,11 @@ class UserActivatedView(View):
         return render(request, "user_activated.html", context=context)
 
 
-def UserLogin(request):
+def user_login(request):
     context = {}
     if request.method == "POST":
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
         if user:
             login(request, user)
@@ -106,13 +106,13 @@ def UserLogin(request):
 
 
 @login_required(login_url="/login/")
-def Success(request):
+def success(request):
     context = {}
     context["user"] = request.user
     return render(request, "success.html", context=context)
 
 
-def UserLogout(request):
+def user_logout(request):
     if request.method == "POST":
         logout(request)
         return redirect('user-login')
