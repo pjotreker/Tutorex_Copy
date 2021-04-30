@@ -1,7 +1,8 @@
 from django.db import models
-# from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
+from django.dispatch import receiver
 from .managers import UserManager
 
 # Create your models here.
@@ -24,4 +25,18 @@ class BaseUser(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.email}"
+
+
+class TeacherProfile(models.Model):
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Nauczyciel {self.first_name} {self.last_name} - {self.email}"
+
+
+@receiver(post_save, sender=BaseUser)
+def create_teacher_profile(sender, instance, created, **kwargs):
+    if created and instance.is_teacher:
+        TeacherProfile.objects.create(user=instance)
+
 
