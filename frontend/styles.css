@@ -136,6 +136,8 @@ body {
     width: calc(140% / 2);
     left: 15%;
     top: calc(50% - 45px/2 - 50.5px);
+
+    font-size: 16px;
     
     background: #FFFFFF;
     border: 1px solid #DFE2E0;
@@ -173,6 +175,8 @@ body {
     left: 15%;
     top: calc(50% - 45px/2 + 31.5px);
     
+    font-size: 16px;
+
     background: #FFFFFF;
     border: 1px solid #DFE2E0;
     box-sizing: border-box;
