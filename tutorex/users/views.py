@@ -91,13 +91,6 @@ class UserActivatedView(View):
 
 
 def index_view(request):
-    user = None
-    if request.user.is_authenticated:
-        user = request.user
-    return render(request, "index.html", {'is_authenticated': request.user.is_authenticated, 'user': user})
-
-
-def user_login(request):
     context = {}
     if request.method == "POST":
         email = request.POST.get('email')
@@ -110,9 +103,9 @@ def user_login(request):
             return redirect('user-success')
         else:
             context["error"] = "Email lub haslo są nieprawidlowe"
-            return render(request, "login.html", context=context)
+            return render(request, "index.html", context=context)
     else:
-        return render(request, "login.html", context=context)
+        return render(request, "index.html", context=context)
 
 
 @login_required(login_url="/login/")
@@ -125,7 +118,7 @@ def success(request):
 def user_logout(request):
     if request.method == "POST":
         logout(request)
-        return redirect('user-login')
+        return redirect('index')
 
 
 class EditUserProfileView(LoginRequiredMixin, View):
