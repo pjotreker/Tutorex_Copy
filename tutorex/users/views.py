@@ -104,6 +104,7 @@ def signup_parent(request):
     form = SignUpParentForm()
     return render(request, "signup_form_parent.html", {'form': form})
 
+
 class UserCreatedView(TemplateView):
     template_name = "user_created.html"
 
