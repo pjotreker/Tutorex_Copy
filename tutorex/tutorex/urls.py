@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.index_view, name='index'),
     path('signup/', user_views.signup, name='signup-view'),
+    path('signup/parent', user_views.signup_parent, name='signup-view-parent'),
+    path('signup/teacher', user_views.signup, name='signup-view-teacher'),
     path('signup/done', user_views.UserCreatedView.as_view(), name='user-created-success'),
     path('user/<user_uid>/activate/<token>', user_views.ActivateUserView.as_view(), name='user-activate'),
     path('user/<user_id>/activated', user_views.UserActivatedView.as_view(), name="user-activated-view"),

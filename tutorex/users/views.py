@@ -5,21 +5,23 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import SignUpForm, UpdateUserDataForm
+from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
 
 # Create your views here.
 
-
+@csrf_protect
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
+
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
@@ -54,12 +56,56 @@ def signup(request):
             return redirect('user-created-success')
 
     form = SignUpForm()
-    return render(request, "signup_form.html", {'form': form})
+    template_to_render = "signup_form.html"
+    if request.get_full_path() == '/signup/teacher':
+        template_to_render = "signup_form_teacher.html"
+    return render(request, template_to_render, {'form': form})
 
+
+@csrf_protect
+def signup_parent(request):
+    if request.method == "POST":
+        form = SignUpParentForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            birthday = form.cleaned_data.get('birthday')
+            password = form.cleaned_data.get('password')
+            password2 = form.cleaned_data.get('password2')
+            parent_pass = form.cleaned_data.get('parent_password')
+            parent_pass2 = form.cleaned_data.get('parent_password2')
+            if password != password2:
+                raise ValueError("Hasła nie są identyczne!")
+            if parent_pass != parent_pass2:
+                raise ValueError("Hasła dla rodzica nie są identyczne!")
+            new_user = BaseUser.objects.create_user(email=email,
+                                                    password=password,
+                                                    parent_password=parent_pass,
+                                                    first_name=first_name,
+                                                    birthday=birthday,
+                                                    last_name=last_name,
+                                                    is_active=False)
+            new_user.save()
+            token = account_invitation_token.make_token(user=new_user)
+            user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
+            activate_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/activate/{token}"
+            mail_sent = send_mail(
+                "Tutorex - aktywuj swoje konto",
+                f"Oto twój link aktywacyjny, kliknij w niego aby aktywować swoje konto w aplikacji Tutorex: {activate_url}",
+                settings.EMAIL_HOST_USER,
+                [email], fail_silently=False
+            )
+            if mail_sent == 0:
+                raise ValueError("Nie udało się wysłać maila aktywacyjnego!")
+
+            return redirect('user-created-success')
+
+    form = SignUpParentForm()
+    return render(request, "signup_form_parent.html", {'form': form})
 
 class UserCreatedView(TemplateView):
     template_name = "user_created.html"
-
 
 
 class ActivateUserView(View):
@@ -97,6 +143,7 @@ def index_view(request):
     return render(request, "index.html", {'is_authenticated': request.user.is_authenticated, 'user': user})
 
 
+@csrf_protect
 def user_login(request):
     context = {}
     if request.method == "POST":

@@ -21,7 +21,8 @@ class BaseUser(AbstractUser):
     is_adult = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
 
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = PhoneNumberField(blank=True, null=True, default=None)
+    parent_password = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.email}"

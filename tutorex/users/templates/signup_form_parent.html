@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+</head>
+<body>
+
+  <form action="/signup/parent" method="post">
+    {% csrf_token %}
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" required/><br/>
+    <label for="name">Imię dziecka</label>
+    <input type="text" name="first_name" id="name" required/><br/>
+    <label for="last_name">Nazwisko dziecka</label>
+    <input type="text" name="last_name" id="last_name" required/><br/>
+    <label for="birthday">Data urodzenia dziecka</label>
+    <input type="date" min="1900-01-01" name="birthday" id="birthday" required/><br/>
+    <label for="password">Hasło dziecka</label>
+    <input type="password" name="password" id="password" required/><br/>
+    <label for="password2">Potwierdź hasło dziecka</label>
+    <input type="password" name="password2" id="password2" required/><br/><br/>
+      <label onmouseover="Specjalne hasło dla ciebie jako rodzica, będziesz używać go do dokonywania opłat, lub zapisywania dziecka na zajęcia" for="password">Hasło rodzica</label>
+    <input type="password" name="parent_password" id="parent_password" required/><br/>
+    <label for="password2">Potwierdź hasło rodzica</label>
+    <input type="password" name="parent_password2" id="parent_password2" required/><br/><br/>
+    <input type="submit" value="Zarejestruj się"/>
+  </form>
+</body>
+</html>
