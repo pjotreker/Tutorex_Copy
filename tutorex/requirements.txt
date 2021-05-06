@@ -9,5 +9,5 @@ django-heroku
 gunicorn
 psycopg2
 psycopg2-binary
-
+whitenoise
 pip~=21.1
