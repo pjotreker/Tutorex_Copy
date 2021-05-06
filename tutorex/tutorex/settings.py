@@ -25,7 +25,7 @@ SECRET_KEY = 'otbziimne0%k@nngq*1mb6ryz#5z=gb!50y$d$&ydn77zi)03t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tutorex-test.herokuapp.com', 'tutorex-app.herokuapp.com', '127.0.0.1', 'localhost', 'tutorex.azurewebsites.net']
+ALLOWED_HOSTS = ['tutorex-test.herokuapp.com', 'tutorex-app.herokuapp.com', '127.0.0.1', 'localhost', 'tutorex.azurewebsites.net', '*']
 
 
 # Application definition
@@ -76,13 +76,20 @@ WSGI_APPLICATION = 'tutorex.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DBHOST is only the server name, not the full URL
+hostname = 'tutorexserver'
+
+# Configure Postgres database; the full username is username@servername,
+# which we construct using the DBHOST value.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "pollsdb",
+        'HOST': hostname + ".postgres.database.azure.com",
+        'USER': 'admin_tutorex' + "@" + hostname,
+        'PASSWORD': 'hindi_098_korepetytor'
     }
 }
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
