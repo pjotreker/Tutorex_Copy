@@ -1,0 +1,55 @@
+body {
+    min-width: 830px;
+}
+
+#tui-account_page {
+    position: absolute;
+    width: 800px;
+    max-height: 500px;
+    min-height: 360px;
+    left: calc(50% - 800px/2);
+    top: 170px;
+    bottom: 10%;
+    margin-bottom: 50px;
+
+    background: #FFFFFF;
+    /* Light/Light Grey */
+    
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.edit_data_button {
+    position: absolute;
+    color: white;
+    border-radius: 24px;
+    border: none;
+
+    height: 40px;
+    width: 150px;
+    bottom: 20px;
+}
+
+.data_header {
+    padding-top: 15px;
+    color: #979797;
+}
+
+.edit_data {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column {
+    float: left;
+    height: 100%;
+    width: 50%;
+    padding: 10px;
+}

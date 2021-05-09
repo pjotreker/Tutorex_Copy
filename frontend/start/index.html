@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="index_styles.css" rel="stylesheet">
+    <title>Tutorex</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+    </style>
+    
+</head>
+<body>
+    
+    <header class="tui-header">
+        <a href="./index.html" class="tui-header_logo">
+            <img src="../images/logo.jpg" id="logo" alt="TutorexLogo" width="186" height="60">
+        </a>
+        <div class="tui-header_buttons">
+            <button class="button_login" id="loginButton">
+                Zaloguj się
+            </button>
+            <button onclick="location.href='register.html';" class="button_signin" id="signup">
+                Zarejestruj się
+            </button>
+        </div>
+    </header>
+
+    <div id="loginWindow" class="tui-window_login" >
+        <div class="dialog">
+            <svg id="closeButton" onClick="overlay()" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26.6876 8.32717C26.5527 8.19197 26.3924 8.08472 26.216 8.01153C26.0396 7.93835 25.8504 7.90068 25.6595 7.90068C25.4685 7.90068 25.2793 7.93835 25.1029 8.01153C24.9265 8.08472 24.7662 8.19197 24.6313 8.32717L17.5001 15.4438L10.3688 8.31258C10.2338 8.17757 10.0735 8.07047 9.89712 7.9974C9.72072 7.92433 9.53165 7.88672 9.34071 7.88672C9.14977 7.88672 8.9607 7.92433 8.78429 7.9974C8.60788 8.07047 8.4476 8.17757 8.31258 8.31258C8.17757 8.4476 8.07047 8.60788 7.9974 8.78429C7.92433 8.9607 7.88672 9.14977 7.88672 9.34071C7.88672 9.53165 7.92433 9.72072 7.9974 9.89712C8.07047 10.0735 8.17757 10.2338 8.31258 10.3688L15.4438 17.5001L8.31258 24.6313C8.17757 24.7663 8.07047 24.9266 7.9974 25.103C7.92433 25.2794 7.88672 25.4685 7.88672 25.6595C7.88672 25.8504 7.92433 26.0395 7.9974 26.2159C8.07047 26.3923 8.17757 26.5526 8.31258 26.6876C8.4476 26.8226 8.60788 26.9297 8.78429 27.0028C8.9607 27.0758 9.14977 27.1134 9.34071 27.1134C9.53165 27.1134 9.72072 27.0758 9.89712 27.0028C10.0735 26.9297 10.2338 26.8226 10.3688 26.6876L17.5001 19.5563L24.6313 26.6876C24.7663 26.8226 24.9266 26.9297 25.103 27.0028C25.2794 27.0758 25.4685 27.1134 25.6595 27.1134C25.8504 27.1134 26.0395 27.0758 26.2159 27.0028C26.3923 26.9297 26.5526 26.8226 26.6876 26.6876C26.8226 26.5526 26.9297 26.3923 27.0028 26.2159C27.0758 26.0395 27.1134 25.8504 27.1134 25.6595C27.1134 25.4685 27.0758 25.2794 27.0028 25.103C26.9297 24.9266 26.8226 24.7663 26.6876 24.6313L19.5563 17.5001L26.6876 10.3688C27.2417 9.81467 27.2417 8.88133 26.6876 8.32717Z" fill="#979797"/>
+            </svg>
+            <div id="witajzpowrotem">Witaj z powrotem!</div>
+            <div id="tutorexDinosaur">
+                <svg width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M71.502 87.9902C71.502 87.9902 82.7312 83.0769 83.6955 89.5247C83.9705 91.369 83.25 93.2243 82.018 94.6232L73.3353 104.49C73.339 104.49 85.1236 107.992 82.8082 110.755C78.8353 115.49 62.3353 111.824 62.3353 111.824L64.1686 102.657C34.8408 109.99 27.5056 82.5012 27.502 82.4902C27.5111 82.4975 53.4766 103.876 64.3208 85.8507C75.1686 67.8235 69.9748 31.463 92.7375 32.2257C108.06 32.739 110.785 40.8698 110.93 46.1278C110.999 48.6817 110.46 50.559 110.46 50.559C110.34 51.508 110.144 52.4459 109.875 53.364C107.76 60.3967 102.065 58.864 96.8625 60.6423C91.0582 62.6297 93.0437 68.7383 93.0437 68.7402C103.585 65.9902 102.669 78.8235 99.002 75.1568C95.3353 71.4902 93.1958 77.6007 93.1958 77.6007C93.1958 77.6007 93.502 89.8235 89.8353 93.4902" fill="#B1CC33"/>
+                    <path d="M71.502 87.9902C71.502 87.9902 82.7312 83.0769 83.6955 89.5247C83.9705 91.369 83.25 93.2244 82.018 94.6232L73.3353 104.49C73.339 104.49 85.1237 107.992 82.8081 110.755C78.8353 115.49 62.3353 111.824 62.3353 111.824L64.1686 102.657C34.8408 109.99 27.5056 82.5012 27.502 82.4902C27.5111 82.4975 53.4766 103.876 64.3208 85.8507C75.1686 67.8235 69.9748 31.463 92.7375 32.2257C108.06 32.739 110.785 40.8698 110.93 46.1278C110.999 48.6817 110.46 50.559 110.46 50.559C110.34 51.508 110.144 52.4459 109.875 53.364C107.76 60.3967 102.065 58.864 96.8625 60.6423C91.0582 62.6297 93.0437 68.7383 93.0437 68.7402C103.585 65.9902 102.669 78.8235 99.002 75.1568C95.3353 71.4902 93.1958 77.6007 93.1958 77.6007C93.1958 77.6007 93.502 89.8235 89.8353 93.4902" stroke="#B1CC33" stroke-width="1.8" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M69.6675 100.832C69.6675 100.832 86.1675 108.165 91.6675 86.1653C97.1675 64.1653 69.6675 100.832 69.6675 100.832Z" fill="#B1CC33" stroke="#B1CC33" stroke-width="1.8" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M93.4993 78.8389C97.166 78.8389 100.833 84.3389 100.833 84.3389C102.666 91.6722 92.7348 99.616 92.7348 99.616C92.7348 99.616 113.666 104.505 96.5555 105.116C79.4431 105.728 84.3326 100.839 84.3326 100.839C84.3326 100.839 89.8326 97.1722 93.4993 84.3389" fill="#5C9E31"/>
+                    <path d="M93.4993 78.8389C97.166 78.8389 100.833 84.3389 100.833 84.3389C102.666 91.6722 92.7348 99.616 92.7348 99.616C92.7348 99.616 113.666 104.505 96.5555 105.116C79.4431 105.728 84.3326 100.839 84.3326 100.839C84.3326 100.839 89.8326 97.1722 93.4993 84.3389" stroke="#5C9E31" stroke-width="1.8" stroke-miterlimit="10"/>
+                    <path d="M78.8325 75.1678C78.8325 75.1678 82.4992 68.1406 87.0825 72.5699C91.6658 77.0011 86.1658 78.8345 84.3325 77.0011C82.4992 75.1678 80.6658 80.6678 80.6658 80.6678" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M71.502 88.0029C71.502 88.0029 82.7312 83.0896 83.6955 89.5374C83.9705 91.3818 83.25 93.2371 82.018 94.6359L73.3353 104.503C73.3353 104.503 85.1237 108.005 82.8081 110.767C78.8353 115.503 62.3353 111.836 62.3353 111.836L64.1686 102.67C34.8353 110.003 27.502 82.5029 27.502 82.5029C27.502 82.5029 53.4748 103.892 64.3208 85.8634C75.1668 67.8344 69.9748 31.4757 92.7375 32.2384C108.06 32.7517 110.785 40.8826 110.93 46.1406C110.999 48.6944 110.46 50.5717 110.46 50.5717C110.34 51.5207 110.144 52.4586 109.875 53.3767C107.76 60.4094 102.065 58.8767 96.8625 60.6551C91.0582 62.6424 93.0437 68.7529 93.0437 68.7529C103.585 66.0029 102.669 78.8363 99.002 75.1696C95.3353 71.5029 93.1958 77.6134 93.1958 77.6134C93.1958 77.6134 93.502 89.8363 89.8353 93.5029" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M99.916 82.1909C106.333 87.3866 92.7348 99.6076 92.7348 99.6076C92.7348 99.6076 113.666 104.497 96.5555 105.108C79.4431 105.72 84.3326 100.83 84.3326 100.83" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M90.8013 41.2283C92.4746 39.1044 93.5679 39.5396 95.2566 41.2283" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                    
+            </div>
+            <label for="emailLogin" class="nameInput" id="emailLoginLabel">Adres e-mail:</label>
+            <input type="text" class="nameInput" id="emailLogin" name="emailLogin" placeholder=" Adres e-mail">        
+            <label for="hasloLogin" class="nameInput" id="hasloLoginLabel">Hasło:</label>
+            <input type="password" class="nameInput" id="hasloLogin" name="hasloLogin" placeholder=" Hasło">
+            <a href="" id="passwordRemind">Nie pamiętasz hasła?</a>
+            <button class="loginButton" id="logIn">Zaloguj</button>
+            <div id="lub">lub</div>
+            <button class="loginButton" id="createAccount" onclick="location.href='register.html';">Załóż konto</button>
+        </div>
+    </div>
+
+    <div class="tui-slideshow">
+        <div id="slidesWrapper">
+            <div class="mySlides">
+                <div class="slideText">
+                    <div class="slideTitle">
+                        Zorganizuj lepiej swoją pracę
+                    </div>
+                    <div class="slideDescription"> 
+                        Używaj kalendarza, by łatwo dodać wolne terminy zajęć i mieć szybki dostęp do swojego harmonogramu. 
+                    </div>
+                </div>
+                <img class="startSlide" src="../images/slide2.jpg">
+            </div>
+            <div class="mySlides">
+                <div class="slideText">
+                    <div class="slideTitle">
+                        Usprawnij obsługę korepetycji
+                    </div>
+                    <div class="slideDescription">
+                        Organizuj swoich uczniów w klasach, którym możesz wysyłać materiały dydaktyczne, zadawać zadania domowe i pisać notatki do zajęć. 
+                    </div>                    
+                </div>
+                <img class="startSlide" src="../images/slide4.jpg">
+            </div>
+            <div class="mySlides">
+                <div class="slideText">
+                    <div class="slideTitle">
+                        Nie martw się o opłaty za lekcje
+                    </div>
+                    <div class="slideDescription">
+                        Dzięki podpiętemu systemowi płatności zawsze będziesz mieć swoje pieniądze pod kontrolą. 
+                    </div>                    
+                </div>
+                <img class="startSlide" src="../images/slide5.jpg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slideshow script
+
+        var myIndex = 0;
+        carousel();
+        
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            myIndex++;
+            if (myIndex > x.length) {myIndex = 1}    
+            x[myIndex-1].style.display = "block";  
+            setTimeout(carousel, 8000); // Change image every 2 seconds
+        }
+
+
+        //Login window script
+
+        document.getElementById("loginButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';   
+        });
+        document.getElementById("closeButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+        });
+        document.getElementById("createAccount").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';   
+        });
+    </script>
+
+</body>
+</html>
