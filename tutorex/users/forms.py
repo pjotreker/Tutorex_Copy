@@ -30,6 +30,7 @@ class SignUpParentForm(forms.ModelForm):
         model = BaseUser
         fields = ["first_name", "last_name", "email", "password", "password2", "parent_password", "parent_password2", "is_teacher"]
 
+
 class UpdateUserDataForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
@@ -40,3 +41,9 @@ class UpdateUserDataForm(forms.Form):
     # class Meta:
     #     model = BaseUser
     #     fields = ["first_name", "last_name", "email", "phone_number"]
+
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget=forms.PasswordInput())
