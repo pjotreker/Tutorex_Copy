@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="register_styles.css" rel="stylesheet">
+    <title>Tutorex</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+    </style>
+    
+</head>
+<body onLoad="comparePasswords()">
+
+    <div id="loginWindow" class="tui-window_login" >
+        <div class="dialog">
+            <svg id="closeButton" onClick="overlay()" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26.6876 8.32717C26.5527 8.19197 26.3924 8.08472 26.216 8.01153C26.0396 7.93835 25.8504 7.90068 25.6595 7.90068C25.4685 7.90068 25.2793 7.93835 25.1029 8.01153C24.9265 8.08472 24.7662 8.19197 24.6313 8.32717L17.5001 15.4438L10.3688 8.31258C10.2338 8.17757 10.0735 8.07047 9.89712 7.9974C9.72072 7.92433 9.53165 7.88672 9.34071 7.88672C9.14977 7.88672 8.9607 7.92433 8.78429 7.9974C8.60788 8.07047 8.4476 8.17757 8.31258 8.31258C8.17757 8.4476 8.07047 8.60788 7.9974 8.78429C7.92433 8.9607 7.88672 9.14977 7.88672 9.34071C7.88672 9.53165 7.92433 9.72072 7.9974 9.89712C8.07047 10.0735 8.17757 10.2338 8.31258 10.3688L15.4438 17.5001L8.31258 24.6313C8.17757 24.7663 8.07047 24.9266 7.9974 25.103C7.92433 25.2794 7.88672 25.4685 7.88672 25.6595C7.88672 25.8504 7.92433 26.0395 7.9974 26.2159C8.07047 26.3923 8.17757 26.5526 8.31258 26.6876C8.4476 26.8226 8.60788 26.9297 8.78429 27.0028C8.9607 27.0758 9.14977 27.1134 9.34071 27.1134C9.53165 27.1134 9.72072 27.0758 9.89712 27.0028C10.0735 26.9297 10.2338 26.8226 10.3688 26.6876L17.5001 19.5563L24.6313 26.6876C24.7663 26.8226 24.9266 26.9297 25.103 27.0028C25.2794 27.0758 25.4685 27.1134 25.6595 27.1134C25.8504 27.1134 26.0395 27.0758 26.2159 27.0028C26.3923 26.9297 26.5526 26.8226 26.6876 26.6876C26.8226 26.5526 26.9297 26.3923 27.0028 26.2159C27.0758 26.0395 27.1134 25.8504 27.1134 25.6595C27.1134 25.4685 27.0758 25.2794 27.0028 25.103C26.9297 24.9266 26.8226 24.7663 26.6876 24.6313L19.5563 17.5001L26.6876 10.3688C27.2417 9.81467 27.2417 8.88133 26.6876 8.32717Z" fill="#979797"/>
+            </svg>
+            <div id="witajzpowrotem">Witaj z powrotem!</div>
+            <div id="tutorexDinosaur">
+                <svg width="132" height="132" viewBox="0 0 132 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M71.502 87.9902C71.502 87.9902 82.7312 83.0769 83.6955 89.5247C83.9705 91.369 83.25 93.2243 82.018 94.6232L73.3353 104.49C73.339 104.49 85.1236 107.992 82.8082 110.755C78.8353 115.49 62.3353 111.824 62.3353 111.824L64.1686 102.657C34.8408 109.99 27.5056 82.5012 27.502 82.4902C27.5111 82.4975 53.4766 103.876 64.3208 85.8507C75.1686 67.8235 69.9748 31.463 92.7375 32.2257C108.06 32.739 110.785 40.8698 110.93 46.1278C110.999 48.6817 110.46 50.559 110.46 50.559C110.34 51.508 110.144 52.4459 109.875 53.364C107.76 60.3967 102.065 58.864 96.8625 60.6423C91.0582 62.6297 93.0437 68.7383 93.0437 68.7402C103.585 65.9902 102.669 78.8235 99.002 75.1568C95.3353 71.4902 93.1958 77.6007 93.1958 77.6007C93.1958 77.6007 93.502 89.8235 89.8353 93.4902" fill="#B1CC33"/>
+                    <path d="M71.502 87.9902C71.502 87.9902 82.7312 83.0769 83.6955 89.5247C83.9705 91.369 83.25 93.2244 82.018 94.6232L73.3353 104.49C73.339 104.49 85.1237 107.992 82.8081 110.755C78.8353 115.49 62.3353 111.824 62.3353 111.824L64.1686 102.657C34.8408 109.99 27.5056 82.5012 27.502 82.4902C27.5111 82.4975 53.4766 103.876 64.3208 85.8507C75.1686 67.8235 69.9748 31.463 92.7375 32.2257C108.06 32.739 110.785 40.8698 110.93 46.1278C110.999 48.6817 110.46 50.559 110.46 50.559C110.34 51.508 110.144 52.4459 109.875 53.364C107.76 60.3967 102.065 58.864 96.8625 60.6423C91.0582 62.6297 93.0437 68.7383 93.0437 68.7402C103.585 65.9902 102.669 78.8235 99.002 75.1568C95.3353 71.4902 93.1958 77.6007 93.1958 77.6007C93.1958 77.6007 93.502 89.8235 89.8353 93.4902" stroke="#B1CC33" stroke-width="1.8" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M69.6675 100.832C69.6675 100.832 86.1675 108.165 91.6675 86.1653C97.1675 64.1653 69.6675 100.832 69.6675 100.832Z" fill="#B1CC33" stroke="#B1CC33" stroke-width="1.8" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M93.4993 78.8389C97.166 78.8389 100.833 84.3389 100.833 84.3389C102.666 91.6722 92.7348 99.616 92.7348 99.616C92.7348 99.616 113.666 104.505 96.5555 105.116C79.4431 105.728 84.3326 100.839 84.3326 100.839C84.3326 100.839 89.8326 97.1722 93.4993 84.3389" fill="#5C9E31"/>
+                    <path d="M93.4993 78.8389C97.166 78.8389 100.833 84.3389 100.833 84.3389C102.666 91.6722 92.7348 99.616 92.7348 99.616C92.7348 99.616 113.666 104.505 96.5555 105.116C79.4431 105.728 84.3326 100.839 84.3326 100.839C84.3326 100.839 89.8326 97.1722 93.4993 84.3389" stroke="#5C9E31" stroke-width="1.8" stroke-miterlimit="10"/>
+                    <path d="M78.8325 75.1678C78.8325 75.1678 82.4992 68.1406 87.0825 72.5699C91.6658 77.0011 86.1658 78.8345 84.3325 77.0011C82.4992 75.1678 80.6658 80.6678 80.6658 80.6678" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M71.502 88.0029C71.502 88.0029 82.7312 83.0896 83.6955 89.5374C83.9705 91.3818 83.25 93.2371 82.018 94.6359L73.3353 104.503C73.3353 104.503 85.1237 108.005 82.8081 110.767C78.8353 115.503 62.3353 111.836 62.3353 111.836L64.1686 102.67C34.8353 110.003 27.502 82.5029 27.502 82.5029C27.502 82.5029 53.4748 103.892 64.3208 85.8634C75.1668 67.8344 69.9748 31.4757 92.7375 32.2384C108.06 32.7517 110.785 40.8826 110.93 46.1406C110.999 48.6944 110.46 50.5717 110.46 50.5717C110.34 51.5207 110.144 52.4586 109.875 53.3767C107.76 60.4094 102.065 58.8767 96.8625 60.6551C91.0582 62.6424 93.0437 68.7529 93.0437 68.7529C103.585 66.0029 102.669 78.8363 99.002 75.1696C95.3353 71.5029 93.1958 77.6134 93.1958 77.6134C93.1958 77.6134 93.502 89.8363 89.8353 93.5029" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M99.916 82.1909C106.333 87.3866 92.7348 99.6076 92.7348 99.6076C92.7348 99.6076 113.666 104.497 96.5555 105.108C79.4431 105.72 84.3326 100.83 84.3326 100.83" stroke="black" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M90.8013 41.2283C92.4746 39.1044 93.5679 39.5396 95.2566 41.2283" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                    
+            </div>
+            <label for="emailLogin" class="nameInput" id="emailLoginLabel">Adres e-mail:</label>
+            <input type="text" class="nameInput" id="emailLogin" name="emailLogin" placeholder=" Adres e-mail">        
+            <label for="hasloLogin" class="nameInput" id="hasloLoginLabel">Hasło:</label>
+            <input type="password" class="nameInput" id="hasloLogin" name="hasloLogin" placeholder=" Hasło">
+            <a href="" id="passwordRemind">Nie pamiętasz hasła?</a>
+            <button class="loginButton" id="logIn">Zaloguj</button>
+            <div id="lub">lub</div>
+            <button class="loginButton" id="createAccount">Załóż konto</button>
+        </div>
+    </div>
+
+    <div id="registrationPage1" class="tui-registration_page">
+
+        <img class="register_background_image" src="../images/slide1.jpg">
+        <header class="tui-header">
+            <a href="index.html" class="tui-header_logo">
+                <img src="../images/logo.jpg" id="logo" alt="TutorexLogo" width="186" height="60">
+            </a>
+            <div class="tui-header_buttons">
+                <button class="button_login" id="loginButton1">
+                    Zaloguj się
+                </button>
+                <button onclick="location.href='register.html';" class="button_signin" id="signup">
+                    Zarejestruj się
+                </button>
+            </div>
+        </header>
+
+        <div id="chooseTypeOfAccount">Wybierz typ konta:</div>
+
+        <div id="teacherAccount" class="type_of_account" onclick="chooseIcon(this.id);">
+            <div id="teacherIcon">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M72.9167 18.75C64.7917 18.75 56.0417 20.4167 50 25C43.9584 20.4167 35.2084 18.75 27.0834 18.75C21.0417 18.75 14.625 19.6667 9.25002 22.0417C6.20835 23.4167 4.16669 26.375 4.16669 29.75V76.75C4.16669 82.1667 9.25002 86.1667 14.5 84.8333C18.5834 83.7917 22.9167 83.3333 27.0834 83.3333C33.5834 83.3333 40.5 84.4167 46.0834 87.1667C48.5834 88.4167 51.4167 88.4167 53.875 87.1667C59.4584 84.375 66.375 83.3333 72.875 83.3333C77.0417 83.3333 81.375 83.7917 85.4584 84.8333C90.7084 86.2083 95.7917 82.2083 95.7917 76.75V29.75C95.7917 26.375 93.75 23.4167 90.7084 22.0417C85.375 19.6667 78.9584 18.75 72.9167 18.75ZM87.5 71.7917C87.5 74.4167 85.0834 76.3333 82.5 75.875C79.375 75.2917 76.125 75.0417 72.9167 75.0417C65.8334 75.0417 55.625 77.75 50 81.2917V33.3333C55.625 29.7917 65.8334 27.0833 72.9167 27.0833C76.75 27.0833 80.5417 27.4583 84.1667 28.25C86.0834 28.6667 87.5 30.375 87.5 32.3333V71.7917Z" fill="#0E4DA4"/>
+                <path d="M58.25 45.8747C56.9167 45.8747 55.7084 45.0414 55.2917 43.7081C54.75 42.0831 55.6667 40.2914 57.2917 39.7914C63.7084 37.7081 72 37.0414 79.625 37.9164C81.3334 38.1247 82.5834 39.6664 82.375 41.3747C82.1667 43.0831 80.625 44.3331 78.9167 44.1247C72.1667 43.3331 64.7917 43.9581 59.2084 45.7497C58.875 45.7914 58.5417 45.8747 58.25 45.8747Z" fill="#0E4DA4"/>
+                <path d="M58.25 56.9582C56.9167 56.9582 55.7084 56.1249 55.2917 54.7915C54.75 53.1665 55.6667 51.3749 57.2917 50.8749C63.6667 48.7916 72 48.1249 79.625 48.9999C81.3334 49.2082 82.5834 50.7499 82.375 52.4582C82.1667 54.1666 80.625 55.4166 78.9167 55.2082C72.1667 54.4166 64.7917 55.0416 59.2084 56.8332C58.875 56.9166 58.5417 56.9582 58.25 56.9582Z" fill="#0E4DA4"/>
+                <path d="M58.25 68.0422C56.9167 68.0422 55.7084 67.2089 55.2917 65.8755C54.75 64.2505 55.6667 62.4589 57.2917 61.9589C63.6667 59.8755 72 59.2089 79.625 60.0839C81.3334 60.2922 82.5834 61.8339 82.375 63.5422C82.1667 65.2505 80.625 66.4589 78.9167 66.2922C72.1667 65.5005 64.7917 66.1255 59.2084 67.9172C58.875 68.0005 58.5417 68.0422 58.25 68.0422Z" fill="#0E4DA4"/>
+                </svg>
+            </div>
+            <div id="teacherName" class="name_of_account">nauczyciel</div>
+        </div>
+
+        <div id="studentAccount" class="type_of_account" onclick="chooseIcon(this.id);">
+            <div id="studentIcon">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.8334 54.916V66.6244C20.8334 69.666 22.5001 72.4994 25.1668 73.9577L46.0001 85.3327C48.5001 86.7077 51.5001 86.7077 54.0001 85.3327L74.8334 73.9577C77.5001 72.4994 79.1668 69.666 79.1668 66.6244V54.916L54.0001 68.666C51.5001 70.041 48.5001 70.041 46.0001 68.666L20.8334 54.916ZM46.0001 14.666L10.8751 33.8327C8.00009 35.416 8.00009 39.5827 10.8751 41.166L46.0001 60.3327C48.5001 61.7077 51.5001 61.7077 54.0001 60.3327L87.5001 42.041V66.666C87.5001 68.9577 89.3751 70.8327 91.6668 70.8327C93.9584 70.8327 95.8334 68.9577 95.8334 66.666V39.9577C95.8334 38.416 95.0001 37.041 93.6667 36.291L54.0001 14.666C51.5001 13.3327 48.5001 13.3327 46.0001 14.666Z" fill="#0E4DA4"/>
+                </svg>    
+            </div>
+            <div id="studentName" class="name_of_account">uczeń</div>
+        </div>
+
+        <div id="parentalAccount" class="type_of_account" onclick="chooseIcon(this.id);">
+            <div id="parentalIcon">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.0833 8.3335C31.6667 8.3335 35.4167 12.0835 35.4167 16.6668C35.4167 21.2502 31.6667 25.0002 27.0833 25.0002C22.5 25.0002 18.75 21.2502 18.75 16.6668C18.75 12.0835 22.5 8.3335 27.0833 8.3335ZM64.5833 39.5835C64.5833 43.0418 67.375 45.8335 70.8333 45.8335C74.2917 45.8335 77.0833 43.0418 77.0833 39.5835C77.0833 36.1252 74.2917 33.3335 70.8333 33.3335C67.375 33.3335 64.5833 36.1252 64.5833 39.5835ZM77.0833 50.0002H65.25C62.8333 50.0418 60.5 51.3335 59.2083 53.5835L55.375 59.0835L40.5 33.3335C38.9583 30.7085 36.2083 29.2085 33.375 29.1668H20.8333C16.25 29.1668 12.5 32.9168 12.5 37.5002V58.3335C12.5 60.6252 14.375 62.5002 16.6667 62.5002H18.75V87.5002C18.75 89.7918 20.625 91.6668 22.9167 91.6668H35.4167C37.7083 91.6668 39.5833 89.7918 39.5833 87.5002V48.3752L48.9167 64.5835C49.6667 65.8752 51.0417 66.6668 52.5417 66.6668H57.125C58.5 66.6668 59.75 66.0002 60.5417 64.8752L62.5 62.0835V87.5002C62.5 89.7918 64.375 91.6668 66.6667 91.6668H75C77.2917 91.6668 79.1667 89.7918 79.1667 87.5002V70.8335C81.4583 70.8335 83.3333 68.9585 83.3333 66.6668V56.2502C83.3333 52.8335 80.5417 50.0002 77.0833 50.0002Z" fill="#0E4DA4"/>
+                </svg>                
+            </div>
+            <div id="parentalName" class="name_of_account">rodzic i uczeń</div>
+        </div>
+
+        <div id="accountDescription">
+            <div id="accountDescriptionContent"></div>
+        </div>
+        <div id="next1" class="nav_button" style="display: none">Dalej</div>
+    </div>
+
+    <div id="registrationPage2" class="tui-registration_page">
+        
+        <img class="register_background_image" src="../images/slide1.jpg">
+        <header class="tui-header">
+            <a href="index.html" class="tui-header_logo">
+                <img src="../images/logo.jpg" id="logo" alt="TutorexLogo" width="186" height="60">
+            </a>
+            <div class="tui-header_buttons">
+                <button class="button_login" id="loginButton2">
+                    Zaloguj się
+                </button>
+                <button onclick="location.href='./register.html';" class="button_signin" id="signup">
+                    Zarejestruj się
+                </button>
+            </div>
+        </header>
+
+        <div id="formContainer">
+            <label for="name"><b>Imię</b></label>
+            <input type="text" placeholder="Imię" name="name" required>
+
+            <label for="surname"><b>Nazwisko</b></label>
+            <input type="text" placeholder="Nazwisko" name="surname" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Email" name="email" required>
+
+            <label for="DOB"><b>Data urodzenia</b></label>
+            <input type="date" name="DOB" value="2017-06-01" required>
+        
+            <label for="password"><b>Hasło</b></label>
+            <input type="password" placeholder="Hasło" name="password" id="enteredPassword" required>
+        
+            <label for="password-repeat"><b>Powtórz hasło</b></label>
+            <input type="password" placeholder="Powtórz hasło" name="password-repeat" id="repeatEnteredPassword" required>
+
+            <div id="differentPasswordsAlert" class="passwords-alert">Hasła nie są identyczne!</div>
+
+            <div id="parentalPasswordSection">
+                <label for="password-parental"><b>Hasło rodzicielskie</b></label>
+                <input type="password" placeholder="Hasło rodzicielskie" name="password-parental" id="enteredParentalPassword" required>
+            
+                <label for="password-parental-repeat"><b>Powtórz hasło rodzicielskie</b></label>
+                <input type="password" placeholder="Powtórz hasło rodzicielskie" name="password-parental-repeat" id="repeatEnteredParentalPassword" required>
+            </div>
+
+            <div id="differentParentalPasswordsAlert" class="passwords-alert">Hasła nie są identyczne!</div>
+            
+            <label id="acceptStatue">
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px" required>
+                Zapoznałem się z <a href="url">Regulaminem</a>
+            </label>
+            
+            <div id="previous" class="nav_button">Wstecz</div>
+            <div id="register" class="nav_button" onclick="comparePasswords();">Zarejestruj</div>
+
+        </div>
+
+    </div>
+
+    <script>
+        var previous = "parentalAccount";
+        var chosedIconColor = "#dbf8e8";
+        var numberOfChosedIcons = 0;
+
+        function chooseIcon(id) {
+            var chosed = id;
+            var numberOfChosedIcons = numberOfChosedIcons + 1;
+            var next = document.getElementById("next1");
+            next.style.display = 'flex';
+            if (chosed != previous) {
+                document.getElementById(previous).style.background = "#ffffff";
+                document.getElementById(chosed).style.background = chosedIconColor;
+                previous = chosed;
+            } else {            
+                document.getElementById(chosed).style.background = chosedIconColor;
+                previous = chosed;
+            }
+            switch (id) {
+                case "teacherAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zakładaj klasy"+"<br>"+"- Planuj lekcje"+"<br>"+"- Otrzymuj na bieżąco płatności za lekcje";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'none';
+                    break;
+                case "studentAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zapisuj się na zajęcia"+"<br>"+"- Miej dostęp do wszystkich materiałów dydaktycznych"+"<br>"+"- Płać za lekcje szybko i wygodnie";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'none';
+                    break;
+                case "parentalAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zapisuj swoje dziecko na zajęcia"+"<br>"+"- Miej dostęp do wszystkich materiałów dydaktycznych"+"<br>"+"- Płać za lekcje szybko i wygodnie";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'block';
+            }
+        }
+
+        // First Page of Registration
+
+        document.getElementById("next1").addEventListener("click", function() {
+            var e = document.getElementById("registrationPage2");
+            e.style.display = 'block';
+            var f = document.getElementById("registrationPage1");
+            f.style.display = 'none';
+        });
+
+        // First Page of Registration
+
+        document.getElementById("previous").addEventListener("click", function() {
+            var e = document.getElementById("registrationPage2");
+            e.style.display = 'none';
+            var f = document.getElementById("registrationPage1");
+            f.style.display = 'block';
+        });
+
+        // Check if entered passwords are the same
+
+        function comparePasswords() {
+            var password1 = document.getElementById("enteredPassword").value;
+            var password2 = document.getElementById("repeatEnteredPassword").value;
+            if (password1 != password2) {
+                differentPasswordsAlert.style.display = 'block';
+            } else {
+                differentPasswordsAlert.style.display = 'none';
+            }
+            var password3 = document.getElementById("enteredParentalPassword").value;
+            var password4 = document.getElementById("repeatEnteredParentalPassword").value;
+            if (password3 != password4) {
+                differentParentalPasswordsAlert.style.display = 'block';
+            } else {
+                differentParentalPasswordsAlert.style.display = 'none';
+            }
+        }
+
+        //Login window script
+
+        document.getElementById("loginButton1").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';   
+        });
+        document.getElementById("closeButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+        });
+        document.getElementById("loginButton2").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';   
+        });
+        document.getElementById("closeButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+        });
+        // Navigate to register
+        document.getElementById("createAccount").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+            var f = document.getElementById("registrationPage2");
+            f.style.display = 'none';
+            var g = document.getElementById("registrationPage1");
+            g.style.display = 'block';
+        });
+
+    </script>
+    
+</body>
+</html>
