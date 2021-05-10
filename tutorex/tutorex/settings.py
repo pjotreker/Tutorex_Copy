@@ -13,8 +13,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.conf.global_settings import DATABASES
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+##baza
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -85,19 +90,21 @@ hostname = 'tutorexserver'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "pollsdb",
-        'HOST': hostname + ".postgres.database.azure.com",
-        'USER': 'admin_tutorex' + "@" + hostname,
-        'PASSWORD': 'hindi_098_korepetytor'
+        'NAME': "d2hevt4sscj1g7",
+        'HOST': "ec2-52-19-170-215.eu-west-1.compute.amazonaws.com",
+        'USER': 'bfadhmhbmjxfmh',
+        'PASSWORD': 'b0d452b1886cd23d29fb4341abc541929d8c5ee55b668c65d1daf9bc25567630',
+        'PORT':'5432'
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+'''DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
+ }'''
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
