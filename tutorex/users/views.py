@@ -7,11 +7,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
-from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm
+from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
@@ -207,6 +208,36 @@ class EditUserProfileView(LoginRequiredMixin, View):
             user.save()
         return redirect('index')
 
+
+class ChangePasswordView(LoginRequiredMixin, View):
+    def get(self, request, user_id):
+        return render(request, "change_password.html")
+
+    def post(self, request, user_id):
+        context = {}
+
+        try:
+            user = BaseUser.objects.filter(id=user_id)
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user.exists():
+            user = user.first()
+            form = ChangePasswordForm(request.POST)
+            if form.is_valid():
+                old_password = form.cleaned_data.get('old_password')
+                password = form.cleaned_data.get('password')
+                password2 = form.cleaned_data.get('password2')
+                if not (check_password(old_password, user.password) and password == password2):
+                    raise ValueError("Stare hasło jest nieprawidłowe, albo podane nowe hasła różnią się od siebie!")
+                else:
+                    user.set_password(password)
+                    user.save()
+                    context['success'] = "Hasło zmienione pomyślnie"
+                    return redirect('user-login')
+
+        else:
+            context['error'] = "Ojojoj! Coś poszło nie tak!"
+            return render(request, "change_password.html", context)
 
 def link_send(request):
     return render(request, "link_send.html")
