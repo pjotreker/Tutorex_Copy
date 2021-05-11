@@ -1,5 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import BaseUser
+from datetime import date
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 # class SignUpForm(forms.Form):
@@ -9,10 +11,15 @@ from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 #     password = forms.CharField()
 
 
+def validate_future(value):
+    if value > date.today():
+        raise ValueError("Urodziłeś się w przyszłości powiadasz? :)")
+
+
 class SignUpForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
-    birthday = forms.DateField(widget=forms.DateInput())
+    birthday = forms.DateField(widget=forms.DateInput(), validators=[validate_future])
 
     class Meta:
         model = BaseUser
