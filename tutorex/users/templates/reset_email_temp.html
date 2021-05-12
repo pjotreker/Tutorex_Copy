@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+        #logIn {
+    /*position: absolute; */
+    height: 45px;
+    width: 200px;
+    left: calc(50% - 200px/2);
+    top: calc(50% - 45px/2 + 129.5px);
+
+    /* Light/Primary */
+
+    background: #1BB55C;
+    border-radius: 40px;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    }
+    .fade-slow{ transition: 0.3s !important; }
+    .fade-slow:hover{ transition: 0.3s !important; opacity: 0.5 !important;}
+    </style>
+
+</head>
+<body>
+    <div align="center">
+        <h2>Witaj {{ user_name }}!</h2>
+        <br/>
+        <h3>Aby zresetować swoje hasło kliknij poniżej: </h3>
+        <br/>
+        <a href="{{ reset_link }}"> <button class="fade-slow" id="logIn" type="submit">Resetuj hasło</button> </a>
+        <br/>
+        <br/>
+        <br/>
+        <h4>Zespół Tutorex</h4>
+    </div>
+</body>
+</html>

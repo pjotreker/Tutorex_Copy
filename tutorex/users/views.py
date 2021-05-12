@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.template import loader
 
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm
 from .models import BaseUser
@@ -45,11 +46,16 @@ def signup(request):
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
             activate_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/activate/{token}"
+            html_message = loader.render_to_string('activate_email_temp.html',
+                                                   {'user_name': new_user.first_name, 'activate_link': activate_url})
+
             mail_sent = send_mail(
                 "Tutorex - aktywuj swoje konto",
-                f"Oto twój link aktywacyjny, kliknij w niego aby aktywować swoje konto w aplikacji Tutorex: {activate_url}",
+                '',
                 settings.EMAIL_HOST_USER,
-                [email], fail_silently=False
+                [email],
+                fail_silently=False,
+                html_message=html_message
             )
             if mail_sent == 0:
                 raise ValueError("Nie udało się wysłać maila aktywacyjnego!")
@@ -91,11 +97,16 @@ def signup_parent(request):
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
             activate_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/activate/{token}"
+            html_message = loader.render_to_string('activate_email_temp.html',
+                                                   {'user_name': new_user.first_name, 'activate_link': activate_url})
+
             mail_sent = send_mail(
                 "Tutorex - aktywuj swoje konto",
-                f"Oto twój link aktywacyjny, kliknij w niego aby aktywować swoje konto w aplikacji Tutorex: {activate_url}",
+                '',
                 settings.EMAIL_HOST_USER,
-                [email], fail_silently=False
+                [email],
+                fail_silently=False,
+                html_message=html_message
             )
             if mail_sent == 0:
                 raise ValueError("Nie udało się wysłać maila aktywacyjnego!")
@@ -232,12 +243,16 @@ class RequestResetPasswordEmail(View):
             user_uid = urlsafe_base64_encode(force_bytes(user[0].pk))
             token = PasswordResetTokenGenerator().make_token(user[0])
             reset_passwd_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/reset-password/{token}"
+            html_message = loader.render_to_string('reset_email_temp.html',
+                                                   {'user_name': user[0].first_name, 'reset_link': reset_passwd_url})
+
             mail_sent = send_mail(
                 "Tutorex - zresetuj swoje hasło",
-                f"Kliknij w poniższy link aby zresetować swoje hasło: \n {reset_passwd_url}",
+                '',
                 settings.EMAIL_HOST_USER,
                 [email],
-                fail_silently=False
+                fail_silently=False,
+                html_message=html_message
             )
             if mail_sent == 0:
                 raise ValueError("Nie udało się wysłać maila resetującego hasło :(")
