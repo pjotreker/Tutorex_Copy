@@ -1,0 +1,27 @@
+#tui-notification_page {
+    position: absolute;
+    width: 100%;
+    min-width: 830px;
+    height: auto;
+    left: 0%;
+    right: 0%;
+    top: 120px;
+    bottom: 0px;
+}
+
+#tui-notification_box {
+    position: absolute;
+    max-width: 800px;
+    min-width: 800px;
+    max-height: auto;
+    min-height: 400px;
+    top: 20px;
+    left: calc(50% - 800px/2);
+
+    bottom: 10%;
+    margin-bottom: 20px;
+
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 12px;
+}

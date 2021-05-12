@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="main_styles.css" rel="stylesheet">
-    <link href="account_styles.css" rel="stylesheet">
     <title>Tutorex</title>
 
     <style>
@@ -71,102 +70,6 @@
             </a>
         </div>
     </header>
-    <div id="tui-account_box">
-        <div id="deleteAccountWindow" class="infoWindow">
-            <div id="deleteAccountText" class="window_text">Czy na pewno chcesz usunąć konto?</div>
-            <button id="cancelDeletingAccountButton" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ANULUJ</button>
-            <button id="confirmDeletingAccountButton" class="edit_data_button" onclick="DeleteAccountConfirm()">USUŃ KONTO</button>
-            <button id="closedeleteAccountWindow" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ZAMKNIJ OKNO</button>
-        </div>
-        <div id="changePasswordWindow" class="infoWindow">
-            <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
-            <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
-        </div>
-        <div id="tui-account_page">
-            <div id="firstColumn" class="column">
-                <h1 style="padding-top: 10px">Natalia Plitta</h1>
-                <h3 style="padding-top: 10px;">Nauczyciel</h3>
-                <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
-                <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="DeleteAccount()">USUŃ KONTO</button>
-            </div>
-            <div id="secondColumn" class="column">
-                <h6 class="data_header">IMIĘ</h6>
-                <div class="edit_data" id="editName" contenteditable="false">
-                    Natalia
-                </div>
-                <h6 class="data_header">NAZWISKO</h6>
-                <div class="edit_data" id="editSurname" contenteditable="false">
-                    Plitta
-                </div>
-                <h6 class="data_header">DATA URODZENIA</h6>
-                <input type="date" class="edit_data" id="editDOB" disabled="true" value="1999-05-19"></input>
-                <button id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()">EDYTUJ DANE</button>
-                <button id="saveDataChangeButton" class="edit_data_button" onclick="SaveData()">ZAPISZ</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function EditData() {
-            var name = document.getElementById("editName");
-            var surname = document.getElementById("editSurname");
-            var dob = document.getElementById("editDOB");        
-            var save = document.getElementById("saveDataChangeButton");
-            var edit = document.getElementById("editDataButton");
-            name.setAttribute("contenteditable", true);
-            name.style.backgroundColor = "#f0f0f0";
-            name.style.borderRadius = "4px";
-            surname.setAttribute("contenteditable", true);
-            surname.style.backgroundColor = "#f0f0f0";
-            surname.style.borderRadius = "4px";
-            dob.disabled = false;
-            save.style.display = "block";
-            edit.style.display = "none";
-        }
-        function SaveData() {
-            var name = document.getElementById("editName");
-            var surname = document.getElementById("editSurname");
-            var dob = document.getElementById("editDOB"); 
-            var save = document.getElementById("saveDataChangeButton");
-            var edit = document.getElementById("editDataButton");
-            name.setAttribute("contenteditable", false);
-            name.style.backgroundColor = "#ffffff";
-            surname.setAttribute("contenteditable", false);
-            surname.style.backgroundColor = "#ffffff";
-            dob.disabled = true;
-            save.style.display = "none";
-            edit.style.display = "block";
-        }
-        function DeleteAccount() {
-            var deleteWindow = document.getElementById("deleteAccountWindow");
-            deleteWindow.style.display = "block";
-        }
-        function CloseWindow(window) {
-            var windowToClose = document.getElementById(window);
-            windowToClose.style.display = "none";
-        }
-        function DeleteAccountConfirm() {
-            document.getElementById("deleteAccountText").innerHTML = "Na Twój adres mailowy został wysłany link z potwierdzeniem decyzji."
-            var button1 = document.getElementById("cancelDeletingAccountButton");
-            var button2 = document.getElementById("confirmDeletingAccountButton");
-            var button3 = document.getElementById("closedeleteAccountWindow");
-            var button4 = document.getElementById("deleteAccountButton");
-            button1.style.display = "none";
-            button2.style.display = "none";
-            button3.style.display = "block";
-            button4.disabled = true;
-            button4.style.backgroundColor = "#ec8f88";
-            button4.style.pointerEvents = "none";
-        }
-        function ChangePassword() {
-            var changePasswordWindow = document.getElementById("changePasswordWindow");
-            var button1 = document.getElementById("changePasswordButton");
-            changePasswordWindow.style.display = "block";
-            button1.disabled = true;
-            button1.style.backgroundColor = "#7690ce";
-            button1.style.pointerEvents = "none";
-        }
-    </script>
 
 </body>
 </html>
