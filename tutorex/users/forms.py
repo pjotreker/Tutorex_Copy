@@ -31,7 +31,7 @@ class SignUpParentForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput())
     parent_password = forms.CharField(widget=forms.PasswordInput())
     parent_password2 = forms.CharField(widget=forms.PasswordInput())
-    birthday = forms.DateField(widget=forms.DateInput())
+    birthday = forms.DateField(widget=forms.DateInput(), validators=[validate_future])
 
     class Meta:
         model = BaseUser
@@ -41,9 +41,8 @@ class SignUpParentForm(forms.ModelForm):
 class UpdateUserDataForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
-    email = forms.EmailField()
-    phone_number = PhoneNumberField(widget=PhoneNumberInternationalFallbackWidget(), required=False)
-    birthday = forms.DateField(widget=forms.DateInput())
+    # phone_number = PhoneNumberField(widget=PhoneNumberInternationalFallbackWidget(), required=False)
+    birthday = forms.DateField(widget=forms.DateInput(), validators=[validate_future])
 
     # class Meta:
     #     model = BaseUser

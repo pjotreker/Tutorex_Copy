@@ -21,6 +21,8 @@ from .tokens import account_invitation_token
 
 @csrf_protect
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect("home")
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
@@ -66,6 +68,8 @@ def signup(request):
 
 @csrf_protect
 def signup_parent(request):
+    if request.user.is_authenticated:
+        return redirect("home")
     if request.method == "POST":
         form = SignUpParentForm(request.POST)
         if form.is_valid():
@@ -142,10 +146,19 @@ class UserActivatedView(View):
 class SignupTypeChoiceView(View):
 
     def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("home")
         return render(request, "register_type.html", context={})
 
 
+@login_required(login_url="/login/")
+def home_view(request):
+    return render(request, "main.html", {'user': request.user})
+
+
 def index_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
     context = {}
     if request.method == "POST":
         email = request.POST.get('email')
@@ -165,9 +178,10 @@ def index_view(request):
 
 @login_required(login_url="/login/")
 def success(request):
-    context = {}
-    context["user"] = request.user
-    return render(request, "success.html", context=context)
+    # context = {}
+    # context["user"] = request.user
+    # return render(request, "success.html", context=context)
+    return redirect("home")
 
 
 def user_logout(request):
@@ -182,20 +196,20 @@ class EditUserProfileView(LoginRequiredMixin, View):
         user = None
         try:
             user = BaseUser.objects.get(pk=user_id)
-            if user.id != request.user.id:
+            if user.id != request.user.id or not request.user.id:
                 return HttpResponseForbidden("You cannot edit data of users except your own!")
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
             raise ValueError("Ojojojoj! Coś poszło nie tak :(")
-        form = UpdateUserDataForm()
-        return render(request, "profile_form.html", {form: 'form', 'user': user})
+        # form = UpdateUserDataForm()
+        return render(request, "account.html", {'user': user})
 
     def post(self, request, user_id, *args, **kwargs):
         user = None
         try:
             user = BaseUser.objects.get(pk=user_id)
-            if user.id != request.user.id:
+            if user.id != request.user.id or not request.user.id:
                 return HttpResponseForbidden("You cannot edit data of users except your own!")
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
@@ -205,14 +219,16 @@ class EditUserProfileView(LoginRequiredMixin, View):
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-            email = form.cleaned_data.get('email')
-            phone_number = form.cleaned_data.get('phone_number')
+            birthday = form.cleaned_data.get('birthday')
+            # email = form.cleaned_data.get('email')
+            # phone_number = form.cleaned_data.get('phone_number')
             user.first_name = first_name
             user.last_name = last_name
-            user.email = email
-            user.phone_number = phone_number
+            user.birthday = birthday
+            # user.email = email
+            # user.phone_number = phone_number
             user.save()
-        return redirect('index')
+        return render(request, "account.html", {'user': user})
 
 
 class ChangePasswordView(LoginRequiredMixin, View):

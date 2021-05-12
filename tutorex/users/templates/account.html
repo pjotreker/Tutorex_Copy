@@ -1,0 +1,114 @@
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/account_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
+{% block content %}
+<div id="tui-account-box">
+     <div id="deleteAccountWindow" class="infoWindow">
+            <div id="deleteAccountText" class="window_text">Czy na pewno chcesz usunąć konto?</div>
+            <button id="cancelDeletingAccountButton" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ANULUJ</button>
+            <button id="confirmDeletingAccountButton" class="edit_data_button" onclick="DeleteAccountConfirm()">USUŃ KONTO</button>
+            <button id="closedeleteAccountWindow" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ZAMKNIJ OKNO</button>
+        </div>
+        <div id="changePasswordWindow" class="infoWindow">
+            <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
+            <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
+        </div>
+        <div id="tui-account_page">
+            <div id="firstColumn" class="column">
+                <h1 style="padding-top: 10px;"> {{ user.first_name }} {{ user.last_name }} </h1>
+                {% if user.is_teacher %}
+                    <h3 style="padding-top: 10px;">Nauczyciel</h3>
+                {% endif %}
+                <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
+                <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="DeleteAccount()">USUŃ KONTO</button>
+            </div>
+            <div id="secondColumn" class="column">
+                <form method="post">
+                    {% csrf_token %}
+                    <h6 class="data_header">IMIĘ</h6>
+                    <div class="edit_data" id="editName" contenteditable="false">
+                        <input type="text" id="first_name" name="first_name" disabled="true" value="{{ user.first_name }}" required/>
+                    </div>
+                    <h6 class="data_header">NAZWISKO</h6>
+                    <div class="edit_data" id="editSurname" contenteditable="false">
+                        <input type="text" id="last_name" name="last_name" disabled="true" value="{{ user.last_name }}" required/>
+                    </div>
+                    <h6 class="data_header">DATA URODZENIA</h6>
+                    <input type="date" min="1900-01-01" class="edit_data" name="birthday" id="birthday" disabled="true" value="{{ user.birthday|date:'Y-m-d' }}" required/>
+
+                    <input type="button" id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()" value="EDYTUJ DANE"/>
+                    <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
+                </form>
+
+            </div>
+        </div>
+</div>
+    <script>
+        function EditData() {
+            var name = document.getElementById("first_name");
+            var surname = document.getElementById("last_name");
+            var dob = document.getElementById("birthday");
+            var save = document.getElementById("saveDataChangeButton");
+            var edit = document.getElementById("editDataButton");
+            //name.setAttribute("contenteditable", true);
+            name.disabled = false;
+            name.style.backgroundColor = "#f0f0f0";
+            name.style.borderRadius = "4px";
+            //surname.setAttribute("contenteditable", true);
+            surname.disabled = false;
+            surname.style.backgroundColor = "#f0f0f0";
+            surname.style.borderRadius = "4px";
+            dob.disabled = false;
+            save.style.display = "block";
+            edit.style.display = "none";
+        }
+        function SaveData() {
+            var name = document.getElementById("editName");
+            var surname = document.getElementById("editSurname");
+            var dob = document.getElementById("editDOB");
+            var save = document.getElementById("saveDataChangeButton");
+            var edit = document.getElementById("editDataButton");
+            name.setAttribute("contenteditable", false);
+            name.style.backgroundColor = "#ffffff";
+            surname.setAttribute("contenteditable", false);
+            surname.style.backgroundColor = "#ffffff";
+            dob.disabled = true;
+            save.style.display = "none";
+            edit.style.display = "block";
+        }
+        function DeleteAccount() {
+            var deleteWindow = document.getElementById("deleteAccountWindow");
+            deleteWindow.style.display = "block";
+        }
+        function CloseWindow(window) {
+            var windowToClose = document.getElementById(window);
+            windowToClose.style.display = "none";
+        }
+        function DeleteAccountConfirm() {
+            document.getElementById("deleteAccountText").innerHTML = "Na Twój adres mailowy został wysłany link z potwierdzeniem decyzji."
+            var button1 = document.getElementById("cancelDeletingAccountButton");
+            var button2 = document.getElementById("confirmDeletingAccountButton");
+            var button3 = document.getElementById("closedeleteAccountWindow");
+            var button4 = document.getElementById("deleteAccountButton");
+            button1.style.display = "none";
+            button2.style.display = "none";
+            button3.style.display = "block";
+            button4.disabled = true;
+            button4.style.backgroundColor = "#ec8f88";
+            button4.style.pointerEvents = "none";
+        }
+        function ChangePassword() {
+            var changePasswordWindow = document.getElementById("changePasswordWindow");
+            var button1 = document.getElementById("changePasswordButton");
+            changePasswordWindow.style.display = "block";
+            button1.disabled = true;
+            button1.style.backgroundColor = "#7690ce";
+            button1.style.pointerEvents = "none";
+        }
+    </script>
+{% endblock %}
