@@ -248,7 +248,6 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
     def post(self, request, user_id):
         context = {}
-
         try:
             user = BaseUser.objects.filter(id=user_id)
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):

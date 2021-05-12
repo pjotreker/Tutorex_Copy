@@ -1,0 +1,177 @@
+body {
+    min-width: 830px;
+}
+
+#firstColumn {
+    border-right: 1px solid #DFE2E0;
+}
+
+#tui-account_box {
+    position: absolute;
+    width: 100%;
+    min-width: 830px;
+    height: auto;
+    left: 0%;
+    right: 0%;
+    top: 0px;
+    bottom: 0px;
+}
+
+#tui-account_page {
+    position: absolute;
+    width: 800px;
+    max-height: 500px;
+    min-height: 360px;
+    min-width: 830px;
+    left: calc(50% - 800px/2);
+    top: 170px;
+    bottom: 10%;
+    margin-bottom: 50px;
+
+    background: #FFFFFF;
+    /* Light/Light Grey */
+
+    z-index: 998;
+}
+
+#saveDataChangeButton {
+    background-color: #1BB55C;
+    display: none;
+    right: 235px;
+}
+
+#editDataButton {
+    right: 235px;
+    display: block;
+}
+
+#deleteAccountButton {
+    left: 200px;
+}
+
+.infoWindow {
+    position: absolute;
+    width: 442px;
+    height: 320px;
+    top: 250px;    
+    left: calc(50% - 442px/2);
+    /* Light / Background */
+
+    background: #FFFFFF;
+    /* Light/Light Grey */
+
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 12px;
+    
+    z-index: 999;
+    display: none;
+}
+
+.window_text {
+    position: absolute;
+    padding-left: 50px;
+    padding-top: 60px;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 44px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#cancelDeletingAccountButton {
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    color: #263238;
+    background-color: white;
+    left: 20px;
+    bottom: 40px;
+}
+
+#cancelDeletingAccountButton:hover {
+    background-color: #f0f0f0;
+}
+
+#closeChangePasswordWindow:hover {
+    background-color: #f0f0f0;    
+}
+
+#closedeleteAccountWindow {
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    color: #263238;
+    background-color: white;
+    left: 140px;
+    bottom: 40px;
+    display: none;
+}
+
+#closeChangePasswordWindow {
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    color: #263238;
+    background-color: white;
+    left: 140px;
+    bottom: 40px;
+}
+
+#confirmDeletingAccountButton {
+    background-color: #E74C3C;
+    right: 20px;
+    bottom: 40px;
+}
+
+#confirmDeletingAccountButton:hover {
+    background-color: #f16258 !important;
+}
+
+.edit_data_button {
+    position: absolute;
+    color: white;
+    border-radius: 24px;
+    border: none;
+
+    height: 40px;
+    width: 150px;
+    bottom: 20px;
+}
+
+#changePasswordButton:hover {
+    background-color: #466CC8 !important;
+}
+#editDataButton:hover {
+    background-color: #466CC8 !important;
+}
+#deleteAccountButton:hover {
+    background-color: #f16258 !important;
+}
+#saveDataChangeButton:hover {
+    background-color: #19c962 !important;
+}
+
+.data_header {
+    padding-top: 15px;
+    color: #979797;
+}
+
+.edit_data {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column {
+    float: left;
+    height: 100%;
+    width: 50%;
+    padding: 10px;
+}

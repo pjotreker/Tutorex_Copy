@@ -105,7 +105,8 @@
         function ChangePassword() {
             var changePasswordWindow = document.getElementById("changePasswordWindow");
             var button1 = document.getElementById("changePasswordButton");
-            changePasswordWindow.style.display = "block";
+            location.href = "/user/{{ user.id }}/password/edit"
+            //changePasswordWindow.style.display = "block";
             button1.disabled = true;
             button1.style.backgroundColor = "#7690ce";
             button1.style.pointerEvents = "none";
