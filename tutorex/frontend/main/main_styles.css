@@ -50,7 +50,6 @@ html, body {
 }
 
 .tui-header_tabs {
-
     background-color: #1BB55C;
     color: white;
 
@@ -76,7 +75,8 @@ html, body {
 }
 
 .tui-header_tabs_button:hover {
-    background-color: #23c767;      
+    background-color: #23c767;     
     padding: 15px 20px;
     width: fit-content;
+    cursor: pointer;
 }
