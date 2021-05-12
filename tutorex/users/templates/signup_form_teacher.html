@@ -1,27 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rejestracja</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Nauczyciel{% endblock %}
+{% block styles %}
+    <link type="text/css" href="{% static 'css/register_styles.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+  <div class="tui-registration_page">
+        <img class="register_background_image" src="{% static 'images/slide1.jpg' %}">
+        <div id="formContainer">
+            <form action="/signup/teacher" method="post">
+                {% csrf_token %}
+                <label for="first_name"><b>Imię</b></label>
+                <input type="text" placeholder="Imię" name="first_name" id="first_name" required>
 
-  <form action="/signup/" method="post">
-    {% csrf_token %}
-    <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" required/><br/>
-    <label for="name">First Name</label>
-    <input type="text" name="first_name" id="name" required/><br/>
-    <label for="last_name">Lastname</label>
-    <input type="text" name="last_name" id="last_name" required/><br/>
-    <label for="birthday">Date of birth</label>
-    <input type="date" min="1900-01-01" name="birthday" id="birthday" required/><br/>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required/><br/>
-    <label for="password2">Confirm password</label>
-    <input type="password" name="password2" id="password2" required/><br/><br/>
-    <input type="checkbox" name="is_teacher" id="is_teacher" checked="checked" readonly hidden/><br/>
-    <input type="submit" value="Zarejestruj się"/>
-  </form>
-</body>
-</html>
+                <label for="last_name"><b>Nazwisko</b></label>
+                <input type="text" placeholder="Nazwisko" name="last_name" id="last_name" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Email" name="email" id="email" required>
+
+                <label for="birthday"><b>Data urodzenia</b></label>
+                <input type="date" name="birthday" id="birthday" value="2017-06-01" required>
+
+                <label for="password"><b>Hasło</b></label>
+                <input type="password" placeholder="Hasło" name="password" id="password" required>
+
+                <label for="password2"><b>Powtórz hasło</b></label>
+                <input type="password" placeholder="Powtórz hasło" name="password2" id="password2" required>
+
+                <div id="differentPasswordsAlert" class="passwords-alert">Hasła nie są identyczne!</div>
+
+                <input type="checkbox" name="is_teacher" id="is_teacher" checked="checked" readonly hidden/><br/>
+
+                <label id="acceptStatue">
+                    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px" required>
+                    Zapoznałem się z <a href="url">Regulaminem</a>
+                </label>
+
+                <div id="previous" class="nav_button" onclick="location.href = '/signup-choice'">Wstecz</div>
+                <input type="button" id="register" onclick="comparePasswords();" class="nav_button" value="Zarejestruj"/>
+<!--                <div id="register" class="nav_button" onclick="comparePasswords();">Zarejestruj</div>-->
+            </form>
+        </div>
+    </div>
+
+   <script>
+        var previous = "parentalAccount";
+        var chosedIconColor = "#dbf8e8";
+        var numberOfChosedIcons = 0;
+
+        function chooseIcon(id) {
+            var chosed = id;
+            var numberOfChosedIcons = numberOfChosedIcons + 1;
+            var next = document.getElementById("next1");
+            next.style.display = 'flex';
+            if (chosed != previous) {
+                document.getElementById(previous).style.background = "#ffffff";
+                document.getElementById(chosed).style.background = chosedIconColor;
+                previous = chosed;
+            } else {
+                document.getElementById(chosed).style.background = chosedIconColor;
+                previous = chosed;
+            }
+            switch (id) {
+                case "teacherAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zakładaj klasy"+"<br>"+"- Planuj lekcje"+"<br>"+"- Otrzymuj na bieżąco płatności za lekcje";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'none';
+                    break;
+                case "studentAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zapisuj się na zajęcia"+"<br>"+"- Miej dostęp do wszystkich materiałów dydaktycznych"+"<br>"+"- Płać za lekcje szybko i wygodnie";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'none';
+                    break;
+                case "parentalAccount":
+                    document.getElementById("accountDescriptionContent").innerHTML = "- Zapisuj swoje dziecko na zajęcia"+"<br>"+"- Miej dostęp do wszystkich materiałów dydaktycznych"+"<br>"+"- Płać za lekcje szybko i wygodnie";
+                    var e = document.getElementById("parentalPasswordSection");
+                    e.style.display = 'block';
+            }
+        }
+
+        // First Page of Registration
+
+        document.getElementById("next1").addEventListener("click", function() {
+            var e = document.getElementById("registrationPage2");
+            e.style.display = 'block';
+            var f = document.getElementById("registrationPage1");
+            f.style.display = 'none';
+        });
+
+        // First Page of Registration
+
+        document.getElementById("previous").addEventListener("click", function() {
+            var e = document.getElementById("registrationPage2");
+            e.style.display = 'none';
+            var f = document.getElementById("registrationPage1");
+            f.style.display = 'block';
+        });
+
+        // Check if entered passwords are the same
+
+        function comparePasswords() {
+            var password1 = document.getElementById("password").value;
+            var password2 = document.getElementById("password2").value;
+            var valid_password = true;
+            if (password1 != password2) {
+                differentPasswordsAlert.style.display = 'block';
+                valid_password = false;
+            } else {
+                differentPasswordsAlert.style.display = 'none';
+            }
+            if (valid_password){
+                document.getElementsByTagName('form')[0].submit();
+            }
+        }
+
+        //Login window script
+
+        document.getElementById("loginButton1").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';
+        });
+        document.getElementById("closeButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+        });
+        document.getElementById("loginButton2").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'block';
+        });
+        document.getElementById("closeButton").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+        });
+        // Navigate to register
+        document.getElementById("createAccount").addEventListener("click", function() {
+            var e = document.getElementsByClassName("tui-window_login");
+            e[0].style.display = 'none';
+            var f = document.getElementById("registrationPage2");
+            f.style.display = 'none';
+            var g = document.getElementById("registrationPage1");
+            g.style.display = 'block';
+        });
+
+    </script>
+{% endblock %}

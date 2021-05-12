@@ -139,6 +139,12 @@ class UserActivatedView(View):
         return render(request, "user_activated.html", context=context)
 
 
+class SignupTypeChoiceView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, "register_type.html", context={})
+
+
 def index_view(request):
     context = {}
     if request.method == "POST":
