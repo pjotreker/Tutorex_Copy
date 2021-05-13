@@ -68,7 +68,7 @@ class RegisterTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register_type.html')
 
-    # registration tests - code 302 is not working, idk why
+    # registration tests
     def test_register_user(self):
         response = self.client.post(self.register_url, self.user, format='text/html')
         self.assertEqual(response.status_code, 302)
