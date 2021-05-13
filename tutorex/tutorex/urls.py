@@ -19,7 +19,6 @@ from lessons import views as lesson_views
 from users import views as user_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', user_views.index_view, name='index'),
     path('home/', user_views.home_view, name='home'),
     path('signup-choice/', user_views.SignupTypeChoiceView.as_view(), name='signup-choice-view'),
