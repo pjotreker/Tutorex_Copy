@@ -1,0 +1,333 @@
+* {
+    font-family: inter;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0;
+    height: 100%;
+}
+
+/* use viewport-relative units to cover page fully */
+body {
+    height: 100vh;
+    width: 100vh;
+}
+  
+  /* include border and padding in element width and height */
+* {
+    box-sizing: border-box;
+}
+
+.tui-header { 
+    background-color: #1BB55C;
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    top: 0px;
+
+    z-index: 999;
+}
+
+.tui-header_logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+    width: 186px;
+    height: 60px;
+    left: 9%;
+    top: 0px;
+}
+
+.tui-header_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+    right: 9%;
+    top: 11px;
+}
+
+[class^="button_"] {
+    border: none;
+    color: #263238;
+    font-size: 16px;
+    background-color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+
+    width: 151px;
+    height: 37px;
+
+    flex: none;
+    flex-grow: 0;
+    margin: 0px 10px;
+}
+
+#loginWindow {
+    position: absolute;
+    min-height: 510px;
+    max-height: 600px;
+    min-width: 414px;
+    max-width: 600px;
+    left: 32.64%;
+    right: 32.64%;
+    top: 15.3%;
+    bottom: 17.3%;
+
+    background: #FFFFFF;
+    /* Light/Dark Grey */
+
+    border: 1px solid #D0D0D0;
+    box-sizing: border-box;
+    border-radius: 12px;
+
+    display: none;
+    z-index: 998;
+}
+
+#closeButton {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: 9px;
+    top: 9px;
+    cursor: pointer;
+}
+
+#tutorexDinosaur { 
+    position: absolute;
+    width: 132px;
+    height: 132px;
+    right: 65px;
+    top: calc(50% - 132px/2 - 191px);
+}
+
+#witajzpowrotem {
+    position: absolute;
+    height: 31px;
+    left: 79px;
+    right: 190px;
+    top: calc(50% - 31px/2 - 159.5px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 31px;
+    display: flex;
+    align-items: flex-end;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#emailLogin {
+    position: absolute;
+    padding: 12px;
+    height: 45px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 45px/2 - 50.5px);
+
+    font-size: 16px;
+    
+    background: #FFFFFF;
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+#emailLoginLabel {
+    position: absolute;
+    height: 28px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 28px/2 - 87px);
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+    
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#hasloLogin {
+    position: absolute;
+    padding: 12px;
+    height: 45px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 45px/2 + 31.5px);
+    
+    font-size: 16px;
+
+    background: #FFFFFF;
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+#hasloLoginLabel {
+    position: absolute;
+    height: 28px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 28px/2 - 5px);
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+    
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#passwordRemind {
+    position: absolute;
+    height: 17px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 17px/2 + 71.5px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+
+    /* Light / Accent */
+
+    color: #E74C3C;
+}
+
+#logIn {
+    position: absolute;
+    height: 45px;
+    width: 200px;
+    left: calc(50% - 200px/2);
+    top: calc(50% - 45px/2 + 129.5px);
+
+    /* Light/Primary */
+
+    background: #1BB55C;
+    border-radius: 40px;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#lub {
+    position: absolute;
+    height: 17px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 17px/2 + 174px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    /* identical to box height */
+
+
+    color: #000000;
+}
+
+#createAccount {
+    position: absolute;
+    height: 45px;
+    width: 260px;
+    left: calc(50% - 260px/2);
+    top: calc(50% - 45px/2 + 211.5px);
+
+    background: #0E4DA4;
+    border-radius: 40px;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#slidesWrapper {
+    height: 100vh;
+    width: 100vw;    
+    overflow: hidden;
+}
+
+.mySlides {
+    height: 100%;
+}
+
+.startSlide {
+    min-height: 100%;
+    max-height: auto;
+    width: 100%;
+    object-fit: cover;
+
+    opacity: 0.4;
+}
+
+.slideText {
+    left: 0;
+    margin-top: -100px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+
+    z-index: 990;
+}
+
+.slideTitle {    
+    font-size: 60px;
+    color: #0E4DA4;
+    line-height: 80px;
+    margin-bottom: 40px;
+}
+
+.slideDescription {
+    font-size: 24px;
+    color: #263238;
+    line-height: 40px;
+    margin: auto;
+    width: 50%;
+}
