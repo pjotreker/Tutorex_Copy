@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from lessons import views as lesson_views
 from users import views as user_views
+import notifications.urls
 
 urlpatterns = [
     path('', user_views.index_view, name='index'),
@@ -35,5 +36,8 @@ urlpatterns = [
     path('user/<user_id>/password/edit', user_views.ChangePasswordView.as_view(), name='user-change-password'),
     path('request-reset-link/', user_views.RequestResetPasswordEmail.as_view(), name='request-password'),
     path('user/<user_uid>/reset-password/<token>', user_views.CompletePasswordReset.as_view(), name='reset-user-password'),
-    path('link-send/', user_views.link_send, name='link-send')
+    path('link-send/', user_views.link_send, name='link-send'),
+    path('notifications/', include(notifications.urls, namespace='notifications')),
+    path('notification/send-test/<user_id>', user_views.send_test_notification, name='send-test-notification'),
+    path('user/notifications', user_views.NotificationsView.as_view(), name='my-notifications'),
 ]
