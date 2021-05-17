@@ -81,6 +81,7 @@ class RegisterTest(BaseTest):
         response = self.client.post(self.register_url_parent, self.user_parent, format='text/html')
         self.assertEqual(response.status_code, 302)
 
+
 class LoginTest(BaseTest):
     # view tests
     def test_view_page(self):
@@ -114,4 +115,48 @@ class LoginTest(BaseTest):
         user.save()
         response = self.client.post(self.login_url, {'email':'test@test.com',
                                                 'password':'1234'}, format='text/html')
-        self.assertEqual(response.status_code, 200) # should there be different status_code?
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_login_wrong_password(self):
+        user = BaseUser.objects.create_user(email='test@test.com',
+                                                password='1234',
+                                                first_name='Koń',
+                                                birthday='1999-01-01',
+                                                last_name='Rafał',
+                                                is_active=False,
+                                                is_teacher=False)
+        user.save()
+        response = self.client.post(self.login_url, {'email':'test@test.com',
+                                                'password':'5678'}, format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_wrong_email(self):
+        response = self.client.post(self.login_url, {'email':'test@example.com',
+                                                'password':'1234'}, format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+
+class ProfileTest(BaseTest):
+    # set up user
+    def set_up(self):
+        user = BaseUser.objects.create_user(email='test@test.com',
+                                                password='1234',
+                                                first_name='Koń',
+                                                birthday='1999-01-01',
+                                                last_name='Rafał',
+                                                is_active=False,
+                                                is_teacher=False)
+        user.is_active = True
+        user.save()
+        self.client.post(self.login_url, {'email':'test@test.com',
+                                                'password':'1234'}, format='text/html')
+        return user
+
+    # view tests
+    def test_view_profile(self):
+        user = self.set_up()
+        user_id = user.id
+        response = self.client.get(reverse('user-edit-data', args=[user_id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'account.html')
