@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.template import loader
+from notifications.signals import notify
 
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
@@ -43,7 +44,7 @@ def signup(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=False,
+                                                    is_active=True,
                                                     is_teacher=is_teacher)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
@@ -353,3 +354,19 @@ class CompletePasswordReset(View):
             user.save()
             context['success'] = "Hasło zmienione pomyślnie"
             return redirect('user-login')
+
+
+@login_required(login_url="/login/")
+def send_test_notification(request, user_id: int):
+    dst_user = BaseUser.objects.get(pk=user_id)
+    src_user = request.user
+    notify.send(sender=src_user, recipient=dst_user, verb="Lorem ipsum dolor sit amet")
+    return redirect('home')
+
+
+class NotificationsView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        user = request.user
+        new_notifications = user.notifications.unread()
+        return render(request, "notifications_view.html", {"notifications": new_notifications})
