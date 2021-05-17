@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'lessons',
     'users',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,7 @@ DATABASES = {
          'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
      }
  }
- '''
+'''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
