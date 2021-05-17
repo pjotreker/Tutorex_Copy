@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'lessons',
     'users',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -62,8 +63,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'tutorex.urls' ###
 
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
 
 TEMPLATES = [
     {
@@ -119,7 +120,7 @@ DATABASES = {
          'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
      }
  }
- '''
+'''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
