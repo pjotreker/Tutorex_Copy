@@ -8,10 +8,10 @@ class Lesson(models.Model):
 
 
 class Classroom(models.Model):
+    classroom_id = models.CharField(primary_key=True)
     subject = models.CharField(max_length=255, blank=True)
     name = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
-    classroom_id = models.CharField(primary_key=True)
     age_range = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], blank=True)
     time_frame = models.CharField(max_length=255)
     lessons = models.ManyToManyField(Lesson)
