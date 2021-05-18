@@ -66,6 +66,9 @@
     <a href="/notification/send-test/1">Test powiadomień</a>
     {% block content %} {% endblock %}
     <script>
+        {% block scripts %} {% endblock %}
+    </script>
+    <script>
         $(document).ready(function(){
             setInterval(check_notifications, 1000);
         });

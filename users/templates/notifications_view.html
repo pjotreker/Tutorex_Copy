@@ -6,12 +6,41 @@
 {% endblock %}
 {% block title %} Powiadomienia{% endblock %}
 {% block content %}
-    <ul class="list-group">
+    <ul class="list-group" id="notification_list">
         {% for record in notifications %}
             <li class="list-group-item"><!--<h6>{{record.actor.first_name}} {{ record.actor.last_name }}--></h6>
-                <h4>{{ record.verb }}</h4></li>
+                <h6>{{ record.verb }}</h6></li>
         {% empty %}
             <li class="list-group-item">Nic tu nie ma</li>>
         {% endfor %}
     </ul>
 {% endblock %}
+
+{% block scripts %}
+        $(document).ready(function(){
+            setInterval(update_notifications, 10000);
+        });
+        function update_notifications(){
+            $.ajax({
+                'type': 'GET',
+                'url': "/notifications/api/unread_list/",
+                success: function(response) {
+                    let n = response.unread_count;
+                    if(n > 0){
+                        var notification_list = document.getElementById("notification_list");
+                        notification_list.innerHTML = " ";
+                        for(var i=0;i<n;i++){
+                            var new_li = document.createElement("li");
+                            new_li.classList.add("list-group-item");
+                            new_li.innerHTML = "<h6>"+ response.unread_list[i].verb +"</h6>";
+                            notification_list.insertBefore(new_li, notification_list.firstChild);
+                        }
+                    }
+                },
+                error: function (response) {
+                // alert the error if any error occured
+                    console.log("CHUJ");
+            }
+            });
+        }
+    {% endblock %}
