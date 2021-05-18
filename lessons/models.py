@@ -12,8 +12,10 @@ class Classroom(models.Model):
     subject = models.CharField(max_length=255, blank=True)
     name = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
-    age_range = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], blank=True)
-    time_frame = models.CharField(max_length=255, blank=True)
+    age_range_min = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], blank=True)
+    age_range_max = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], blank=True)
+    time_frame_start = models.DateField(blank=True)
+    time_frame_end = models.DateField(blank=True)
     lessons = models.ManyToManyField(Lesson)
     students = models.ManyToManyField(BaseUser)
 
