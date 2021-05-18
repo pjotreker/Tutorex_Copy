@@ -13,3 +13,4 @@ whitenoise
 pip~=21.1
 dj-database-url
 coverage
+django-notifications-hq
