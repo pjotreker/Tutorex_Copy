@@ -44,7 +44,7 @@
                 },
                 error: function (response) {
                 // alert the error if any error occured
-                    console.log("CHUJ");
+                    console.log("COŚ POSZŁO NIE TAK!");
             }
             });
         }
@@ -56,6 +56,7 @@
                 'url': "/notifications/mark-as-read/"+record_id+"/",
                 success: function(response) {
                     console.log(record_id+" przeczytane");
+                    update_notifications();
                 }
             });
         });
