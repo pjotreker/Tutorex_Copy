@@ -45,15 +45,14 @@ class CreateClassroom(LoginRequiredMixin, View):
         time_frame_start = request.POST.get('time_frame_start')
         time_frame_end = request.POST.get('time_frame_end')
 
-        classroom = Classroom(classroom_id=classroom_id,
-                              class_name=class_name,
-                              name=class_name,
-                              subject=subject,
-                              owner=owner,
-                              age_range_min=age_range_min,
-                              age_range_max=age_range_max,
-                              time_frame_start=time_frame_start,
-                              time_frame_end=time_frame_end)
+        classroom = Classroom.objects.create(classroom_id=classroom_id,
+                                             name=class_name,
+                                             subject=subject,
+                                             owner=owner,
+                                             age_range_min=age_range_min,
+                                             age_range_max=age_range_max,
+                                             time_frame_start=time_frame_start,
+                                             time_frame_end=time_frame_end)
         if classroom.save():
             return redirect('class-created-success', classroom_id=classroom_id)
         else:
