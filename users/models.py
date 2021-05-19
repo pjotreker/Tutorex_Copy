@@ -32,7 +32,7 @@ class TeacherProfile(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Nauczyciel {self.first_name} {self.last_name} - {self.email}"
+        return f"Nauczyciel {self.user.first_name} {self.user.last_name} - {self.user.email}"
 
 
 @receiver(post_save, sender=BaseUser)
