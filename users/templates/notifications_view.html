@@ -8,8 +8,9 @@
 {% block content %}
     <ul class="list-group" id="notification_list">
         {% for record in notifications %}
-            <li class="list-group-item"><!--<h6>{{record.actor.first_name}} {{ record.actor.last_name }}--></h6>
-                <h6>{{ record.verb }}</h6></li>
+            <li id="{{ record.slug }}" class="list-group-item" style="{% if record.unread %} background-color:#c5edd3; {% endif %}"><!--<h6>{{record.actor.first_name}} {{ record.actor.last_name }}--></h6>
+                <h6>{{ record.verb }}</h6><p style="display:none;">{{ record.id }}</p>
+            </li>
         {% empty %}
             <li class="list-group-item">Nic tu nie ma</li>>
         {% endfor %}
@@ -23,24 +24,40 @@
         function update_notifications(){
             $.ajax({
                 'type': 'GET',
-                'url': "/notifications/api/unread_list/",
+                'url': "/api/user/notifications/",
                 success: function(response) {
-                    let n = response.unread_count;
+                    let n = response.all_count;
                     if(n > 0){
                         var notification_list = document.getElementById("notification_list");
                         notification_list.innerHTML = " ";
                         for(var i=0;i<n;i++){
                             var new_li = document.createElement("li");
                             new_li.classList.add("list-group-item");
-                            new_li.innerHTML = "<h6>"+ response.unread_list[i].verb +"</h6>";
+                            new_li.innerHTML = "<h6>"+ response.notifications[i].verb +"</h6>";
+                            new_li.id = response.notifications[i].slug
+                            if(response.notifications[i].unread){
+                                $(new_li).css("background-color", "#c5edd3");
+                            }
                             notification_list.insertBefore(new_li, notification_list.firstChild);
                         }
                     }
                 },
                 error: function (response) {
                 // alert the error if any error occured
-                    console.log("CHUJ");
+                    console.log("COŚ POSZŁO NIE TAK!");
             }
             });
         }
+        $(".list-group-item").click(function(){
+            console.log("klik!");
+            let record_id = $(this).attr("id");
+            $.ajax({
+                'type': 'GET',
+                'url': "/notifications/mark-as-read/"+record_id+"/",
+                success: function(response) {
+                    console.log(record_id+" przeczytane");
+                    update_notifications();
+                }
+            });
+        });
     {% endblock %}
