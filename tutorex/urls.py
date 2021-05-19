@@ -40,4 +40,5 @@ urlpatterns = [
     path('notifications/', include(notifications.urls, namespace='notifications')),
     path('notification/send-test/<user_id>', user_views.send_test_notification, name='send-test-notification'),
     path('user/notifications', user_views.NotificationsView.as_view(), name='my-notifications'),
+    path('api/user/notifications/', user_views.get_user_notifications, name='my-notifications-json')
 ]

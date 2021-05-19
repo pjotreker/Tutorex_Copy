@@ -1,7 +1,8 @@
 from django.conf import settings
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
+from django.forms import model_to_dict
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
@@ -13,7 +14,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.template import loader
 from notifications.signals import notify
-
+from notifications.utils import id2slug
+import datetime
+import pytz
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
 from .tokens import account_invitation_token
@@ -368,5 +371,36 @@ class NotificationsView(LoginRequiredMixin, View):
 
     def get(self, request):
         user = request.user
-        new_notifications = user.notifications.unread()
-        return render(request, "notifications_view.html", {"notifications": new_notifications})
+        new_notifications = user.notifications.all()
+        request_timestamp = datetime.datetime.now()
+        request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
+        new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
+        # breakpoint()
+        return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
+
+def get_user_notifications(request):
+    user = request.user
+    new_notifications = user.notifications.all()
+    request_timestamp = datetime.datetime.now()
+    request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
+    new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
+    all_list = []
+    for notification in new_notifications:
+        struct = model_to_dict(notification)
+        struct['slug'] = id2slug(notification.id)
+        if notification.actor:
+            struct['actor'] = str(notification.actor)
+        if notification.target:
+            struct['target'] = str(notification.target)
+        if notification.action_object:
+            struct['action_object'] = str(notification.action_object)
+        if notification.data:
+            struct['verb'] = notification.data
+        struct['unread'] = notification.unread
+
+        all_list.append(struct)
+    data = {
+        'notifications': all_list[::-1],
+        'all_count': len(new_notifications),
+    }
+    return JsonResponse(data)
