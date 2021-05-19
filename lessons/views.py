@@ -10,6 +10,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from notifications.signals import notify
 
+from users.models import TeacherProfile
+
 from .models import Classroom
 from datetime import datetime
 import re
@@ -37,7 +39,7 @@ class CreateClassroom(LoginRequiredMixin, View):
         classroom_id = create_code()
         class_name = request.POST.get('class_name')
         subject = request.POST.get('subject')
-        owner = request.user
+        owner = TeacherProfile.objects.get(user=request.user)
         age_range_min = request.POST.get('age_range_min')
         age_range_max = request.POST.get('age_range_max')
         time_frame_start = request.POST.get('time_frame_start')
@@ -45,6 +47,7 @@ class CreateClassroom(LoginRequiredMixin, View):
 
         classroom = Classroom(classroom_id=classroom_id,
                               class_name=class_name,
+                              name=class_name,
                               subject=subject,
                               owner=owner,
                               age_range_min=age_range_min,
