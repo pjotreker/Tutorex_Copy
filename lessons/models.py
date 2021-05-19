@@ -18,4 +18,4 @@ class Classroom(models.Model):
     time_frame_end = models.DateField(blank=True)
     lessons = models.ManyToManyField(Lesson)
     students = models.ManyToManyField(BaseUser)
-    
+
