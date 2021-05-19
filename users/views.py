@@ -44,7 +44,7 @@ def signup(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=True,
+                                                    is_active=False,
                                                     is_teacher=is_teacher)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
