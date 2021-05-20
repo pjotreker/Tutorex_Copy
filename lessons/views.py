@@ -12,7 +12,7 @@ from notifications.signals import notify
 
 from users.models import TeacherProfile
 
-from .models import Classroom
+from .models import Classroom, BaseUser
 from .forms import CreateClassroomForm
 from datetime import datetime
 import re
@@ -60,12 +60,35 @@ class CreateClassroom(LoginRequiredMixin, View):
                 classroom.save()
             except:
                 raise ValueError("Nie udało się utworzyc klasy :C")
-            return redirect('class-created-success', classroom_id=classroom_id)
+            return redirect('classroom-created-success', classroom_id=classroom_id)
         context['error'] = "Ajjj coś poszło nie tak"
         return render(request, "create_classroom.html", context)
 
 
-class ClassroomCreated(View):
+class ClassroomCreated(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         context = {'classroom_id': classroom_id}
         return render(request, "classroom_created_success.html", context)
+
+
+class JoinClassroom(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc uczniem zeby dolaczyc do klasy!")
+        return render(request, "join_classroom.html")
+
+    def post(self, request):
+        classroom_id = request.POST.get('classroom_id')
+        student = BaseUser.objects.get(pk=request.id)
+        student_id = student.id
+        classroom = Classroom.objects.get(classroom_id=classroom_id)
+        teacher = classroom.owner.first_name
+        context = {
+            "student_id": student_id,
+            "teacher": teacher,
+            "classroom_id": classroom_id
+        }
+        return render(request, "join_classroom.html", context)
+
+
+
