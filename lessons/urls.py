@@ -6,7 +6,7 @@ import notifications.urls
 urlpatterns = [
     path('', user_views.index_view, name='index'),
     path('create-classroom/', lessons_views.CreateClassroom.as_view(), name="create-classroom"),
-    path('class-created/', lessons_views.ClassroomCreated.as_view(), name="class-created-success"),
+    path('class-created/<classroom_id>', lessons_views.ClassroomCreated.as_view(), name="class-created-success"),
 
 ]
 

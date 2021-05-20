@@ -16,6 +16,6 @@ class Classroom(models.Model):
     age_range_max = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], null=True, blank=True, default=None)
     time_frame_start = models.DateField(blank=True, null=True, default=None)
     time_frame_end = models.DateField(blank=True, null=True, default=None)
-    lessons = models.ManyToManyField(Lesson, default=None)
-    students = models.ManyToManyField(BaseUser, default=None)
+    lessons = models.ManyToManyField(Lesson)
+    students = models.ManyToManyField(BaseUser)
 

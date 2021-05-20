@@ -53,11 +53,11 @@ class CreateClassroom(LoginRequiredMixin, View):
                                              age_range_max=age_range_max,
                                              time_frame_start=time_frame_start,
                                              time_frame_end=time_frame_end)
-        if classroom.save():
-            return redirect('class-created-success', classroom_id=classroom_id)
-        else:
+        try:
+            classroom.save()
+        except:
             raise ValueError("Nie udało się utworzyc klasy :C")
-
+        return redirect('class-created-success', classroom_id=classroom_id)
         # return render(request, "create_classroom.html", context)
 
 
