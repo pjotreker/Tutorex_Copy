@@ -1,27 +1,39 @@
 #tui-notification_page {
-    position: absolute;
+    position: relative;
     width: 100%;
-    min-width: 830px;
-    height: auto;
+    height: calc(100% - 150px);
     left: 0%;
     right: 0%;
-    top: 120px;
-    bottom: 0px;
+    top: 20px;
+    bottom: 20px;
 }
 
 #tui-notification_box {
-    position: absolute;
-    max-width: 800px;
-    min-width: 800px;
-    max-height: auto;
-    min-height: 400px;
-    top: 20px;
-    left: calc(50% - 800px/2);
-
-    bottom: 10%;
-    margin-bottom: 20px;
+    position: relative;
+    margin-left: 20%;
+    margin-right: 20%;
+    height: 100%;
+    min-height: 240px;
 
     border: 1px solid #DFE2E0;
     box-sizing: border-box;
     border-radius: 12px;
+
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+@media only screen and (max-width: 1000px) {
+    /* For mobile phones: */
+    #tui-notification_box {
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+}
+
+@media only screen and (max-width: 602px) {
+    /* For mobile phones: */
+    #tui-notification_page {
+        height: calc(100% - 210px);
+    }
 }

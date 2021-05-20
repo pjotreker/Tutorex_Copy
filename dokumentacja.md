@@ -26,6 +26,14 @@
 
 ### Front-end
 
+1. Utworzona została strona startowa *index.html*: pasek górny *id=tuiHeader* z przyciskami do logowania *id=loginButton* oraz rejestracji *id=signupButton*. Okno logowania *id=loginWindow* pozwala zalogować się na swoje konto, lub też przejść do strony rejestracji *register.html* lub przypomnieć zapomniane hasło. W tle strony startowej wyświetlany jest pokaz slajdów *id=tui-slideshow* wraz z opisem funkcjonalności oferowanych przez aplikację.
+2. Strona rejestracji *register.html* podzielona jest na dwie części: *id=registrationPage1* w której przyszły użytkownik wybiera typ konta oraz *id=registrationPage2* gdzie podawane są dane osobowe: imię, nazwisko, data urodzenia, hasło wraz z jego potwierdzeniem oraz hasło rodzicielskie w przypadku konta rodzicielskiego. Zostało zaimplementowane również automatyczne porównywanie wprowadzanych haseł i wyświetlanie komunikatu, jeśli nie są one identyczne.
+3. Strona odzyskiwania hasła *mail_to_remind_password.html* z poziomu strony startowej wygląda następująco: wyświetla się okno *id=passwordChangeWindow*, w którym użytkownik podaje swój adres mailowy. Na adres wysyłany jest link do strony odzyskiwania hasła *password_change.html*, gdzie użytkownik dwukrotnie wpisuje swoje nowe hasło i potwierdza zmianę.
+4. Wszystkie powyżej wymienione pliki html znajdują się w folderze *start*.
+5. Na potrzeby interfejsu po zalogowaniu został stworzony plik bazowy o nazwie *main.html* w którym znajduje się pasek górny *id=tuiHeader* wspólny dla wszystkich widoków: powiadomień, harmonogramu, zapisów, klas oraz konta użytkownika. Cały plik style czerpie z pliku *main_styles.css*, który to plik jest w nagłówku wszystkich pozostałych plików.
+6. Strona konta użytkownika to plik *account.html*. Główny jej komponent to okno *id=tui-account_box*, w którym można edytować dane użytkownika (przyciskiem *id=editDataButton*), a także zmienić swoje hasło *id=changePasswordButton* oraz usunąć konto *id=deleteAccountButton*. Dwie ostatnie akcje wykonuje się poprzez linka wysłanego na maila.
+7. Ropoczęto implementację strony powiadomień *notification.html* konfigurując okno *id=tui-notification_box*, w którym wyświetlać się będą kafelki powiadomień.
+
 ### Testy
 
 ### Baza danych

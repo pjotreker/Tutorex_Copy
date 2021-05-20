@@ -8,20 +8,20 @@ html, body {
     margin: 0px;
     padding: 0;
     height: 100%;
-    min-width: 830px;
 }
 
-.tui-header {
-    background-color: #1BB55C;
-    height: 120px;
-    color: white;
+#tuiHeader { 
+    z-index: 999;
+    width: 100vp;
 }
 
-.tui-header_bar { 
+#headerLogoSection {
     height: 60px;
+    background-color: #1BB55C;
+    width: 100%;
 }
 
-.tui-header_logo {
+#headerLogo {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -34,41 +34,40 @@ html, body {
     top: 0px;
 }
 
-.tui-header_account {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: absolute;
-    right: 9%;
-
-    width: 300px;
-    height: 60px;
-
-    color: white;
+#headerButtons {
+    float: right;
+    margin-right: 8%;
 }
 
-.tui-header_tabs {
-    background-color: #1BB55C;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: absolute;
-    width: 225px;
-    height: 60px;
-    left: 9%;
+#headerButtonsSection {
+    height: auto;
     top: 60px;
+    background-color: #1BB55C;
+    padding-left: 9%;
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    .column_mobile {
+        width: 100%;
+    }
+    #headerLogo {
+        left: 5%
+    }
+    #headerButtons {
+        margin-right: 0%;
+    }
+    #headerButtonsSection {
+        padding-left: 0%;
+    }
 }
 
 .tui-header_tabs_button {
     padding: 15px 20px;
     height: 60px;
     width: fit-content;
+
+    color: white;
 
     display: inline-block;
     cursor: pointer;

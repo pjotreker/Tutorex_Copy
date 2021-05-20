@@ -11,7 +11,6 @@ html, body {
 /* use viewport-relative units to cover page fully */
 body {
     height: 100vh;
-    width: 100vh;
 }
   
   /* include border and padding in element width and height */
@@ -19,17 +18,18 @@ body {
     box-sizing: border-box;
 }
 
-.tui-header { 
-    background-color: #1BB55C;
-    position: absolute;
-    width: 100%;
-    height: 60px;
-    top: 0px;
-
+#tuiHeader { 
     z-index: 999;
+    width: 100vw;
 }
 
-.tui-header_logo {
+#headerLogoSection {
+    height: 60px;
+    background-color: #1BB55C;
+    float: left;
+}
+
+#headerLogo {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -42,15 +42,26 @@ body {
     top: 0px;
 }
 
-.tui-header_buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
+#headerButtonsSection {
+    height: auto;
+    background-color: #1BB55C;
+    float: right;
+}
 
-    position: absolute;
-    right: 9%;
-    top: 11px;
+#headerButtons {
+    float: right;
+    margin-right: 9%;
+}
+
+.column_mobile {
+    width: 50%;
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    .column_mobile {
+        width: 100%;
+    }
 }
 
 [class^="button_"] {
@@ -64,11 +75,11 @@ body {
     border-radius: 8px;
 
     width: 151px;
-    height: 37px;
+    height: 38px;
 
     flex: none;
     flex-grow: 0;
-    margin: 0px 10px;
+    margin: 11px 5px;
 }
 
 #loginWindow {
@@ -77,8 +88,9 @@ body {
     max-height: 600px;
     min-width: 414px;
     max-width: 600px;
-    left: 32.64%;
-    right: 32.64%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%);
     top: 15.3%;
     bottom: 17.3%;
 
