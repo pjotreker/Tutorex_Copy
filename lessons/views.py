@@ -13,6 +13,7 @@ from notifications.signals import notify
 from users.models import TeacherProfile
 
 from .models import Classroom
+from .forms import CreateClassroomForm
 from datetime import datetime
 import re
 
@@ -36,29 +37,32 @@ class CreateClassroom(LoginRequiredMixin, View):
 
     def post(self, request):
         context = {}
+        form = CreateClassroomForm(request.POST)
         classroom_id = create_code()
-        class_name = request.POST.get('class_name')
-        subject = request.POST.get('subject')
-        owner = TeacherProfile.objects.get(user=request.user)
-        age_range_min = request.POST.get('age_range_min')
-        age_range_max = request.POST.get('age_range_max')
-        time_frame_start = request.POST.get('time_frame_start')
-        time_frame_end = request.POST.get('time_frame_end')
+        if form.is_valid():
+            class_name = form.cleaned_data.get('class_name')
+            subject = form.cleaned_data.get('subject')
+            owner = TeacherProfile.objects.get(user=request.user)
+            age_range_min = form.cleaned_data.get('age_range_min')
+            age_range_max = form.cleaned_data.get('age_range_max')
+            time_frame_start = form.cleaned_data.get('time_frame_start')
+            time_frame_end = form.cleaned_data.get('time_frame_end')
 
-        classroom = Classroom.objects.create(classroom_id=classroom_id,
-                                             name=class_name,
-                                             subject=subject,
-                                             owner=owner,
-                                             age_range_min=age_range_min,
-                                             age_range_max=age_range_max,
-                                             time_frame_start=time_frame_start,
-                                             time_frame_end=time_frame_end)
-        try:
-            classroom.save()
-        except:
-            raise ValueError("Nie udało się utworzyc klasy :C")
-        return redirect('class-created-success', classroom_id=classroom_id)
-        # return render(request, "create_classroom.html", context)
+            classroom = Classroom.objects.create(classroom_id=classroom_id,
+                                                 name=class_name,
+                                                 subject=subject,
+                                                 owner=owner,
+                                                 age_range_min=age_range_min,
+                                                 age_range_max=age_range_max,
+                                                 time_frame_start=time_frame_start,
+                                                 time_frame_end=time_frame_end)
+            try:
+                classroom.save()
+            except:
+                raise ValueError("Nie udało się utworzyc klasy :C")
+            return redirect('class-created-success', classroom_id=classroom_id)
+        context['error'] = "Ajjj coś poszło nie tak"
+        return render(request, "create_classroom.html", context)
 
 
 class ClassroomCreated(View):
