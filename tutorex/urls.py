@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from lessons import views as lesson_views
+from lessons.urls import urlpatterns as lessons_urls
 from users import views as user_views
 import notifications.urls
+
 
 urlpatterns = [
     path('', user_views.index_view, name='index'),
@@ -42,3 +44,5 @@ urlpatterns = [
     path('user/notifications', user_views.NotificationsView.as_view(), name='my-notifications'),
     path('api/user/notifications/', user_views.get_user_notifications, name='my-notifications-json')
 ]
+
+urlpatterns += lessons_urls
