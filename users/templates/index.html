@@ -1,35 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet">-->
-<!--    <title>Tutorex</title>-->
 {% block styles %}
     <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet">
 {% endblock %}
-<!--    <style>-->
-<!--        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');-->
-<!--    </style>-->
-
-<!--</head>-->
 {% block content %}
-<!--    <header class="tui-header">-->
-<!--        <a href="/" class="tui-header_logo">-->
-<!--            <img src="{% static 'images/logo.jpg' %}" id="logo" alt="TutorexLogo" width="186" height="60">-->
-<!--        </a>-->
-<!--        <div class="tui-header_buttons">-->
-<!--            <button class="button_login" id="loginButton">-->
-<!--                Zaloguj się-->
-<!--            </button>-->
-<!--            <button class="button_signin" id="signup" onclick="document.location='/signup-choice/'">-->
-<!--                Zarejestruj się-->
-<!--            </button>-->
-<!--        </div>-->
-<!--    </header>-->
-
     <div id="loginWindow" class="tui-window_login" >
         <div class="dialog">
             <svg id="closeButton" onClick="document.getElementById('loginWindow').style.display = 'none';" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +97,8 @@
 
         //Login window script
 
-        document.getElementById("loginButton").addEventListener("click", function() {
+        document.getElementById("loginButton1").addEventListener("click", function(event) {
+            event.preventDefault();
             var e = document.getElementsByClassName("tui-window_login");
             e[0].style.display = 'block';
         });
