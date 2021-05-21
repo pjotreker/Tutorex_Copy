@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dołącz do klasy</title>
+</head>
+<body>
+    <p>Podaj kod klasy, który przekazał Ci nauczyciel, aby dołączyć do jego klasy: </p>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+            <td><label for="classroom_id">Kod klasy:</label></td>
+            <td><input type="text" name="classroom_id" id="classroom_id" required/></td>
+        </tr>
+        </table>
+        <p>{{error}}</p>
+        <button type="submit">Dołącz do klasy</button>
+        <p>{{student_id}}</p>
+        <p>{{teacher}}</p>
+        <p>{{classroom_id}}</p>
+    </form>
+
+</body>
+</html>
