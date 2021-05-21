@@ -19,3 +19,10 @@ class Classroom(models.Model):
     lessons = models.ManyToManyField(Lesson)
     students = models.ManyToManyField(BaseUser)
 
+
+class StudentClassRequest(models.Model):
+    classroom_id = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(BaseUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Uczeń {self.student_id} chce dołączyć do klasy {self.classroom_id.name}"
