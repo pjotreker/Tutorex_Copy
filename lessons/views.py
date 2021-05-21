@@ -12,7 +12,7 @@ from notifications.signals import notify
 
 from users.models import TeacherProfile
 
-from .models import Classroom, BaseUser
+from .models import Classroom, BaseUser, StudentClassRequest
 from .forms import CreateClassroomForm
 from datetime import datetime
 import re
@@ -79,16 +79,18 @@ class JoinClassroom(LoginRequiredMixin, View):
 
     def post(self, request):
         classroom_id = request.POST.get('classroom_id')
-        student = BaseUser.objects.get(pk=request.id)
-        student_id = student.id
+        user_id = request.user.id
+        student = BaseUser.objects.get(pk=user_id)
         classroom = Classroom.objects.get(classroom_id=classroom_id)
-        teacher = classroom.owner.first_name
-        context = {
-            "student_id": student_id,
-            "teacher": teacher,
-            "classroom_id": classroom_id
-        }
-        return render(request, "join_classroom.html", context)
+        join_classroom_request = StudentClassRequest.objects.create(
+            classroom_id=classroom,
+            student_id=student
+        )
+        try:
+            join_classroom_request.save()
+        except:
+            raise ValueError("Nie udało się wysłać prośby o dołącznie do klasy")
+        return render(request, "request_sent.html")
 
 
 
