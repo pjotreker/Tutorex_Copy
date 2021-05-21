@@ -26,7 +26,20 @@
 5. Po kliknięciu w link z maila, użytkownik zostaje przekierowany do widoku zmiany hasła (*set_new_password.html*)- klasa *CompletePasswordReset* poprzez formularz pobiera od użytkownika nowe hasło (*password*) i prosi o potwierdzenie go (*password2*).
 6. Jeśli hasła się zgadzają, zmiany zostają zapisane a użytkownik zostaje przekierowany na stronę główną (*redirect('user-login')*) gdzie może się zalogować nowym hasłem. W przeciwnym wypadku widok zostaje wyrenderowny ponownie.
 
-#### Powiadomienia
+##### Tworzenie przez nauczyciela klasy
+
+1. W celu umożliwienia nauczycielowi zakładania klas, stworzony został model *Classroom* z nastęującymi polami: classroom_id (kod klasy potzrebny by nauczyciel mógł zaprosić ucznia do klasy; nie jest to klucz podstawowy!), subject, name, owner (klucz obcy do obiektu nauczyciela), age_range_min, age_range_max, time_frame_start, time_frame_end, lessons (pole 'many to many') i students (pole 'many to many') .
+2. Dodawanie klasy jest obsługiwane przez widok *CreateClassroom* przy pomocy "create_classroom.html", w którym nayczyciel uzupełnia pole obowiązkowe: nazwa klasy (*name* w modelu *Classroom*) oraz może opcjonalnie podać wartości pozostałch pól: temat klasy (*subject*), minimalny i maksymalny wiek uczniów klasy (odpowiednio: *age_range_min, age_range_max*) oraz zakres czasu w jakim działać będzie klasa (odpowiednio *time_frame_start, time_frame_end*- te pola są jednak tylko informacją dla nauczyciela/ucznia, podanie ich nie skutkuje np. kasowaniem klasy po danym terminie). Reszta pól (*classroom_id i owner*) uzupełniana jest automatycznie.
+3. Po udanym zapisaniu klasy w bazie danych nauczyciel zostaje przekierowany na adres *classroom-created/<classroom_id>* gdzie przy pomocy "classroom_created_success.html" wyświetlany jest *classroom_id* (kod klasy), które nauczyciel następnie przekazuje uczniowi. 
+4. W przypadku niepowodzenia strona dodawania klasy jest renderowana ponownie.
+
+##### Zgłaszanie przez ucznia chęci dołączenia do klasy
+
+1. W celu umożliwienia uczniowi dołączenia do klasy, pod adresem *join-classroom/* przy użyciu formularza "join_classroom.html" uczeń wpisuje otrzymany przez nauczyciela kod klasy.
+2. W celu przetrzymywania informacji o chęci dołączenia danego ucznia do klasy, został stworzony model *StudentClassRequest* z polami *classsroom_id* i *student_id* (oba klucze obce). *classsroom_id* jest pobierane od ucznia z formularza ("join_classroom.html"), natomiast *student_id* uzupełniane jest automatycznie. 
+3. Po udanym zapisaniu informacji w bazie danych uczeń przekierowywany jest do "request_sent.html". 
+
+##### Powiadomienia
 
 1. W celu implementacji funkcji powiadomień została zainstalowana biblioteka django-notifications-hq
 2. Powyższa biblioteka dostarczała podstawową funkcjonalność powiadomień, jednak w celu dostosowania ich działania do tworzonej aplikacji niezbędne okazało się dokonanie rozbudowy
@@ -79,7 +92,6 @@ Dane:<ol>
 <li>Heroku CLI: heroku pg:psql postgresql-triangular-25080 --app tutorex-test</li></ol></p>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
-
 
 
 ### Ciągła integracja i dostarczanie
