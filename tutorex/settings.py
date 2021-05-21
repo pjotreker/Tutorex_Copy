@@ -95,32 +95,33 @@ hostname = 'tutorexserver'
 # which we construct using the DBHOST value.
 import sys
 # '''
-# if 'test' in sys.argv:
-#     DATABASES = {
-#          'default': {
-#              'ENGINE': 'django.db.backends.sqlite3',
-#              'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#          }
-#      }
-# else:
-#     DATABASES = {
-#         'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': "d2hevt4sscj1g7",
-#          'HOST': "ec2-52-19-170-215.eu-west-1.compute.amazonaws.com",
-#          'USER': 'bfadhmhbmjxfmh',
-#          'PASSWORD': 'b0d452b1886cd23d29fb4341abc541929d8c5ee55b668c65d1daf9bc25567630',
-#          'PORT':'5432'
-#         }
-#     }
+if 'test' in sys.argv:
+    DATABASES = {
+         'default': {
+             'ENGINE': 'django.db.backends.sqlite3',
+             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+         }
+     }
+else:
+    DATABASES = {
+        'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': "d2hevt4sscj1g7",
+         'HOST': "ec2-52-19-170-215.eu-west-1.compute.amazonaws.com",
+         'USER': 'bfadhmhbmjxfmh',
+         'PASSWORD': 'b0d452b1886cd23d29fb4341abc541929d8c5ee55b668c65d1daf9bc25567630',
+         'PORT':'5432'
+        }
+    }
 # '''
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+'''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
