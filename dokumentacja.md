@@ -1,5 +1,7 @@
 ## Dokumentacja projektu
 
+
+
 ### Back-end 
 
 ##### Logowanie
@@ -42,9 +44,22 @@
 4. Wszystkie powyżej wymienione pliki html znajdują się w folderze *start*.
 5. Na potrzeby interfejsu po zalogowaniu został stworzony plik bazowy o nazwie *main.html* w którym znajduje się pasek górny *id=tuiHeader* wspólny dla wszystkich widoków: powiadomień, harmonogramu, zapisów, klas oraz konta użytkownika. Cały plik style czerpie z pliku *main_styles.css*, który to plik jest w nagłówku wszystkich pozostałych plików.
 6. Strona konta użytkownika to plik *account.html*. Główny jej komponent to okno *id=tui-account_box*, w którym można edytować dane użytkownika (przyciskiem *id=editDataButton*), a także zmienić swoje hasło *id=changePasswordButton* oraz usunąć konto *id=deleteAccountButton*. Dwie ostatnie akcje wykonuje się poprzez linka wysłanego na maila.
-7. Ropoczęto implementację strony powiadomień *notification.html* konfigurując okno *id=tui-notification_box*, w którym wyświetlać się będą kafelki powiadomień.
+7. Rozpoczęto implementację strony powiadomień *notification.html* konfigurując okno *id=tui-notification_box*, w którym wyświetlać się będą kafelki powiadomień.
+
+
 
 ### Testy
+
+Testy automatyczne realizowane są przy pomocy wbudowanego w Django modułu **django.test**.
+
+Testy sprawdzają podstawy działania aplikacji:
+
+- ładowanie widoków (uzyskiwanie odpowiedniej ścieżki przy pomocy funkcji *reverse*, zwracanie kodu **200**)
+- ładowanie poprawnych templates (odpowiedni plik HTML do konkretnego widoku)
+- rejestracja przykładowych użytkowników (nauczyciel, uczeń, rodzic z uczniem, zwracanie kodu **302**)
+- logowanie przykładowych użytkowników (zwracanie kodu **302** w przypadku powodzenia oraz kodu **200** w przypadku niepowodzenia - kiedy logowanie nie powiedzie się, załadowana zostaje strona logowania, na której wyświetlona jest informacja o niepowodzeniu)
+
+
 
 ### Baza danych
 
@@ -64,3 +79,21 @@ Dane:<ol>
 <li>Heroku CLI: heroku pg:psql postgresql-triangular-25080 --app tutorex-test</li></ol></p>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
+
+
+
+### Ciągła integracja i dostarczanie
+
+Kod aplikacji jest przechowywany na prywatnym repozytorium w serwisie Github.com, do którego mają dostęp wszyscy członkowie zespołu deweloperskiego. W ramach ciągłej integracji w serwisie Github została przeprowadzona konfiguracja testów automatycznych - są one uruchamiane przy każdym **push** oraz **pull request** na branch **master** (wykorzystany wbudowany moduł Actions).
+
+Utworzone zostały dwie wersje aplikacji:
+
+- tutorex-test.herokuapp.com - aplikacja dla zespołu do pracy nad projektem
+- tutorex-app.herokuapp.com - aplikacja właściwa, na którą będą trafiały kolejne wydania aplikacji (alpha, beta etc) i która jest przeznaczona dla klientów
+
+Deployment aplikacji jest przeprowadzony przy użyciu serwisu Heroku, który został połączony z repozytorium w serwisie Github (branch **master** dla aplikacji testowej oraz branch **deploy** dla aplikacji właściwej). Proces dostarczania aplikacji został skonfigurowany w następujący sposób:
+
+1. **push** na odpowiedni branch
+2. uruchomienie testów automatycznych w serwisie Github
+3. jeżeli wszystkie testy zostały zakończone pozytywnie, uruchomiona zostaje kompilacja kodu w serwisie Heroku (jeżeli któryś z testów nie powiódł się kolejne kroki nie są wykonywane)
+4. jeżeli kompilacja się powiodła, nowy build zostaje załadowany na odpowiedniej domenie (w przypadku niepowodzenia na stronie zostaje poprzedni poprawnie skompilowany build oraz zostaje wysłane powiadomienie o niepowodzeniu na email jednego z członków zespołu).
