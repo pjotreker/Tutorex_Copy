@@ -24,6 +24,16 @@
 5. Po kliknięciu w link z maila, użytkownik zostaje przekierowany do widoku zmiany hasła (*set_new_password.html*)- klasa *CompletePasswordReset* poprzez formularz pobiera od użytkownika nowe hasło (*password*) i prosi o potwierdzenie go (*password2*).
 6. Jeśli hasła się zgadzają, zmiany zostają zapisane a użytkownik zostaje przekierowany na stronę główną (*redirect('user-login')*) gdzie może się zalogować nowym hasłem. W przeciwnym wypadku widok zostaje wyrenderowny ponownie.
 
+#### Powiadomienia
+
+1. W celu implementacji funkcji powiadomień została zainstalowana biblioteka django-notifications-hq
+2. Powyższa biblioteka dostarczała podstawową funkcjonalność powiadomień, jednak w celu dostosowania ich działania do tworzonej aplikacji niezbędne okazało się dokonanie rozbudowy
+3. Została dodana ścieżka *user/notifications*, kierująca użytkownika do widoku jego powiadomień za ostatnie 7 dni
+4. Został dodany endpoint *api/user/notifications/* zwracający w formacie JSON powiadomienia za ostatnie 7 dni włącznie
+5. Zostały dodane funkcje napisane w Javascript wysyłające co 10 sekund request GET na endpoint z punktu 4 i aktualizujące listę powiadomień
+6. Została dodana funkcja w Javascript wysyłająca po kliknięciu w powiadomienie request na endpoint *notifications/mark-as-read/<id_powiadomienia>* w celu oznaczenia powiadomienia jako przeczytane.
+
+
 ### Front-end
 
 1. Utworzona została strona startowa *index.html*: pasek górny *id=tuiHeader* z przyciskami do logowania *id=loginButton* oraz rejestracji *id=signupButton*. Okno logowania *id=loginWindow* pozwala zalogować się na swoje konto, lub też przejść do strony rejestracji *register.html* lub przypomnieć zapomniane hasło. W tle strony startowej wyświetlany jest pokaz slajdów *id=tui-slideshow* wraz z opisem funkcjonalności oferowanych przez aplikację.
