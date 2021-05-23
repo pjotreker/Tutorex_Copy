@@ -39,6 +39,8 @@ class CreateClassroom(LoginRequiredMixin, View):
         context = {}
         form = CreateClassroomForm(request.POST)
         classroom_id = create_code()
+        if not Classroom.objects.get(classroom_id=classroom_id):
+            classroom_id = create_code()
         if form.is_valid():
             class_name = form.cleaned_data.get('class_name')
             subject = form.cleaned_data.get('subject')
@@ -93,4 +95,12 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "request_sent.html")
 
 
-
+'''
+class ModifyClassroom(LoginRequiredMixin, View):
+    def get(self, request):
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
+        return render(request, "join_classroom.html")
+    def post(self, request):
+        pass
+'''
