@@ -60,6 +60,9 @@ html, body {
     #headerButtonsSection {
         padding-left: 0%;
     }
+    .name_of_Tab {
+        display: none;
+    }
 }
 
 .tui-header_tabs_button {
@@ -69,7 +72,7 @@ html, body {
 
     color: white;
 
-    display: inline-block;
+    display: inline-flex;
     cursor: pointer;
 }
 
@@ -78,4 +81,12 @@ html, body {
     padding: 15px 20px;
     width: fit-content;
     cursor: pointer;
+}
+
+.name_of_Tab {
+    margin-left: 6px;
+}
+
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none !important;
 }
