@@ -1,3 +1,5 @@
+from tkinter import Entry
+
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
@@ -92,5 +94,15 @@ class JoinClassroom(LoginRequiredMixin, View):
             raise ValueError("Nie udało się wysłać prośby o dołącznie do klasy")
         return render(request, "request_sent.html")
 
-
-
+class ShowClassrooms(LoginRequiredMixin, View):
+    def get(self, request):
+        classrooms=Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
+        names=([p.name for p in classrooms])
+        subjects=([p.subject for p in classrooms])
+        ids=([p.id for p in classrooms])
+        context = {
+                'classrooms': classrooms,
+                'names': names,
+                'subjects':subjects,
+                'ids': ids}
+        return render(request, "show_classrooms.html", context)
