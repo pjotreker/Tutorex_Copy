@@ -39,7 +39,9 @@ class CreateClassroom(LoginRequiredMixin, View):
         context = {}
         form = CreateClassroomForm(request.POST)
         classroom_id = create_code()
-        if not Classroom.objects.get(classroom_id=classroom_id):
+        war = Classroom.objects.get(classroom_id=classroom_id)
+        print(war)
+        if not war:
             classroom_id = create_code()
         if form.is_valid():
             class_name = form.cleaned_data.get('class_name')
