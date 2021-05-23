@@ -1,12 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User aktywowany</title>
-</head>
-<body>
-  <h1>Jesteś aktywny!</h1>
-  <h3>Twoje konto dla użytkownika {{ user.first_name }} {{ user.last_name }} {{ user.email }} jest teraz aktywne</h3>
-  <p><a href="/"> Strona główna</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet">-->
+<!--    <title>Tutorex</title>-->
+{% block styles %}
+    <link type="text/css" href="{% static 'css/password_change_styles.css' %}" rel="stylesheet">
+{% endblock %}
+<!--    <style>-->
+<!--        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');-->
+<!--    </style>-->
+
+<!--</head>-->
+{% block content %}
+<!--    <header class="tui-header">-->
+<!--        <a href="/" class="tui-header_logo">-->
+<!--            <img src="{% static 'images/logo.jpg' %}" id="logo" alt="TutorexLogo" width="186" height="60">-->
+<!--        </a>-->
+<!--        <div class="tui-header_buttons">-->
+<!--            <button class="button_login" id="loginButton">-->
+<!--                Zaloguj się-->
+<!--            </button>-->
+<!--            <button class="button_signin" id="signup" onclick="document.location='/signup-choice/'">-->
+<!--                Zarejestruj się-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </header>-->
+
+    <header class="tui-header">
+        <a href="/" class="tui-header_logo">
+            <img src="{% static 'images/logo.jpg' %}" id="logo" alt="TutorexLogo" width="186" height="60">
+        </a>
+    </header>
+    <div id="passwordChangeBox">
+        <div id="passwordChangeWindow">
+          <h1 style="text-align: center">Jesteś aktywny!</h1>
+          <h3 style="text-align: center;">Twoje konto dla użytkownika {{ user.first_name }} {{ user.last_name }}, {{ user.email }} jest teraz aktywne</h3>
+          <div style="border: none;
+          padding: 8px 0;
+          color: #ffffff;
+          font-size: 16px;
+          background-color: #1BB55C;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+          border-radius: 8px;
+          margin: auto;
+          width: 25%;
+          height: 37px;" onclick="location.href = '/'">Wróć na stronę główną</div>
+        </div>
+      </div>
+
+
+{% endblock %}

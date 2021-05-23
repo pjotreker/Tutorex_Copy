@@ -153,6 +153,18 @@ class ProfileTest(BaseTest):
                                                 'password':'1234'}, format='text/html', secure=True)
         return user
 
+    def set_up2(self):
+        user = BaseUser.objects.create_user(email='test@example.com',
+                                                password='1234',
+                                                first_name='Konik',
+                                                birthday='1999-01-01',
+                                                last_name='Rafał',
+                                                is_active=False,
+                                                is_teacher=False)
+        user.is_active = True
+        user.save()
+        return user
+
     # view tests
     def test_view_profile(self):
         user = self.set_up()
@@ -160,3 +172,30 @@ class ProfileTest(BaseTest):
         response = self.client.get(reverse('user-edit-data', args=[user_id]), secure=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account.html')
+
+    def test_edit_data(self):
+        user = self.set_up()
+        user_id = user.id
+        profile_url = reverse('user-edit-data', args=[user_id])
+        response = self.client.post(profile_url, {'first_name':"Pan",
+                                                    'birthday':'1986-10-12',
+                                                    'last_name':"Nauczyciel"}, format='text/html', secure=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_other_user_data(self):
+        user = self.set_up()
+        user2 = self.set_up2()
+        user_id = user2.id
+        profile_url = reverse('user-edit-data', args=[user_id])
+        response = self.client.post(profile_url, {'first_name':"Pan",
+                                                    'birthday':'1986-10-12',
+                                                    'last_name':"Nauczyciel"}, format='text/html', secure=True)
+        self.assertEqual(response.status_code, 403)
+
+'''
+    def test_delete_user(self)
+        user = self.set_up()
+        user_id = user.id
+        profile_url = reverse('user-edit-data', args=[user_id])
+
+'''
