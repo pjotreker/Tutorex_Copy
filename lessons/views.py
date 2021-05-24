@@ -1,3 +1,5 @@
+from tkinter import Entry
+
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
@@ -115,3 +117,34 @@ class ModifyClassroom(LoginRequiredMixin, View):
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
 
+
+class ShowClassrooms(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_teacher:
+            owner = TeacherProfile.objects.get(user=request.user)
+            classrooms = Classroom.objects.filter(owner=owner)
+        if not request.user.is_teacher:
+            user = request.user
+            id = user.id
+            student = BaseUser.objects.get(pk=id)
+            classrooms = Classroom.objects.filter(students=student)
+        names = ([p.name for p in classrooms])
+        subjects = ([p.subject for p in classrooms])
+        context = {
+                'names': names,
+                'subjects':subjects}
+        return render(request, "show_classrooms.html", context)
+
+
+class DisplayClassrooms(LoginRequiredMixin, View):
+    def get(self, request):
+        classrooms=Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
+        names=([p.name for p in classrooms])
+        subjects=([p.subject for p in classrooms])
+        ids=([p.id for p in classrooms])
+        context = {
+                'classrooms': classrooms,
+                'names': names,
+                'subjects':subjects,
+                'ids': ids}
+        return render(request, "display-classroom.html")
