@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from .models import BaseUser, Classroom
 from users.models import TeacherProfile
 
+
 class BaseTest(TestCase):
     def setUp(self):
         self.login_url = reverse('index')
@@ -61,7 +62,6 @@ class BaseTest(TestCase):
                                                 'password':'1234'}, format='text/html', secure=True)
         return user
 
-
     def set_up_teacher(self):
         user = BaseUser.objects.create_user(email='test@example.com',
                                                 password='1234',
@@ -115,6 +115,7 @@ class NotificationTest(BaseTest):
         self.assertTemplateUsed(response, 'account.html')
     '''
 
+    
 class ClassroomTest(BaseTest):
     # view tests
     '''

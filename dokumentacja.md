@@ -71,6 +71,9 @@ Testy sprawdzają podstawy działania aplikacji:
 - ładowanie poprawnych templates (odpowiedni plik HTML do konkretnego widoku)
 - rejestracja przykładowych użytkowników (nauczyciel, uczeń, rodzic z uczniem, zwracanie kodu **302**)
 - logowanie przykładowych użytkowników (zwracanie kodu **302** w przypadku powodzenia oraz kodu **200** w przypadku niepowodzenia - kiedy logowanie nie powiedzie się, załadowana zostaje strona logowania, na której wyświetlona jest informacja o niepowodzeniu)
+- edytowanie danych przez użytkownika (zwracanie kodu **200** w przypadku powodzenia oraz kodu **403** (odmowa dostępu) w przypadku próby zmiany danych innego użytkownika)
+
+Testy związane ze stroną główną i użytkownikami (logowanie, rejestracja, edycja profilu) znajdują się w pliku *users/tests.py*, natomiast związane z powiadomieniami, klasami i lekcjami w pliku *lessons/tests.py*.
 
 
 
