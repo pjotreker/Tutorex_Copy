@@ -89,6 +89,9 @@ class JoinClassroom(LoginRequiredMixin, View):
                 classroom_id=classroom,
                 student_id=student
             )
+            teacher_user = classroom.owner.user
+            notify.send(sender=user_id, recipient=teacher_user,
+                        verb=f"Uczeń {user_id.first_name} {user_id.last_name} chce dołączyć do twojej klasy {classroom.name}")
             try:
                 join_classroom_request.save()
             except:

@@ -9,7 +9,11 @@
     <ul class="list-group" id="notification_list">
         {% for record in notifications %}
             <li id="{{ record.slug }}" class="list-group-item" style="{% if record.unread %} background-color:#c5edd3; {% endif %}"><!--<h6>{{record.actor.first_name}} {{ record.actor.last_name }}--></h6>
-                <h6>{{ record.verb }}</h6><p style="display:none;">{{ record.id }}</p>
+                <h6>{{ record.verb }}</h6>
+                {% if record.need_acceptance %}
+                    <button href="/requests/{{record.id}}/accept" class='accept'>Akceptuj</button>  <button href="/requests/{{record.id}}/accept" class='reject'>Odrzuć</button>
+                {% endif %}
+                <p style="display:none;">{{ record.id }}</p>
             </li>
         {% empty %}
             <li class="list-group-item">Nic tu nie ma</li>>
@@ -34,7 +38,13 @@
                             var new_li = document.createElement("li");
                             new_li.classList.add("list-group-item");
                             new_li.innerHTML = "<h6>"+ response.notifications[i].verb +"</h6>";
-                            new_li.id = response.notifications[i].slug
+                            if(response.notifications[i].need_acceptance){
+                                var accept_url = "/requests/"+ response.notifications[i].slug +"/accept";
+                                var reject_url = "/requests/"+ response.notifications[i].slug +"/reject";
+                                var accept_button = "<button href=" + accept_url +" class='accept'>Akceptuj</button>  <button href="+reject_url"+ class='reject'>Odrzuć</button>";
+                                new_li.innerHTML = new_li.innerHTML.concat(accept_button);
+                            }
+                            new_li.id = response.notifications[i].slug;
                             if(response.notifications[i].unread){
                                 $(new_li).css("background-color", "#c5edd3");
                             }
