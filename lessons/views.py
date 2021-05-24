@@ -39,10 +39,6 @@ class CreateClassroom(LoginRequiredMixin, View):
         context = {}
         form = CreateClassroomForm(request.POST)
         classroom_id = create_code()
-        war = Classroom.objects.get(classroom_id=classroom_id)
-        print(war)
-        if not war:
-            classroom_id = create_code()
         if form.is_valid():
             class_name = form.cleaned_data.get('class_name')
             subject = form.cleaned_data.get('subject')
@@ -85,24 +81,37 @@ class JoinClassroom(LoginRequiredMixin, View):
         classroom_id = request.POST.get('classroom_id')
         user_id = request.user.id
         student = BaseUser.objects.get(pk=user_id)
-        classroom = Classroom.objects.get(classroom_id=classroom_id)
-        join_classroom_request = StudentClassRequest.objects.create(
-            classroom_id=classroom,
-            student_id=student
-        )
         try:
-            join_classroom_request.save()
-        except:
-            raise ValueError("Nie udało się wysłać prośby o dołącznie do klasy")
+            classroom = Classroom.objects.get(classroom_id=classroom_id)
+            join_classroom_request = StudentClassRequest.objects.create(
+                classroom_id=classroom,
+                student_id=student
+            )
+            try:
+                join_classroom_request.save()
+            except:
+                return HttpResponseForbidden("Nie udało się wysłać prośby o dołącznie do klasy, spróbuj ponownie")
+        except (ValueError, TypeError, OverflowError, Classroom.DoesNotExist):
+            return HttpResponseForbidden("Dana klasa nie istnieje!")
+
         return render(request, "request_sent.html")
 
 
-'''
 class ModifyClassroom(LoginRequiredMixin, View):
-    def get(self, request):
+    def get(self, request, class_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=class_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
         return render(request, "join_classroom.html")
-    def post(self, request):
-        pass
-'''
+
+    def post(self, request, class_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=class_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
+
