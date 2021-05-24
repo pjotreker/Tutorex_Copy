@@ -59,9 +59,18 @@ html, body {
     }
     #headerButtonsSection {
         padding-left: 0%;
+        display: flex;
+        justify-content: space-evenly;
     }
     .name_of_Tab {
         display: none;
+    }
+    .tui-header_tabs_button:not(#profileButton, #logOutButton) {
+        width: 25vw !important;
+    }
+    .notification_icon {
+        align-self: center;
+        margin-left: 39%;
     }
 }
 
