@@ -99,6 +99,7 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "request_sent.html")
 
 
+# to jeszcze nie było odpalane także do sprawdzenia
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -116,6 +117,24 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
+        form = CreateClassroomForm(request.POST)    # czy ten sam form może być?
+        if form.is_valid():
+            class_name = form.cleaned_data.get('class_name')
+            subject = form.cleaned_data.get('subject')
+            age_range_min = form.cleaned_data.get('age_range_min')
+            age_range_max = form.cleaned_data.get('age_range_max')
+            time_frame_start = form.cleaned_data.get('time_frame_start')
+            time_frame_end = form.cleaned_data.get('time_frame_end')
+
+            classroom.name = class_name
+            classroom.subject = subject
+            classroom.age_range_min = age_range_min
+            classroom.age_range_max = age_range_max
+            classroom.time_frame_start = time_frame_start
+            classroom.time_frame_end = time_frame_end
+
+            classroom.save()
+        return redirect('display-classroom')
 
 
 class ShowClassrooms(LoginRequiredMixin, View):
@@ -132,19 +151,19 @@ class ShowClassrooms(LoginRequiredMixin, View):
         subjects = ([p.subject for p in classrooms])
         context = {
                 'names': names,
-                'subjects':subjects}
-        return render(request, "show_classrooms.html", context)
+                'subjects': subjects}
+        return render(request, "show_classrooms.html", context)     # jak zrobić zeby po kliknięciu przekierowywało
 
 
-class DisplayClassrooms(LoginRequiredMixin, View):
+class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request):
-        classrooms=Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
-        names=([p.name for p in classrooms])
-        subjects=([p.subject for p in classrooms])
-        ids=([p.id for p in classrooms])
+        classrooms = Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
+        names = ([p.name for p in classrooms])
+        subjects = ([p.subject for p in classrooms])
+        ids = ([p.id for p in classrooms])
         context = {
                 'classrooms': classrooms,
                 'names': names,
-                'subjects':subjects,
+                'subjects': subjects,
                 'ids': ids}
-        return render(request, "display-classroom.html")
+        return render(request, "display_classroom.html")
