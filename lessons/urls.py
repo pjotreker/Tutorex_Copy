@@ -8,7 +8,11 @@ urlpatterns = [
     path('create-classroom/', lessons_views.CreateClassroom.as_view(), name="create-classroom"),
     path('classroom-created/<classroom_id>', lessons_views.ClassroomCreated.as_view(), name="classroom-created-success"),
     path('join-classroom/', lessons_views.JoinClassroom.as_view(), name="join_classroom"),
+<<<<<<< HEAD
     path('show-classrooms/', lessons_views.ShowClassrooms.as_view(), name="show-classrooms"),
     path('show-classrooms/display-classroom/', lessons_views.DisplayClassrooms.as_view(), name="display-classroom")
+=======
+    path('show-classrooms/', lessons_views.ShowClassrooms.as_view(), name="show-classrooms")
+>>>>>>> 0d007f5a81c8ed36836d57fbd2aef407d3db5d5c
 ]
 

@@ -96,6 +96,7 @@ class JoinClassroom(LoginRequiredMixin, View):
 
 class ShowClassrooms(LoginRequiredMixin, View):
     def get(self, request):
+<<<<<<< HEAD
         if request.user.is_teacher:
             owner = TeacherProfile.objects.get(user=request.user)
             classrooms = Classroom.objects.filter(owner=owner)
@@ -114,3 +115,15 @@ class ShowClassrooms(LoginRequiredMixin, View):
 class DisplayClassrooms(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "display-classroom.html")
+=======
+        classrooms=Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
+        names=([p.name for p in classrooms])
+        subjects=([p.subject for p in classrooms])
+        ids=([p.id for p in classrooms])
+        context = {
+                'classrooms': classrooms,
+                'names': names,
+                'subjects':subjects,
+                'ids': ids}
+        return render(request, "show_classrooms.html", context)
+>>>>>>> 0d007f5a81c8ed36836d57fbd2aef407d3db5d5c
