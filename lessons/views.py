@@ -154,11 +154,4 @@ class ShowClassrooms(LoginRequiredMixin, View):
 class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
-        context = {
-                'classroom_id': classroom.id,
-                'name': classroom.name,
-                'subject': classroom.subject,
-                'time_frame_start': classroom.time_frame_start,
-                'time_frame_end': classroom.time_frame_end
-                }
-        return render(request, "display_classroom.html", context=context)
+        return render(request, "display_classroom.html", {'classroom': classroom})

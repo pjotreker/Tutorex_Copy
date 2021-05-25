@@ -10,7 +10,7 @@ class Lesson(models.Model):
 class Classroom(models.Model):
     classroom_id = models.CharField(max_length=40, unique=True)
     subject = models.CharField(max_length=255, null=True, blank=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=80)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
     age_range_min = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], null=True, blank=True, default=None)
     age_range_max = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], null=True, blank=True, default=None)
