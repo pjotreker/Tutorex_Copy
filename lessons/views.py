@@ -15,7 +15,7 @@ from notifications.signals import notify
 from users.models import TeacherProfile
 
 from .models import Classroom, BaseUser, StudentClassRequest
-from .forms import CreateClassroomForm
+from .forms import CreateClassroomForm, ModifyClassroomForm
 from datetime import datetime
 import re
 
@@ -108,7 +108,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
-        return render(request, "join_classroom.html")
+        return render(request, "modify_classroom.html")
 
     def post(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -117,24 +117,33 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
-        form = CreateClassroomForm(request.POST)    # czy ten sam form może być?
-        if form.is_valid():
-            class_name = form.cleaned_data.get('class_name')
-            subject = form.cleaned_data.get('subject')
-            age_range_min = form.cleaned_data.get('age_range_min')
-            age_range_max = form.cleaned_data.get('age_range_max')
-            time_frame_start = form.cleaned_data.get('time_frame_start')
-            time_frame_end = form.cleaned_data.get('time_frame_end')
+        initial_dict = {'class_name': classroom.name,
+                        'subject': classroom.subject,
+                        'age_range_min': classroom.age_range_min,
+                        'age_range_max': classroom.age_range_max,
+                        'time_frame_start': classroom.time_frame_start,
+                        'time_frame_end': classroom.time_frame_end}
+        form = ModifyClassroomForm(request.POST, initial=initial_dict)
+        try:
+            if form.is_valid():
+                class_name = form.cleaned_data.get('class_name')
+                subject = form.cleaned_data.get('subject')
+                age_range_min = form.cleaned_data.get('age_range_min')
+                age_range_max = form.cleaned_data.get('age_range_max')
+                time_frame_start = form.cleaned_data.get('time_frame_start')
+                time_frame_end = form.cleaned_data.get('time_frame_end')
 
-            classroom.name = class_name
-            classroom.subject = subject
-            classroom.age_range_min = age_range_min
-            classroom.age_range_max = age_range_max
-            classroom.time_frame_start = time_frame_start
-            classroom.time_frame_end = time_frame_end
+                classroom.name = class_name
+                classroom.subject = subject
+                classroom.age_range_min = age_range_min
+                classroom.age_range_max = age_range_max
+                classroom.time_frame_start = time_frame_start
+                classroom.time_frame_end = time_frame_end
 
-            classroom.save()
-        return redirect('display-classroom')
+                classroom.save()
+        except:
+            return HttpResponseForbidden("Coś poszło nie tak :/ ")
+        return redirect('home')     # to później zmieić
 
 
 class ShowClassrooms(LoginRequiredMixin, View):
