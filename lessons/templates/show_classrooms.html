@@ -2,15 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Twoje Klasy</title>
 </head>
 <body>
-    <p>{{ names }}</p>
-    <p>{{ subjects }}</p>
-    <a href="display-classroom" target="_blank">Przycisk przekirowujacy do klasy</a>
-    <p>{{ classrooms }}</p>
-    <p>{{ names }}</p>
-    <p>{{ subjects }}</p>
-    <p>{{ ids }}</p>
+    {% for classroom in classrooms_obj %}
+        <a href="display-classroom/{{ classroom.id }}"> {{ classroom.id }} {{ classroom.name }} </a></br>
+    {% endfor %}
 </body>
 </html>

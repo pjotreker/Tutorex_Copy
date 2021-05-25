@@ -99,7 +99,7 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "request_sent.html")
 
 
-# to jeszcze nie było odpalane także do sprawdzenia
+# to jeszcze nie było odpalane także do sprawdzenia pracuję nad tym na innym branchu tosię tu przypadkowo znalazło xD
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -142,28 +142,23 @@ class ShowClassrooms(LoginRequiredMixin, View):
         if request.user.is_teacher:
             owner = TeacherProfile.objects.get(user=request.user)
             classrooms = Classroom.objects.filter(owner=owner)
+            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms})
         if not request.user.is_teacher:
             user = request.user
-            id = user.id
-            student = BaseUser.objects.get(pk=id)
+            user_id = user.id
+            student = BaseUser.objects.get(pk=user_id)
             classrooms = Classroom.objects.filter(students=student)
-        names = ([p.name for p in classrooms])
-        subjects = ([p.subject for p in classrooms])
-        context = {
-                'names': names,
-                'subjects': subjects}
-        return render(request, "show_classrooms.html", context)     # jak zrobić zeby po kliknięciu przekierowywało
+            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms})
 
 
 class DisplayClassroom(LoginRequiredMixin, View):
-    def get(self, request):
-        classrooms = Classroom.objects.all() #wszystkie które istnieja, potrzeba uzaleznic od uzytkownika
-        names = ([p.name for p in classrooms])
-        subjects = ([p.subject for p in classrooms])
-        ids = ([p.id for p in classrooms])
+    def get(self, request, classroom_id):
+        classroom = Classroom.objects.get(id=classroom_id)
         context = {
-                'classrooms': classrooms,
-                'names': names,
-                'subjects': subjects,
-                'ids': ids}
-        return render(request, "display_classroom.html")
+                'classroom_id': classroom.id,
+                'name': classroom.name,
+                'subject': classroom.subject,
+                'time_frame_start': classroom.time_frame_start,
+                'time_frame_end': classroom.time_frame_end
+                }
+        return render(request, "display_classroom.html", context=context)
