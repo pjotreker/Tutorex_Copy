@@ -99,7 +99,6 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "request_sent.html")
 
 
-# to jeszcze nie było odpalane także do sprawdzenia pracuję nad tym na innym branchu tosię tu przypadkowo znalazło xD
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -108,7 +107,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
-        return render(request, "modify_classroom.html")
+        return render(request, "modify_classroom.html", {'classroom': classroom})
 
     def post(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -117,13 +116,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
-        initial_dict = {'class_name': classroom.name,
-                        'subject': classroom.subject,
-                        'age_range_min': classroom.age_range_min,
-                        'age_range_max': classroom.age_range_max,
-                        'time_frame_start': classroom.time_frame_start,
-                        'time_frame_end': classroom.time_frame_end}
-        form = ModifyClassroomForm(request.POST, initial=initial_dict)
+        form = ModifyClassroomForm(request.POST)
         try:
             if form.is_valid():
                 class_name = form.cleaned_data.get('class_name')
@@ -143,7 +136,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
                 classroom.save()
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
-        return redirect('home')     # to później zmieić
+        return redirect('show-classrooms')
 
 
 class ShowClassrooms(LoginRequiredMixin, View):
