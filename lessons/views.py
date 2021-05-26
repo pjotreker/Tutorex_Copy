@@ -160,3 +160,21 @@ class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
         return render(request, "display_classroom.html", {'classroom': classroom})
+
+
+class DeleteClassroom(LoginRequiredMixin, View):
+    def get(self, request, class_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=class_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz usunąć nieswojej klasy!")
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby móc usunąć klasę!")
+        try:
+            classroom.delete()
+        except:
+            return HttpResponseForbidden("Coś poszło nieteges")
+        return render(request, "delete_classroom_ask.html", {'classroom': classroom})
+
+
+

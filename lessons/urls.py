@@ -12,6 +12,8 @@ urlpatterns = [
     path('show-classrooms/', lessons_views.ShowClassrooms.as_view(), name="show-classrooms"),
     path('show-classrooms/display-classroom/<classroom_id>', lessons_views.DisplayClassroom.as_view(), name="display-classroom"),
     path('show-classrooms/display-classroom/modify-classroom/<class_id>', lessons_views.ModifyClassroom.as_view(), name='modify-classroom'),
+    path('show-classrooms/display-classroom/delete-classroom/<class_id>', lessons_views.DeleteClassroom.as_view(), name="delete-classroom"),
+
 
 ]
 
