@@ -7,47 +7,43 @@
 {% endblock %}
 {% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
 {% block content %}
-<div id="tui-account-box">
+  <div id="tui-account-box" onload="highlightTab()">
      <div id="deleteAccountWindow" class="infoWindow">
             <div id="deleteAccountText" class="window_text">Czy na pewno chcesz usunąć konto?</div>
             <button id="cancelDeletingAccountButton" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ANULUJ</button>
             <button id="confirmDeletingAccountButton" class="edit_data_button" onclick="DeleteAccountConfirm()">USUŃ KONTO</button>
-            <button id="closedeleteAccountWindow" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ZAMKNIJ OKNO</button>
+            <button id="closeDeleteAccountWindow" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ZAMKNIJ OKNO</button>
         </div>
         <div id="changePasswordWindow" class="infoWindow">
             <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
             <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
         </div>
-        <div id="tui-account_page">
-            <div id="firstColumn" class="column">
-                <h1 style="padding-top: 10px;"> {{ user.first_name }} {{ user.last_name }} </h1>
-                {% if user.is_teacher %}
-                    <h3 style="padding-top: 10px;">Nauczyciel</h3>
-                {% endif %}
-                <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
-                <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="DeleteAccount()">USUŃ KONTO</button>
-            </div>
-            <div id="secondColumn" class="column">
-                <form method="post">
-                    {% csrf_token %}
-                    <h6 class="data_header">IMIĘ</h6>
-                    <div class="edit_data" id="editName" contenteditable="false">
-                        <input type="text" id="first_name" name="first_name" disabled="true" value="{{ user.first_name }}" required/>
-                    </div>
-                    <h6 class="data_header">NAZWISKO</h6>
-                    <div class="edit_data" id="editSurname" contenteditable="false">
-                        <input type="text" id="last_name" name="last_name" disabled="true" value="{{ user.last_name }}" required/>
-                    </div>
-                    <h6 class="data_header">DATA URODZENIA</h6>
-                    <input type="date" min="1900-01-01" class="edit_data" name="birthday" id="birthday" disabled="true" value="{{ user.birthday|date:'Y-m-d' }}" required/>
+        <div id="tui-account_page" style="top: 150px;">
+            <h1 style="padding-top: 10px;"> {{ user.first_name }} {{ user.last_name }} </h1>
+            {% if user.is_teacher %}
+                <h4 style="padding-top: 5px; color: #969696; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px;">Nauczyciel</h4>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <h6 class="data_header">IMIĘ</h6>
+                <div class="edit_data" id="editName" contenteditable="false">
+                    <input type="text" id="first_name" name="first_name" disabled="true" value="{{ user.first_name }}" required/>
+                </div>
+                <h6 class="data_header">NAZWISKO</h6>
+                <div class="edit_data" id="editSurname" contenteditable="false">
+                    <input type="text" id="last_name" name="last_name" disabled="true" value="{{ user.last_name }}" required/>
+                </div>
+                <h6 class="data_header">DATA URODZENIA</h6>
+                <input type="date" min="1900-01-01" class="edit_data" name="birthday" id="birthday" disabled="true" value="{{ user.birthday|date:'Y-m-d' }}" required/>
 
-                    <input type="button" id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()" value="EDYTUJ DANE"/>
-                    <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
-                </form>
+                <input type="button" id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()" value="EDYTUJ DANE"/>
+                <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
+            </form>
+            <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
+            <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="DeleteAccount()">USUŃ KONTO</button>
 
-            </div>
         </div>
-</div>
+    </div>
     <script>
         function EditData() {
             var name = document.getElementById("first_name");
@@ -93,7 +89,7 @@
             document.getElementById("deleteAccountText").innerHTML = "Na Twój adres mailowy został wysłany link z potwierdzeniem decyzji."
             var button1 = document.getElementById("cancelDeletingAccountButton");
             var button2 = document.getElementById("confirmDeletingAccountButton");
-            var button3 = document.getElementById("closedeleteAccountWindow");
+            var button3 = document.getElementById("closeDeleteAccountWindow");
             var button4 = document.getElementById("deleteAccountButton");
             button1.style.display = "none";
             button2.style.display = "none";
