@@ -2,40 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Utwórz nową klasę</title>
+    <title>Modyfikuj klasę</title>
 </head>
 <body>
-    <h4>Utwórz klasę</h4>
     <form method="post">
     {% csrf_token %}
+        <h4>Modyfikuj klasę</h4>
     <table>
         <tr>
             <td><label for="class_name">Nazwa klasy (może być którka, albo bardziej opisowa, ale musisz podać)</label></td>
-            <td><input type="text" name="class_name" id="class_name" required/></td>
+            <td><input type="text" name="class_name" id="class_name" value="{{classroom.name}}" required/></td>
         </tr>
         <tr>
             <td><label for="subject">Jakiego przedmiotu dot. klasa (opcjonalnie)</label></td>
-            <td><input type="text" name="subject" id="subject"></td>
+            <td><input type="text" name="subject" id="subject" value="{{classroom.subject}}"></td>
         </tr>
         <tr>
             <td><label for="age_range_min">Min wiek ucziów (opcjonalnie)</label></td>
-            <td><input type="number" name="age_range_min" id="age_range_min"></td>
+            <td><input type="number" name="age_range_min" id="age_range_min" value="{{classroom.age_range_min}}"></td>
         </tr>
         <tr>
             <td><label for="age_range_max">Max wiek ucziów (opcjonalnie)</label></td>
-            <td><input type="number" name="age_range_max" id="age_range_max"></td>
+            <td><input type="number" name="age_range_max" id="age_range_max" value="{{classroom.age_range_max}}"></td>
         </tr>
         <tr>
             <td><label for="time_frame_start">Kiedy od kiedy trwa klasa (opcjonalnie)</label></td>
-            <td><input type="date" name="time_frame_start" id="time_frame_start"></td>
+            <td><input type="date" name="time_frame_start" id="time_frame_start" value="{{classroom.time_frame_start}}"></td>
         </tr>
         <tr>
             <td><label for="time_frame_end">Do kiedy trwa klasa (opcjonalnie, spoko to tylko informacja dla Ciebie nie usunie się klasa czy coś)</label></td>
-            <td><input type="date" name="time_frame_end" id="time_frame_end"></td>
+            <td><input type="date" name="time_frame_end" id="time_frame_end" value="{{classroom.time_frame_end}}"></td>
         </tr>
         <p>{{error}}</p>
     </table>
-    <button type="submit">Stwórz klasę</button>
+    <button type="submit">Zapisz zmiany</button>
 </form>
 
 </body>
