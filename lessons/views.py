@@ -1,5 +1,3 @@
-from tkinter import Entry
-
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
