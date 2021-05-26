@@ -27,11 +27,11 @@
         </tr>
         <tr>
             <td><label for="time_frame_start">Kiedy od kiedy trwa klasa (opcjonalnie)</label></td>
-            <td><input type="date" name="time_frame_start" id="time_frame_start" value="{{classroom.time_frame_start|date:'dd.mm.yy'}}"></td>
+            <td><input type="date" name="time_frame_start" id="time_frame_start" value="{{classroom.time_frame_start}}"></td>
         </tr>
         <tr>
             <td><label for="time_frame_end">Do kiedy trwa klasa (opcjonalnie, spoko to tylko informacja dla Ciebie nie usunie się klasa czy coś)</label></td>
-            <td><input type="date" name="time_frame_end" id="time_frame_end" value="{{classroom.time_frame_end|date:'dd.mm.yy'}}"></td>
+            <td><input type="date" name="time_frame_end" id="time_frame_end" value="{{classroom.time_frame_end}}"></td>
         </tr>
         <p>{{error}}</p>
     </table>

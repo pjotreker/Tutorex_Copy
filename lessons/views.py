@@ -125,7 +125,10 @@ class ModifyClassroom(LoginRequiredMixin, View):
                 age_range_max = form.cleaned_data.get('age_range_max')
                 time_frame_start = form.cleaned_data.get('time_frame_start')
                 time_frame_end = form.cleaned_data.get('time_frame_end')
-
+                if time_frame_start is None:
+                    time_frame_start = classroom.time_frame_start
+                if time_frame_end is None:
+                    time_frame_end = classroom.time_frame_end
                 classroom.name = class_name
                 classroom.subject = subject
                 classroom.age_range_min = age_range_min
