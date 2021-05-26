@@ -1,37 +1,33 @@
-body {
-    min-width: 830px;
-}
-
-#firstColumn {
-    border-right: 1px solid #DFE2E0;
-}
-
 #tui-account_box {
     position: absolute;
     width: 100%;
-    min-width: 830px;
     height: auto;
     left: 0%;
     right: 0%;
-    top: 0px;
+    top: 130px;
     bottom: 0px;
 }
 
 #tui-account_page {
     position: absolute;
-    width: 800px;
-    max-height: 500px;
-    min-height: 360px;
-    min-width: 830px;
-    left: calc(50% - 800px/2);
-    top: 170px;
-    bottom: 10%;
+    width: 400px;
+    max-height: 520px;
+    min-height: 480px;
+    left: calc(50% - 400px/2);
+    top: 50px;
+    bottom: 50px;
     margin-bottom: 50px;
+
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+
+    padding-left: 20px;
+    padding-right: 20px;
 
     background: #FFFFFF;
     /* Light/Light Grey */
 
-    z-index: 998;
+    z-index: 996;
 }
 
 #saveDataChangeButton {
@@ -40,21 +36,12 @@ body {
     right: 235px;
 }
 
-#editDataButton {
-    right: 235px;
-    display: block;
-}
-
-#deleteAccountButton {
-    left: 200px;
-}
-
 .infoWindow {
     position: absolute;
-    width: 442px;
-    height: 320px;
-    top: 250px;    
-    left: calc(50% - 442px/2);
+    width: 350px;
+    height: 300px;
+    top: 25%;
+    left: calc(50% - 350px/2);
     /* Light / Background */
 
     background: #FFFFFF;
@@ -63,19 +50,19 @@ body {
     border: 1px solid #DFE2E0;
     box-sizing: border-box;
     border-radius: 12px;
-    
-    z-index: 999;
+
+    z-index: 997;
     display: none;
 }
 
 .window_text {
     position: absolute;
-    padding-left: 50px;
+    padding-left: 30px;
     padding-top: 60px;
 
     font-style: normal;
     font-weight: normal;
-    font-size: 32px;
+    font-size: 26px;
     line-height: 44px;
 
     /* Light / Main */
@@ -84,6 +71,7 @@ body {
 }
 
 #cancelDeletingAccountButton {
+    position: absolute;
     border: 1px solid #979797;
     box-sizing: border-box;
     color: #263238;
@@ -97,29 +85,36 @@ body {
 }
 
 #closeChangePasswordWindow:hover {
-    background-color: #f0f0f0;    
+    background-color: #f0f0f0;
 }
 
-#closedeleteAccountWindow {
+#closeDeleteAccountWindow {
+    position: absolute;
     border: 1px solid #979797;
     box-sizing: border-box;
     color: #263238;
     background-color: white;
-    left: 140px;
+    left: 100px;
     bottom: 40px;
     display: none;
 }
 
+#closeDeleteAccountWindow:hover {
+    background-color: #f0f0f0;
+}
+
 #closeChangePasswordWindow {
+    position: absolute;
     border: 1px solid #979797;
     box-sizing: border-box;
     color: #263238;
     background-color: white;
-    left: 140px;
+    left: 100px;
     bottom: 40px;
 }
 
 #confirmDeletingAccountButton {
+    position: absolute;
     background-color: #E74C3C;
     right: 20px;
     bottom: 40px;
@@ -130,13 +125,33 @@ body {
 }
 
 .edit_data_button {
-    position: absolute;
     color: white;
     border-radius: 24px;
     border: none;
 
     height: 40px;
     width: 150px;
+
+    display: block;
+    margin-top: 20px;
+}
+
+#changePasswordButton {
+    position: absolute;
+    height: 32px;
+    width: 140px;
+    font-size: 15px;
+    padding-top: 3px;
+    bottom: 20px;
+}
+
+#deleteAccountButton {
+    position: absolute;
+    height: 32px;
+    width: 140px;
+    font-size: 15px;
+    padding-top: 3px;
+    left: 175px;
     bottom: 20px;
 }
 
@@ -161,17 +176,5 @@ body {
 .edit_data {
     margin-bottom: 10px;
     margin-top: 5px;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.column {
-    float: left;
-    height: 100%;
-    width: 50%;
-    padding: 10px;
+    margin-right: 20px;
 }
