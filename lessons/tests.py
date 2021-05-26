@@ -12,7 +12,7 @@ class BaseTest(TestCase):
         self.notifications_url = reverse('my-notifications')
         # self.classroom_url = reverse()
         self.create_classroom_url = reverse('create-classroom')
-        self.join_classroom_url = reverse('join_classroom')
+        self.join_classroom_url = reverse('join-classroom')
 
         self.user = {
             'email':'test@example.com',
