@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twoje Klasy</title>
+</head>
+<body>
+    {% for classroom in classrooms_obj %}
+        <a href="display-classroom/{{ classroom.id }}"> {{ classroom.id }} {{ classroom.name }} </a></br>
+    {% endfor %}
+</body>
+</html>
