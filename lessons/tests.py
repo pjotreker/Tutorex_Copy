@@ -10,7 +10,7 @@ class BaseTest(TestCase):
         self.login_url = reverse('index')
         self.home_url = reverse('home')
         self.notifications_url = reverse('my-notifications')
-        # self.classroom_url = reverse()
+        self.classrooms_url = reverse('show-classrooms')
         self.create_classroom_url = reverse('create-classroom')
         self.join_classroom_url = reverse('join-classroom')
 
@@ -115,24 +115,22 @@ class NotificationTest(BaseTest):
         self.assertTemplateUsed(response, 'account.html')
     '''
 
-    
+
 class ClassroomTest(BaseTest):
     # view tests
-    '''
     def test_view_classrooms_teacher(self):
         user = self.set_up_teacher()
-        response = self.client.get(self.classroom_url, secure=True)
+        response = self.client.get(self.classrooms_url, secure=True)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'classroom.html')
+        self.assertTemplateUsed(response, 'show_classrooms.html')
         self.client.logout()
 
     def test_view_classrooms_student(self):
         user = self.set_up_user()
-        response = self.client.get(self.classroom_url, secure=True)
+        response = self.client.get(self.classrooms_url, secure=True)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'classroom.html')
+        self.assertTemplateUsed(response, 'show_classrooms.html')
         self.client.logout()
-    '''
 
     def test_view_create_classroom(self):
         user = self.set_up_teacher()
@@ -160,6 +158,44 @@ class ClassroomTest(BaseTest):
         response = self.client.get(self.join_classroom_url, secure=True)
         self.assertEqual(response.status_code, 403)
         # self.assertTemplateUsed(response, 'join_classroom.html')
+        self.client.logout()
+
+    def test_view_classroom_teacher(self):
+        user = self.set_up_teacher()
+        classroom = self.set_up_classroom(user)
+        response = self.client.get(reverse('display-classroom', args=[classroom.id]), secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'display_classroom.html')
+        self.client.logout()
+
+    def test_view_modify_classroom_teacher(self):
+        user = self.set_up_teacher()
+        classroom = self.set_up_classroom(user)
+        response = self.client.get(reverse('modify-classroom', args=[classroom.id]), secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'modify_classroom.html')
+        self.client.logout()
+
+    '''
+    def test_view_modify_classroom_student(self):
+        teacher = self.set_up_teacher()
+        classroom = self.set_up_classroom(teacher)
+        class_id = classroom.id
+        self.client.logout()
+
+        user = self.set_up_user()
+        response = self.client.get(reverse('modify-classroom', args=[class_id]), secure=True)
+        self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed(response, 'modify_classroom.html')
+        self.client.logout()
+    '''
+
+    def test_view_delete_classroom_teacher(self):
+        user = self.set_up_teacher()
+        classroom = self.set_up_classroom(user)
+        response = self.client.get(reverse('delete-classroom', args=[classroom.id]), secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'delete_classroom_ask.html')
         self.client.logout()
 
     # create classroom tests
@@ -192,4 +228,18 @@ class ClassroomTest(BaseTest):
         user = self.set_up_user()
         response = self.client.post(self.join_classroom_url, {'classroom_id':'abc123'}, format='text/html', secure=True)
         self.assertEqual(response.status_code, 200) # to check (302?)
+        self.client.logout()
+
+    # modify classroom tests
+    def test_modify_classroom_teacher(self):
+        user = self.set_up_teacher()
+        classroom = self.set_up_classroom(user)
+        response = self.client.post(reverse('modify-classroom', args=[classroom.id]),{'class_name':'Matematyka gr. 12',
+                                                                'subject':'matematyka',
+                                                                'owner': user,
+                                                                'age_range_min':'0',
+                                                                'age_range_max':'20',
+                                                                'time_frame_start':'2021-05-23',
+                                                                'time_frame_out':'2050-10-24'}, format='text/html', secure=True)
+        self.assertEqual(response.status_code, 302)
         self.client.logout()
