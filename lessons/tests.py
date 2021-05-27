@@ -11,7 +11,6 @@ class BaseTest(TestCase):
         self.home_url = reverse('home')
         self.notifications_url = reverse('my-notifications')
         self.classrooms_url = reverse('show-classrooms')
-        self.create_classroom_url = reverse('create-classroom')
         self.join_classroom_url = reverse('join-classroom')
 
         self.user = {
@@ -132,20 +131,6 @@ class ClassroomTest(BaseTest):
         self.assertTemplateUsed(response, 'show_classrooms.html')
         self.client.logout()
 
-    def test_view_create_classroom(self):
-        user = self.set_up_teacher()
-        response = self.client.get(self.create_classroom_url, secure=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'create_classroom.html')
-        self.client.logout()
-
-    def test_view_create_classroom_student(self):
-        user = self.set_up_user()
-        response = self.client.get(self.create_classroom_url, secure=True)
-        self.assertEqual(response.status_code, 403)
-        # self.assertTemplateUsed(response, 'create_classroom.html')
-        self.client.logout()
-
     def test_view_join_classroom(self):
         user = self.set_up_user()
         response = self.client.get(self.join_classroom_url, secure=True)
@@ -201,7 +186,7 @@ class ClassroomTest(BaseTest):
     # create classroom tests
     def test_create_classroom(self):
         user = self.set_up_teacher()
-        response = self.client.post(self.create_classroom_url, {'class_name':'Matematyka gr. 1',
+        response = self.client.post(self.classrooms_url, {'class_name':'Matematyka gr. 1',
                                                                 'subject':'matematyka',
                                                                 'owner': user}, format='text/html', secure=True)
         self.assertEqual(response.status_code, 302)
@@ -209,7 +194,7 @@ class ClassroomTest(BaseTest):
 
     def test_create_classroom_full_data(self):
         user = self.set_up_teacher()
-        response = self.client.post(self.create_classroom_url, {'class_name':'Matematyka gr. 1',
+        response = self.client.post(self.classrooms_url, {'class_name':'Matematyka gr. 1',
                                                                 'subject':'matematyka',
                                                                 'owner': user,
                                                                 'age_range_min':'0',

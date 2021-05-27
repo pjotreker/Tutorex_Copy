@@ -1,23 +1,238 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <p>WIDOK KLASY</p>
-    <p>{{classroom.name}}</p>
-    <p>{{classroom.subject}}</p>
-    <p>{{classroom.age_range_min}}</p>
-    <p>{{classroom.age_range_max}}</p>
-    <p>{{classroom.time_frame_start}}</p>
-    <p>{{classroom.time_frame_end}}</p>
-    <p>{{classroom.students}}</p>
-    <p>{{classroom.lessons}}</p>
-    </br></br>
-    <a href="modify-classroom/{{ classroom.id }}">Modyfikuj klasę</a>
-    </br></br>
-    <a href="delete-classroom/{{ classroom.id }}">Usuń klasę</a>
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/class_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
+{% block content %}
+    <div class="tui-class_page">
+        <div id="tui-class_box">
+            <div id="nameOfTheClassBox">
+                <div id="nameOfTheClass" contentEditable="false">
+                    {{ classroom.name }}
+                </div>
+                <svg id="openCloseNameIcon" onclick="openCloseName()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="descriptionOfTheClassBox">
+                <div id="descriptionOfTheClass" contentEditable="false">
+                {{ classroom.subject }}
+                </div>
+                <svg id="openCloseDescriptionIcon" onclick="openCloseDescription()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="bottomClassContainer">
+                <div id="leftPartOfBottomClassContainer">
+                    <div id="listOfClassLessonsBox" class="bottom_class_box">
+                        <div style="font-size: 20px; padding-left: 4px;">Spis lekcji</div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 9: całki</div>
+                              <div class="date_of_class_from_list">04.05.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 8: pochodne</div>
+                              <div class="date_of_class_from_list">27.04.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 7: liczby zespolone</div>
+                              <div class="date_of_class_from_list">20.04.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 6: trygonometria</div>
+                              <div class="date_of_class_from_list">13.04.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 5: wzory skróconego mnożenia i inne nieprzydatne tricki</div>
+                              <div class="date_of_class_from_list">06.04.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 4: planimetria</div>
+                              <div class="date_of_class_from_list">29.03.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 3: rachunek prawdopodobieństwa i kominatoryka</div>
+                              <div class="date_of_class_from_list">22.03.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 2: statystyka</div>
+                              <div class="date_of_class_from_list">15.03.2020</div>
+                          </div>
+                          <div class="class_from_list">
+                              <div class="name_of_class_from_list">Lekcja 1: funkcje</div>
+                              <div class="date_of_class_from_list">08.03.2020</div>
+                          </div>
+                    </div>
+                </div>
+                <div id="rightPartOfBottomClassContainer">
+                    <div id="listOfClassStudentsBox" class="bottom_class_box">
+                        <div style="font-size: 20px; border-bottom: 1px solid #DFE2E0; margin-bottom: 4px;">Uczniowie w klasie:</div>
+                        {% for student in students %}
+                        <div class="student_from_list">{{ student }}
+                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                        </div>
+                        {% endfor %}
+                        <button id="deleteStudentsFromClassButton" onclick="deleteStudents()">USUŃ UCZNIA</button>
+                        <button id="dontDeleteStudentsFromClassButton" onclick="dontDeleteStudents()">ANULUJ</button>
+                        <button id="confirmDeletingStudentsFromClassButton" onclick="confirmDeletingStudents()">POTWIERDŹ</button>
+                    </div>
+                    <div id="classInfoContainer">
+                      <form method="post">
+                        {% csrf_token %}
+                        <div class="class_info">Min. wiek uczniów w klasie:
+                            <input name="age_range_min" id="minNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value={{ classroom.age_range_min }} min="1">
+                        </div>
+                        <div class="class_info">Max. wiek uczniów w klasie:
+                            <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value={{ classroom.age_range_max }} max="99">
+                        </div>
+                        <div class="class_info">Planowane rozpoczęcie zajęć:
+                            <input name="time_frame_start" id="startDateOfClass" class="class_date_input" type="date" disabled="true" value={{ classroom.time_frame_start }}>
+                        </div>
+                        <div class="class_info">Planowane zakończenie zajęć:
+                            <input name="time_frame_end" id="endDateOfClass" class="class_date_input" type="date" disabled="true" value={{ classroom.time_frame_end }}>
+                        </div>
+                        <button type="submit" id="saveClassButton" class="class_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
+                      </form>
+                    </div>
+                    <button id="deleteClassButton" class="class_button" style="background-color: #E74C3C;" onclick="deleteClass()">USUŃ KLASĘ</button>
+                    <button id="editClassButton" class="class_button" style="background-color: #0E4DA4;" onclick="editContent()">EDYTUJ DANE</button>
+                    <button id="dontDeleteClassButton" onclick="dontDeleteClass()">ANULUJ</button>
+                    <button id="confirmDeletingClassButton" class="class_button" onclick="confirmDeletingClass()" style="background-color: #E74C3C;">POTWIERDŹ</button>
+                </div>
+            </div>
+            <div id="codeOfClass">Kod klasy: {{ classroom.classroom_id }}</div>
+        </div>
+    </div>
 
-</body>
-</html>
+    <script>
+        function highlightTab() {
+            var tab = document.getElementById("classesButton");
+            tab.style.borderBottom = "4px solid white";
+        }
+
+        function openCloseName() {
+            var name = document.getElementById("nameOfTheClass");
+            if (name.style.height == "auto") {
+                name.style.height = "25px";
+            } else {
+                name.style.height = "auto";
+            }
+        }
+
+        function openCloseDescription() {
+            var desc = document.getElementById("descriptionOfTheClass");
+            if (desc.style.height == "auto") {
+                desc.style.height = "42px";
+            } else {
+                desc.style.height = "auto";
+            }
+        }
+
+        function editContent() {
+            var name = document.getElementById("nameOfTheClass");
+            var desc = document.getElementById("descriptionOfTheClass");
+            var min = document.getElementById("minNumberOfStudentsInClass");
+            var max = document.getElementById("maxNumberOfStudentsInClass");
+            var start = document.getElementById("startDateOfClass");
+            var end = document.getElementById("endDateOfClass");
+            var edit = document.getElementById("editClassButton");
+            var save = document.getElementById("saveClassButton");
+            save.style.display = "block";
+            edit.style.backgroundColor = "#7693d8"
+            name.contentEditable = "true";
+            desc.contentEditable = "true";
+            min.disabled = false;
+            max.disabled = false;
+            start.disabled = false;
+            end.disabled = false;
+        }
+
+        function saveContent() {
+            var name = document.getElementById("nameOfTheClass");
+            var desc = document.getElementById("descriptionOfTheClass");
+            var min = document.getElementById("minNumberOfStudentsInClass");
+            var max = document.getElementById("maxNumberOfStudentsInClass");
+            var start = document.getElementById("startDateOfClass");
+            var end = document.getElementById("endDateOfClass");
+            var edit = document.getElementById("editClassButton");
+            var save = document.getElementById("saveClassButton");
+            save.style.display = "none";
+            edit.style.backgroundColor = "#375eb9";
+            name.contentEditable = "false";
+            desc.contentEditable = "false";
+            min.disabled = true;
+            max.disabled = true;
+            start.disabled = true;
+            end.disabled = true;
+        }
+
+        function deleteStudents() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteStudentsFromClassButton");
+            var dont = document.getElementById("dontDeleteStudentsFromClassButton");
+            var confirm = document.getElementById("confirmDeletingStudentsFromClassButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'block';
+            }
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteStudents() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteStudentsFromClassButton");
+            var dont = document.getElementById("dontDeleteStudentsFromClassButton");
+            var confirm = document.getElementById("confirmDeletingStudentsFromClassButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingStudents() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteStudentsFromClassButton");
+            var dont = document.getElementById("dontDeleteStudentsFromClassButton");
+            var confirm = document.getElementById("confirmDeletingStudentsFromClassButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function deleteClass() {
+            var deleting = document.getElementById("deleteClassButton");
+            var dont = document.getElementById("dontDeleteClassButton");
+            var confirm = document.getElementById("confirmDeletingClassButton");
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteClass() {
+            var deleting = document.getElementById("deleteClassButton");
+            var dont = document.getElementById("dontDeleteClassButton");
+            var confirm = document.getElementById("confirmDeletingClassButton");
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingClass() {
+            window.location.href = "./notification.html";
+        }
+
+        highlightTab();
+    </script>
+  {% endblock %}
