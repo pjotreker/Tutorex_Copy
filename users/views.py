@@ -388,6 +388,7 @@ def get_user_notifications(request):
         struct = model_to_dict(notification)
         struct['slug'] = id2slug(notification.id)
         struct['id'] = str(notification.id)
+        struct['timestamp'] = str(notification.timestamp.strftime("%B %d, %Y %H:%M %p"))
         if notification.actor:
             struct['actor'] = str(notification.actor)
         if notification.target:
