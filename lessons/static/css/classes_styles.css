@@ -35,7 +35,7 @@
     align-items: center;
 
     padding-left: 10px;
-    padding-right: 20px;    
+    padding-right: 20px;
 }
 
 #createNewClassButton:hover {
@@ -75,7 +75,7 @@
     border: 1px solid #c7c7c7;
     box-sizing: border-box;
     border-radius: 10px;
-    
+
     max-height: 160px;
     max-width: 500px;
 
@@ -102,7 +102,7 @@
 
     font-size: 20px;
     line-height: 24px;
-    
+
     overflow: visible;
     /*white-space: nowrap;
     overflow: hidden;*/
@@ -184,7 +184,7 @@
     align-items: center;
 
     padding-left: 15px;
-    padding-right: 15px;  
+    padding-right: 15px;
 }
 
 #joinNewClassButton:hover {
@@ -211,7 +211,7 @@
     align-items: center;
 
     padding-left: 10px;
-    padding-right: 15px;  
+    padding-right: 15px;
 }
 
 #exitJoinNewClassButton:hover {
@@ -231,7 +231,7 @@
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 10px;
-    
+
     padding: 10px;
 
     border: 1px solid #c7c7c7;
@@ -242,6 +242,12 @@
 
     display: none;
     justify-content: space-between;
+}
+
+#createNewClassForm {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
 #createNewClassLeftSection {
@@ -425,7 +431,7 @@ label {
     }
     #createNewClassButton {
         padding-left: 7px;
-        padding-right: 7px; 
+        padding-right: 7px;
     }
     #createNewClassIcon {
         margin-right: 5px;
