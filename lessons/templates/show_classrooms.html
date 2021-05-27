@@ -26,7 +26,7 @@
               {% endif %}
             </div>
             <div id="createNewClassBar">
-              <form method="post">
+              <form method="post" id="createNewClassForm" style="display: flex; justify-content: space-between; flex-direction: row;">
                 {% csrf_token %}
                 <div id="createNewClassLeftSection">
                     <label for="nameOfClass"><b>Nazwa klasy:</b></label>
@@ -110,7 +110,7 @@
 
         function openCreateClassBar() {
             var bar = document.getElementById("createNewClassBar");
-            bar.style.display = "flex";
+            bar.style.display = "block";
         }
 
         function cancelCreatingClass() {
