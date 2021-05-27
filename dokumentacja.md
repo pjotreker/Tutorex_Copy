@@ -28,7 +28,7 @@
 
 ##### Tworzenie przez nauczyciela klasy
 
-1. W celu umożliwienia nauczycielowi zakładania klas, stworzony został model *Classroom* z nastęującymi polami: classroom_id (kod klasy potzrebny by nauczyciel mógł zaprosić ucznia do klasy; nie jest to klucz podstawowy!), subject, name, owner (klucz obcy do obiektu nauczyciela), age_range_min, age_range_max, time_frame_start, time_frame_end, lessons (pole 'many to many') i students (pole 'many to many') .
+1. W celu umożliwienia nauczycielowi zakładania klas, stworzony został __model *Classroom*__ z nastęującymi polami: classroom_id (*int* kod klasy potzrebny by nauczyciel mógł zaprosić ucznia do klasy; nie jest to klucz podstawowy!), subject(*string* o maksymalnej długości 255), name(*string* o maksymalnej długości 80), owner (klucz obcy do obiektu nauczyciela), age_range_min, age_range_max(oba *int*, ograniczenie: większe od 0 ale mniejsze od 99), time_frame_start, time_frame_end (oba typu *date*), lessons (pole 'many to many') i students (pole 'many to many') .
 2. Dodawanie klasy jest obsługiwane przez widok *CreateClassroom* przy pomocy "create_classroom.html", w którym nauczyciel uzupełnia pole obowiązkowe: nazwa klasy (*name* w modelu *Classroom*) oraz może opcjonalnie podać wartości pozostałch pól: temat klasy (*subject*), minimalny i maksymalny wiek uczniów klasy (odpowiednio: *age_range_min, age_range_max*) oraz zakres czasu w jakim działać będzie klasa (odpowiednio *time_frame_start, time_frame_end*- te pola są jednak tylko informacją dla nauczyciela/ucznia, podanie ich nie skutkuje np. kasowaniem klasy po danym terminie). Reszta pól (*classroom_id i owner*) uzupełniana jest automatycznie.
 3. Po udanym zapisaniu klasy w bazie danych nauczyciel zostaje przekierowany na adres *classroom-created/<classroom_id>* gdzie przy pomocy "classroom_created_success.html" wyświetlany jest *classroom_id* (kod klasy), które nauczyciel następnie przekazuje uczniowi. 
 4. W przypadku niepowodzenia strona dodawania klasy jest renderowana ponownie.
@@ -38,6 +38,18 @@
 1. W celu umożliwienia uczniowi dołączenia do klasy, pod adresem *join-classroom/* przy użyciu formularza "join_classroom.html" uczeń wpisuje otrzymany przez nauczyciela kod klasy.
 2. W celu przetrzymywania informacji o chęci dołączenia danego ucznia do klasy, został stworzony model *StudentClassRequest* z polami *classsroom_id* i *student_id* (oba klucze obce). *classsroom_id* jest pobierane od ucznia z formularza ("join_classroom.html"), natomiast *student_id* uzupełniane jest automatycznie. 
 3. Po udanym zapisaniu informacji w bazie danych uczeń przekierowywany jest do "request_sent.html". 
+
+##### Modyfikowanie klasy
+
+1. W celu umożliwienia nauczycielowi wprowadzania zmian w danych klasy zaimplementowany został widok *ModifyClassroom* dostępny pod adesem 'show-classrooms/display-classroom/modify-classroom/<class_id>' (*modify_classroom.html*) Gdzie w formularzu domyślnie wpisane są aktualne wartości zmiennych (formularz wygląda dokłanie tak jak przy zakładaniu klasy).
+2. Po wprowadzaniu zmian i poprawnym zapisaniu ich przez system, nauczyciel zostaje przekierowany do widoku wszystkich klas 'show-classrooms/'.
+3. W przypadku niepowdzenia zwracane jest *HttpResponseForbidden*
+
+##### Usuwanie klasy
+
+1. Po naciśnięciu odpowiedniego przycisku w widoku klasy nauczyciel ma możliwość usunięcia danej klasy - widok *DeleteClassroom* ('show-classrooms/display-classroom/delete-classroom/<class_id>'; nie ma potrzeby podawania niczego, musi ew. potwierdzić swoją decyzję).
+2. Po wprowadzaniu zmian i poprawnym zapisaniu ich przez system, nauczyciel zostaje przekierowany do widoku wszystkich klas 'show-classrooms/'.
+3. W przypadku niepowdzenia zwracane jest *HttpResponseForbidden*.
 
 ##### Powiadomienia
 
@@ -106,7 +118,6 @@ Dane:<ol>
 <li>Heroku CLI: heroku pg:psql postgresql-triangular-25080 --app tutorex-test</li></ol></p>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
-
 
 ### Ciągła integracja i dostarczanie
 
