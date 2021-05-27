@@ -1,3 +1,5 @@
+from tkinter import Entry
+
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
@@ -138,7 +140,6 @@ class ModifyClassroom(LoginRequiredMixin, View):
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
         return redirect('show-classrooms')
-
 
 class ShowClassrooms(LoginRequiredMixin, View):
     def get(self, request):

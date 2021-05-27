@@ -45,6 +45,10 @@
 2. Po wprowadzaniu zmian i poprawnym zapisaniu ich przez system, nauczyciel zostaje przekierowany do widoku wszystkich klas 'show-classrooms/'.
 3. W przypadku niepowdzenia zwracane jest *HttpResponseForbidden*
 
+####Wyświetlanie klasy
+1. Wyświetlenie klasy odbywa się dzięki użyciu klasy ShowClassrooms.
+2. W widoku klas pojawiają się klasy przypisane tylko do aktualnie zalogowanego użytkownika serwisu.
+
 ##### Usuwanie klasy
 
 1. Po naciśnięciu odpowiedniego przycisku w widoku klasy nauczyciel ma możliwość usunięcia danej klasy - widok *DeleteClassroom* ('show-classrooms/display-classroom/delete-classroom/<class_id>'; nie ma potrzeby podawania niczego, musi ew. potwierdzić swoją decyzję).
