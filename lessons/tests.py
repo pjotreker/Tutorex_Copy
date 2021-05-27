@@ -11,7 +11,7 @@ class BaseTest(TestCase):
         self.home_url = reverse('home')
         self.notifications_url = reverse('my-notifications')
         self.classrooms_url = reverse('show-classrooms')
-        self.join_classroom_url = reverse('join-classroom')
+        self.join_classroom_url = reverse('join_classroom')
 
         self.user = {
             'email':'test@example.com',
