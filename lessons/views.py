@@ -154,10 +154,72 @@ class ShowClassrooms(LoginRequiredMixin, View):
             classrooms = Classroom.objects.filter(students=student)
             return render(request, "show_classrooms.html", {'classrooms_obj': classrooms})
 
+    def post(self, request):
+        context = {}
+        form = CreateClassroomForm(request.POST)
+        classroom_id = create_code()
+        if form.is_valid():
+            class_name = form.cleaned_data.get('class_name')
+            subject = form.cleaned_data.get('subject')
+            owner = TeacherProfile.objects.get(user=request.user)
+            age_range_min = form.cleaned_data.get('age_range_min')
+            age_range_max = form.cleaned_data.get('age_range_max')
+            time_frame_start = form.cleaned_data.get('time_frame_start')
+            time_frame_end = form.cleaned_data.get('time_frame_end')
+
+            classroom = Classroom.objects.create(classroom_id=classroom_id,
+                                                 name=class_name,
+                                                 subject=subject,
+                                                 owner=owner,
+                                                 age_range_min=age_range_min,
+                                                 age_range_max=age_range_max,
+                                                 time_frame_start=time_frame_start,
+                                                 time_frame_end=time_frame_end)
+            try:
+                classroom.save()
+            except:
+                raise ValueError("Nie udało się utworzyc klasy :C")
+            return redirect('classroom-created-success', classroom_id=classroom_id)
+        context['error'] = "Ajjj coś poszło nie tak"
+        return render(request, "show_classrooms.html", context) # empty display!
+
 
 class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
+        students = ','.join([a.first_name + ' ' + a.last_name for a in classroom.students.all()])
+        return render(request, "display_classroom.html", {'classroom': classroom})
+
+    def post(self, request, classroom_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=classroom_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz modyfikować nieswojej klasy!")
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby modyfikować klasę!")
+        form = ModifyClassroomForm(request.POST)
+        try:
+            if form.is_valid():
+                class_name = form.cleaned_data.get('class_name')
+                subject = form.cleaned_data.get('subject')
+                age_range_min = form.cleaned_data.get('age_range_min')
+                age_range_max = form.cleaned_data.get('age_range_max')
+                time_frame_start = form.cleaned_data.get('time_frame_start')
+                time_frame_end = form.cleaned_data.get('time_frame_end')
+                if time_frame_start is None:
+                    time_frame_start = classroom.time_frame_start
+                if time_frame_end is None:
+                    time_frame_end = classroom.time_frame_end
+                classroom.name = class_name
+                classroom.subject = subject
+                classroom.age_range_min = age_range_min
+                classroom.age_range_max = age_range_max
+                classroom.time_frame_start = time_frame_start
+                classroom.time_frame_end = time_frame_end
+
+                classroom.save()
+        except:
+            return HttpResponseForbidden("Coś poszło nie tak :/ ")
         return render(request, "display_classroom.html", {'classroom': classroom})
 
 
@@ -174,6 +236,3 @@ class DeleteClassroom(LoginRequiredMixin, View):
         except:
             return HttpResponseForbidden("Coś poszło nieteges")
         return render(request, "delete_classroom_ask.html", {'classroom': classroom})
-
-
-

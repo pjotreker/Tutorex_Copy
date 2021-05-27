@@ -1,0 +1,101 @@
+* {
+    font-family: inter;
+    box-sizing: border-box;
+    /* include border and padding in element width and height */
+}
+
+html, body {
+    margin: 0px;
+    padding: 0;
+    height: 100%;
+}
+
+#tuiHeader {
+    z-index: 999;
+    width: 100vp;
+}
+
+#headerLogoSection {
+    height: 60px;
+    background-color: #1BB55C;
+    width: 100%;
+}
+
+#headerLogo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+    width: 186px;
+    height: 60px;
+    left: 9%;
+    top: 0px;
+}
+
+#headerButtons {
+    float: right;
+    margin-right: 8%;
+}
+
+#headerButtonsSection {
+    height: auto;
+    top: 60px;
+    background-color: #1BB55C;
+    padding-left: 9%;
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    .column_mobile {
+        width: 100%;
+    }
+    #headerLogo {
+        left: 5%
+    }
+    #headerButtons {
+        margin-right: 0%;
+    }
+    #headerButtonsSection {
+        padding-left: 0%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .name_of_Tab {
+        display: none;
+    }
+    .tui-header_tabs_button:not(#profileButton, #logOutButton) {
+        width: 25vw !important;
+    }
+    .notification_icon {
+        align-self: center;
+        margin-left: 39%;
+    }
+}
+
+.tui-header_tabs_button {
+    padding: 15px 20px;
+    height: 60px;
+    width: fit-content;
+
+    color: white;
+
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.tui-header_tabs_button:hover {
+    background-color: #23c767;
+    padding: 15px 20px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.name_of_Tab {
+    margin-left: 6px;
+}
+
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none !important;
+}
