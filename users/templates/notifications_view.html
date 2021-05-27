@@ -9,10 +9,14 @@
     <ul class="list-group" id="notification_list">
         {% for record in notifications %}
             <li id="{{ record.slug }}" class="list-group-item" style="{% if record.unread %} background-color:#c5edd3; {% endif %}"><!--<h6>{{record.actor.first_name}} {{ record.actor.last_name }}--></h6>
-                <h6>{{ record.verb }}</h6><p style="display:none;">{{ record.id }}</p>
+                <h6>{{ record.verb }}</h6>
+                {% if record.data.need_acceptance %}
+                    <button href="/requests/{{record.data.request_id}}/accept" class='accept_button'>Akceptuj</button>  <button href="/requests/{{record.data.request_id}}/accept" class='reject_button'>Odrzuć</button>
+                {% endif %}
+                <p style="display:none;">{{ record.id }}</p>
             </li>
         {% empty %}
-            <li class="list-group-item">Nic tu nie ma</li>>
+            <li class="list-group-item">Nic tu nie ma</li>
         {% endfor %}
     </ul>
 {% endblock %}
@@ -34,7 +38,13 @@
                             var new_li = document.createElement("li");
                             new_li.classList.add("list-group-item");
                             new_li.innerHTML = "<h6>"+ response.notifications[i].verb +"</h6>";
-                            new_li.id = response.notifications[i].slug
+                            if(response.notifications[i].data.need_acceptance){
+                                var accept_url = "/requests/"+ response.notifications[i].data.request_id +"/accept";
+                                var reject_url = "/requests/"+ response.notifications[i].data.request_id +"/reject";
+                                var accept_button = "<button href=" + accept_url +" class='accept_button'>Akceptuj</button>  <button href="+ reject_url +" class='reject_button'>Odrzuć</button>";
+                                new_li.innerHTML = new_li.innerHTML.concat(accept_button);
+                            }
+                            new_li.id = response.notifications[i].slug;
                             if(response.notifications[i].unread){
                                 $(new_li).css("background-color", "#c5edd3");
                             }
@@ -59,5 +69,30 @@
                     update_notifications();
                 }
             });
+        });
+
+        $(".accept_button").click(function(){
+            var link = $(this).attr('href');
+            console.log(link);
+            console.log(this);
+            $.ajax({
+                   url: link,
+                   success: function(response){
+                        console.log("Dodany");
+                        update_notifications();
+                    }
+                });
+        });
+        $(".reject_button").click(function(){
+            var link = $(this).attr('href');
+            console.log(link);
+            console.log(this);
+            $.ajax({
+                   url: link,
+                   success: function(response){
+                        console.log("Odrzucony");
+                        update_notifications();
+                    }
+                });
         });
     {% endblock %}

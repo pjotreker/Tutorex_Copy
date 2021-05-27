@@ -1,7 +1,7 @@
 from tkinter import Entry
 
 from django.conf import settings
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -89,6 +89,10 @@ class JoinClassroom(LoginRequiredMixin, View):
                 classroom_id=classroom,
                 student_id=student
             )
+            teacher_user = classroom.owner.user
+            notify.send(sender=user_id, recipient=teacher_user,
+                        verb=f"Uczeń {user_id.first_name} {user_id.last_name} chce dołączyć do twojej klasy {classroom.name}",
+                        request_id=join_classroom_request.id, need_acceptance=True)
             try:
                 join_classroom_request.save()
             except:
@@ -98,6 +102,31 @@ class JoinClassroom(LoginRequiredMixin, View):
 
         return render(request, "request_sent.html")
 
+
+class AcceptJoinClassroom(LoginRequiredMixin, View):
+    def get(self, request, join_request_id):
+        tmp_join_request = StudentClassRequest.objects.get(id=join_request_id)
+        student_id = tmp_join_request.student_id
+        classroom_id = tmp_join_request.classroom_id
+        classroom_id.students.add(student_id)
+        classroom_id.save()
+        tmp_join_request.delete()
+        src_notification = request.user.notifications.filter(data__contains=join_request_id)
+        if src_notification:
+            src_notification[0].data['need_acceptance'] = False
+            src_notification[0].save()
+        return JsonResponse({'success': True})
+
+
+class RejectJoinClassroom(LoginRequiredMixin, View):
+    def get(self, request, join_request_id):
+        tmp_join_request = StudentClassRequest.objects.get(id=join_request_id)
+        tmp_join_request.delete()
+        src_notification = request.user.notifications.filter(data__contains=join_request_id)
+        if src_notification:
+            src_notification[0].data['need_acceptance'] = False
+            src_notification[0].save()
+        return JsonResponse({'success': True})
 
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
@@ -140,6 +169,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
         return redirect('show-classrooms')
+
 
 class ShowClassrooms(LoginRequiredMixin, View):
     def get(self, request):

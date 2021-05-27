@@ -375,7 +375,6 @@ class NotificationsView(LoginRequiredMixin, View):
         request_timestamp = datetime.datetime.now()
         request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
         new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
-        # breakpoint()
         return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
 
 def get_user_notifications(request):
@@ -388,6 +387,7 @@ def get_user_notifications(request):
     for notification in new_notifications:
         struct = model_to_dict(notification)
         struct['slug'] = id2slug(notification.id)
+        struct['id'] = str(notification.id)
         if notification.actor:
             struct['actor'] = str(notification.actor)
         if notification.target:
@@ -395,8 +395,9 @@ def get_user_notifications(request):
         if notification.action_object:
             struct['action_object'] = str(notification.action_object)
         if notification.data:
-            struct['verb'] = notification.data
+            struct['verb'] = notification.verb
         struct['unread'] = notification.unread
+        struct['need_acceptance'] = notification.data.get('need_acceptance', False)
 
         all_list.append(struct)
     data = {
