@@ -180,7 +180,7 @@ class ShowClassrooms(LoginRequiredMixin, View):
             user_id = user.id
             student = BaseUser.objects.get(pk=user_id)
             classrooms = Classroom.objects.filter(students=student)
-            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms})
+            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms, 'students':students })
 
     def post(self, request):
         if request.user.is_teacher:
