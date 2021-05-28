@@ -96,7 +96,7 @@
           {% if user.is_teacher == False %}
             {% for classroom in classrooms_obj %}
               <div class="class_sample class_of_student">
-                <div class="nameOfTheClass" style="border-bottom: none; padding-bottom: 4px;">{{ classroom.name }}</div>
+                <div class="nameOfTheClass" style="border-bottom: none; padding-bottom: 4px;" onclick="document.location='display-classroom/{{ classroom.id }}'">{{ classroom.name }}</div>
                 <div class="teacherOfTheClass">{{ classroom.owner }}</div>
                 <div class="descriptionOfTheClass">{{ classroom.subject }}</div>
               </div>
