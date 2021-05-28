@@ -79,8 +79,8 @@ class JoinClassroom(LoginRequiredMixin, View):
 
     def post(self, request):
         classroom_id = request.POST.get('classroom_id')
-        user_id = request.user.id
-        student = BaseUser.objects.get(pk=user_id)
+        user_id = request.user
+        student = BaseUser.objects.get(pk=user_id.id)
         try:
             classroom = Classroom.objects.get(classroom_id=classroom_id)
             join_classroom_request = StudentClassRequest.objects.create(
@@ -213,8 +213,8 @@ class ShowClassrooms(LoginRequiredMixin, View):
             return render(request, "show_classrooms.html", context) # empty display!
         if not request.user.is_teacher:
             classroom_id = request.POST.get('classroom_id')
-            user_id = request.user.id
-            student = BaseUser.objects.get(pk=user_id)
+            user_id = request.user
+            student = BaseUser.objects.get(pk=user_id.id)
             try:
                 classroom = Classroom.objects.get(classroom_id=classroom_id)
                 join_classroom_request = StudentClassRequest.objects.create(
