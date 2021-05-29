@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.forms import model_to_dict
 from django.utils.encoding import force_bytes, force_text
@@ -212,7 +213,7 @@ class EditUserProfileView(LoginRequiredMixin, View):
         try:
             user = BaseUser.objects.get(pk=user_id)
             if user.id != request.user.id or not request.user.id:
-                return HttpResponseForbidden("You cannot edit data of users except your own!")
+                raise PermissionDenied
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
@@ -225,7 +226,7 @@ class EditUserProfileView(LoginRequiredMixin, View):
         try:
             user = BaseUser.objects.get(pk=user_id)
             if user.id != request.user.id or not request.user.id:
-                return HttpResponseForbidden("You cannot edit data of users except your own!")
+                raise PermissionDenied
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
@@ -248,12 +249,21 @@ class EditUserProfileView(LoginRequiredMixin, View):
 
 class ChangePasswordView(LoginRequiredMixin, View):
     def get(self, request, user_id):
-        return render(request, "change_password.html")
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user.exists():
+            return render(request, "change_password.html")
 
     def post(self, request, user_id):
         context = {}
         try:
-            user = BaseUser.objects.filter(id=user_id)
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
         if user.exists():
@@ -419,3 +429,6 @@ def handler_500(request, *args, **kwargs):
     return render(request, template_name, status=500)
 
 
+def handler_403(request, exception, template_name='403.html'):
+    template_name = '403_auth.html' if request.user.is_authenticated else '403.html'
+    return render(request, template_name, status=403)

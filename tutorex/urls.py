@@ -45,6 +45,7 @@ urlpatterns = [
     path('api/user/notifications/', user_views.get_user_notifications, name='my-notifications-json')
 ]
 
+handler403 = 'users.views.handler_403'
 handler404 = 'users.views.handler_404'
 handler500 = 'users.views.handler_500'
 
