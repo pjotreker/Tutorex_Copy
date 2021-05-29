@@ -26,6 +26,6 @@ class ModifyClassroomForm(forms.Form):
     time_frame_start = forms.DateField(required=False, widget=forms.DateInput())
     time_frame_end = forms.DateField(required=False, widget=forms.DateInput())
 
-    class Meta:
-        model = Classroom
-        fields = ["class_name", "subject", "age_range_min", "age_range_max", "time_frame_start", "time_frame_end"]
+    # class Meta:
+    #    model = Classroom
+    #    fields = ["class_name", "subject", "age_range_min", "age_range_max", "time_frame_start", "time_frame_end"]

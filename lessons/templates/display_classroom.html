@@ -89,10 +89,10 @@
                             <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value={{ classroom.age_range_max }} max="99">
                         </div>
                         <div class="class_info">Planowane rozpoczęcie zajęć:
-                            <input name="time_frame_start" id="startDateOfClass" class="class_date_input" type="date" disabled="true" value={{ classroom.time_frame_start }}>
+                            <input name="time_frame_start" id="startDateOfClass" class="class_date_input" type="date" disabled="true" value="{{ classroom.time_frame_start|date:'Y-m-d' }}" required/>
                         </div>
                         <div class="class_info">Planowane zakończenie zajęć:
-                            <input name="time_frame_end" id="endDateOfClass" class="class_date_input" type="date" disabled="true" value={{ classroom.time_frame_end }}>
+                            <input name="time_frame_end" id="endDateOfClass" class="class_date_input" type="date" disabled="true" value="{{ classroom.time_frame_end|date:'Y-m-d' }}" required/>
                         </div>
                         <button type="submit" id="saveClassButton" class="class_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
                       </form>
