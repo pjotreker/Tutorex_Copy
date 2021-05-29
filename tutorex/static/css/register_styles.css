@@ -1,0 +1,633 @@
+* {
+    font-family: inter;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0;
+    height: auto;
+}
+
+/* use viewport-relative units to cover page fully */
+body {
+    height: 100vh;
+    width: 100%;
+    right: 0%;
+}
+  
+  /* include border and padding in element width and height */
+* {
+    box-sizing: border-box;
+}
+
+.tui-header { 
+    background-color: #1BB55C;
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    top: 0px;
+
+    z-index: 999;
+}
+
+.tui-header_logo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+    width: 186px;
+    height: 60px;
+    left: 9%;
+    top: 0px;
+}
+
+.tui-header_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+
+    position: absolute;
+    right: 9%;
+    top: 11px;
+}
+
+[class^="button_"]:hover {
+    background-color: #DFE2E0;
+}
+
+[class^="button_"] {
+    border: none;
+    color: #263238;
+    font-size: 16px;
+    background-color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 8px;
+
+    width: 151px;
+    height: 37px;
+
+    margin: 0px 10px;
+}
+
+#loginWindow {
+    position: absolute;
+    min-height: 510px;
+    max-height: 600px;
+    min-width: 414px;
+    max-width: 600px;
+    left: 32.64%;
+    right: 32.64%;
+    top: 15.3%;
+    bottom: 17.3%;
+
+    background: #FFFFFF;
+    /* Light/Dark Grey */
+
+    border: 1px solid #D0D0D0;
+    box-sizing: border-box;
+    border-radius: 12px;
+
+    display: none;
+    z-index: 998;
+}
+
+#closeButton {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: 9px;
+    top: 9px;
+    cursor: pointer;
+}
+
+#tutorexDinosaur { 
+    position: absolute;
+    width: 132px;
+    height: 132px;
+    right: 65px;
+    top: calc(50% - 132px/2 - 191px);
+}
+
+#witajzpowrotem {
+    position: absolute;
+    height: 31px;
+    left: 79px;
+    right: 190px;
+    top: calc(50% - 31px/2 - 159.5px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 31px;
+    display: flex;
+    align-items: flex-end;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#emailLogin {
+    position: absolute;
+    padding: 12px;
+    height: 45px;
+    width: calc(150% / 2);
+    left: 5%;
+    top: calc(50% - 45px/2 - 50.5px);
+
+    font-size: 16px;
+    
+    background: #FFFFFF;
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+#emailLoginLabel {
+    position: absolute;
+    height: 28px;
+    width: calc(150% / 2);
+    left: 5%;
+    top: calc(50% - 28px/2 - 87px);
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+    
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#hasloLogin {
+    position: absolute;
+    padding: 12px;
+    height: 45px;
+    width: calc(150% / 2);
+    left: 5%;
+    top: calc(50% - 45px/2 + 31.5px);
+    
+    font-size: 16px;
+
+    background: #FFFFFF;
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+#hasloLoginLabel {
+    position: absolute;
+    height: 28px;
+    width: calc(150% / 2);
+    left: 5%;
+    top: calc(50% - 28px/2 - 5px);
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+    
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#passwordRemind {
+    position: absolute;
+    height: 17px;
+    width: calc(150% / 2);
+    left: 62px;
+    top: calc(50% - 11px/2 + 71.5px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+
+    /* Light / Accent */
+
+    color: #E74C3C;
+}
+
+#logIn {
+    position: absolute;
+    height: 45px;
+    width: 200px;
+    left: calc(50% - 200px/2);
+    top: calc(50% - 45px/2 + 129.5px);
+
+    /* Light/Primary */
+
+    background: #1BB55C;
+    border-radius: 40px;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#lub {
+    position: absolute;
+    height: 17px;
+    width: calc(140% / 2);
+    left: 15%;
+    top: calc(50% - 17px/2 + 174px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    /* identical to box height */
+
+
+    color: #000000;
+}
+
+#createAccount {
+    position: absolute;
+    height: 45px;
+    width: 260px;
+    left: calc(50% - 260px/2);
+    top: calc(50% - 45px/2 + 211.5px);
+
+    background: #0E4DA4;
+    border-radius: 40px;
+    border: none;
+
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.tui-registration_page {
+    position: absolute;
+    width: 100%;
+    min-width: 830px;
+    height: auto;
+    left: 0%;
+    right: 0%;
+    top: 0px;
+    bottom: 0px;
+
+    background: #ffffff;
+}
+
+#registrationPage1 {
+    z-index: 995;
+}
+
+#registrationPage2 {
+    z-index: 997;
+    display: none;
+}
+
+#chooseTypeOfAccount {
+    /* Wybierz typ konta: */
+
+    position: absolute;
+    width: 331px;
+    height: 28px;
+    left: calc(50% - 331px/2 + 2.5px);
+    top: 122px;
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 28px;
+    /* identical to box height, or 78% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+.type_of_account {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 211px;
+
+    cursor: pointer;
+
+    /* Light / Background */
+
+    background: #FFFFFF;
+    /* Light/Dark Grey */
+
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.type_of_account:hover {
+    background-color: #DFE2E0 !important;
+}
+
+.name_of_account {
+    position: absolute;
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    /* identical to box height, or 117% */
+    
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.15px;
+    
+    /* Light / Main */
+    
+    color: #263238;
+}
+
+#teacherAccount {
+    right: calc(75% - 200px/2);
+}
+
+#teacherIcon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    left: 25%;
+    top: 15px;
+}
+
+#teacherName {
+    width: 126px;
+    height: 28px;
+    left: calc(50% - 120px/2);
+    top: 130px;
+}
+
+#studentAccount {
+    left: calc(50% - 200px/2);
+}
+
+#studentIcon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    left: 25%;
+    top: 15px;
+}
+
+#studentName {
+    width: 72px;
+    height: 28px;
+    left: calc(50% - 72px/2);
+    top: 130px;
+}
+
+#parentalAccount {
+    right: calc(25% - 200px/2);
+}
+
+#parentalIcon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    left: 25%;
+    top: 15px;
+}
+
+#parentalName {
+    width: 84px;
+    height: 56px;
+    right: calc(50% - 85px/2);
+    top: 120px;
+}
+
+#accountDescription {
+    position: absolute;
+    width: 700px;
+    height: 288px;
+    left: calc(50% - 700px/2);
+    top: 461px;
+}
+
+#accountDescriptionContent {
+    width: 642px;
+    height: 196px;
+    left: calc(50% - 642px/2 - 29px);
+    top: 507px;
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 40px;
+    margin-left: 0px;
+    /* or 117% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.15px;
+
+    /* Light / Main */
+
+    color: #263238;
+}
+
+#next1 {
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    left: calc(50% - 200px/2);
+    top: 799px;
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    padding-left: 70px;
+
+    cursor: pointer;
+
+    /* identical to box height, or 117% */
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.15px;
+
+    /* Light/Primary */
+
+    color: #FFFFFF;
+    background: #1BB55C;
+    border-radius: 40px;
+}
+
+#next1:hover {
+    background-color: #33ca72;
+}
+
+#formContainer {
+    position: absolute;
+    width: 700px;
+    height: 680px;
+    left: calc(50% - 700px/2);
+    top: 100px;
+}
+
+input[type=text], input[type=password], input[type=date] {
+    width: 90%;
+    padding: 12px;
+    margin: 4px 35px 12px 35px;
+    display: inline-block;
+    border: none;
+    background-color: #FFFFFF;
+
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=date]:focus {
+    background-color: #DFE2E0;
+    outline: none;
+}
+
+label {
+    margin: 0px 0px 0px 35px;
+}
+
+.passwords-alert {
+    display: none;
+    margin: -3px 0px 6px 35px;
+    color: #fa6756;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#parentalPasswordSection {
+    display: none;
+}
+
+#acceptStatue {
+    margin: 0px 0px 0px 32px;
+}
+
+#register:hover {
+    background-color: #33ca72;
+}
+
+#previous:hover {
+    background-color: #fa6756;
+}
+
+#register {
+    position: relative;
+    width: 200px;
+    height: 60px;
+    left: 52%;
+    top: -30px;
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    padding-left: 38px;
+
+    cursor: pointer;
+
+    /* identical to box height, or 117% */
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.15px;
+
+    /* Light/Primary */
+
+    color: #FFFFFF;
+    background: #1BB55C;
+    border-radius: 40px;
+}
+
+#previous {
+    position: relative;
+    width: 200px;
+    height: 60px;
+    left: calc(50% - 400px/2);
+    top: 30px;
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    padding-left: 58px;
+
+    cursor: pointer;
+
+    /* identical to box height, or 117% */
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.15px;
+
+    /* Light/Primary */
+
+    color: #FFFFFF;
+    background: #E74C3C;
+    border-radius: 40px;
+}
+
+.register_background_image {
+    min-height: 920px;
+    max-height: auto;
+    height: 100%;
+    width: 100%;
+    bottom: 0%;
+
+    object-fit: cover; object-position: 100% 0;
+
+    opacity: 0.2;
+
+    z-index: 993;
+}

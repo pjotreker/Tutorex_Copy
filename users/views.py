@@ -406,3 +406,16 @@ def get_user_notifications(request):
         'all_count': len(new_notifications),
     }
     return JsonResponse(data)
+
+
+def handler_404(request, exception, template_name='404.html'):
+    if request.user.is_authenticated:
+        template_name = '404_auth.html'
+    return render(request, template_name, status=404)
+
+
+def handler_500(request, *args, **kwargs):
+    template_name = '500_auth.html' if request.user.is_authenticated else '500.html'
+    return render(request, template_name, status=500)
+
+
