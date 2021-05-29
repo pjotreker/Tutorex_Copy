@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import datetime, timedelta
 
 class Lesson(models.Model):
+    # data, godzina, temat, notatka, właściciel, zadanie domowe, pliki(?)
     pass
 
 
