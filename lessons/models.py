@@ -11,9 +11,13 @@ class Lesson(models.Model):
     # data, godzina, temat, notatka, właściciel, zadanie domowe, pliki(?)
     date = models.DateField()
     hour = models.TimeField()
+    subject = models.CharField(max_length=100)
+    description = models.CharField(max_length=255)
     note = models.CharField(max_length=500, blank=True)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
-    homework = models.FileField(storage=fs)     # chyba coś takiego
+    classroom = # klucz obcy do klasy
+    homework = models.FileField(storage=fs)     # osobny model na pliki / zadania domowe
+    czy_się_odbyła =
 
 
 class LessonTimeSlot(models.Model):
