@@ -1,11 +1,19 @@
 from django.db import models
 from users.models import BaseUser, TeacherProfile
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.files.storage import FileSystemStorage
+
+# na przykład:
+fs = FileSystemStorage(location='/media/photos')
 
 
 class Lesson(models.Model):
     # data, godzina, temat, notatka, właściciel, zadanie domowe, pliki(?)
-    pass
+    date = models.DateField()
+    hour = models.TimeField()
+    note = models.CharField(max_length=500, blank=True)
+    owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
+    homework = models.FileField(storage=fs)     # chyba coś takiego
 
 
 class Classroom(models.Model):
