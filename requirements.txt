@@ -14,4 +14,7 @@ pip~=21.1
 dj-database-url
 coverage
 django-notifications-hq
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
 python-dateutil
