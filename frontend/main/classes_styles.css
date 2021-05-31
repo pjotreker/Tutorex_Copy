@@ -244,6 +244,11 @@
     justify-content: space-between;
 }
 
+#createNewClassForm {
+    display: none;
+    justify-content: space-between;
+}
+
 #createNewClassLeftSection {
     position: relative;
     height: 100%;
@@ -370,6 +375,17 @@ label {
     .class_sample {
         min-height: 160px;
     }
+    #createNewClassLeftSection {
+        width: 100%;
+        border-right: none;
+        padding-right: 0px;
+    }
+    #createNewClassRightSection {
+        width: 100%;
+    }
+    .grid-container#createNewClassRightSection {
+        grid-template-rows: 30% 30% 20%;
+    }
     #exitJoinNewClassButtonDescription {
         display: none;
     }
@@ -398,20 +414,6 @@ label {
     }
     #joinNewClassCodeInput {
         width: calc(100% - 300px);
-    }
-    #createNewClassBar {
-        display: block !important;
-    }
-    #createNewClassLeftSection {
-        width: 100%;
-        border-right: none;
-        padding-right: 0px;
-    }
-    #createNewClassRightSection {
-        width: 100%;
-    }
-    .grid-container#createNewClassRightSection {
-        grid-template-rows: 30% 30% 20%;
     }
     #descriptionOfNewClassCodeInput {
         height: 220px;
