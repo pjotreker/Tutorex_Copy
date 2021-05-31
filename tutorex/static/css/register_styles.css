@@ -512,7 +512,7 @@ body {
     top: 100px;
 }
 
-input[type=text], input[type=password], input[type=date] {
+input[type=text], input[type=password], input[type=date], input[type=email] {
     width: 90%;
     padding: 12px;
     margin: 4px 35px 12px 35px;
@@ -525,7 +525,7 @@ input[type=text], input[type=password], input[type=date] {
     border-radius: 10px;
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=date]:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=date]:focus, input[type=email] {
     background-color: #DFE2E0;
     outline: none;
 }
