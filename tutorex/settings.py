@@ -131,8 +131,6 @@ EMAIL_HOST_PASSWORD = "U&zra#!8Hy"
 DEFAULT_FROM_MAIL = EMAIL_HOST_USER
 
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 AUTH_USER_MODEL = "users.BaseUser"
