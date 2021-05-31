@@ -17,10 +17,11 @@
                 <input type="text" placeholder="Nazwisko" name="last_name" id="last_name" required>
 
                 <label for="email"><b>Email</b></label>
-                <input type="text" placeholder="Email" name="email" id="email" required>
+                <input type="email" placeholder="Email" name="email" id="email" required>
 
                 <label for="birthday"><b>Data urodzenia</b></label>
-                <input type="date" name="birthday" id="birthday" value="2017-06-01" required>
+                <input type="date" min="{{ user_16_years }}"  max="{{ today }}" name="birthday" id="birthday" value="2017-06-01" required>
+                <div id="dates_alert" class="passwords-alert">Nieprawidłowa data!</div>
 
                 <label for="password"><b>Hasło</b></label>
                 <input type="password" placeholder="Hasło" name="password" id="password" required>
@@ -108,6 +109,29 @@
 
         // Check if entered passwords are the same
 
+        function check_dates() {
+            var birthday = document.getElementById("birthday").value;
+            var birthday_date = new Date(birthday);
+            var today = new Date()
+            console.log(birthday);
+
+            min_date = new Date("{{ user_16_years }}");
+            console.log(min_date);
+            if(birthday_date < min_date){
+                tag = document.getElementById("dates_alert");
+                tag.innerHTML = "Konto rodzica możesz założyć dla osoby mającej maks. 16 lat!";
+                tag.style.display = 'block';
+                return false;
+            }
+            else if(birthday_date >= today){
+                tag = document.getElementById("dates_alert");
+                tag.innerHTML = "Urodziłeś się w przyszłości, powiadasz? ;)";
+                tag.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
         function comparePasswords() {
             var password1 = document.getElementById("password").value;
             var password2 = document.getElementById("password2").value;
@@ -127,8 +151,11 @@
             } else {
                 differentParentalPasswordsAlert.style.display = 'none';
             }
-            if (valid_password && valid_password_parent){
-                document.getElementsByTagName('form')[0].submit();
+            var dates_valid = check_dates();
+            var form = document.getElementsByTagName('form')[0];
+            var is_valid = form.checkValidity();
+            if (valid_password && valid_password_parent && dates_valid && is_valid){
+                form.submit();
             }
         }
 
