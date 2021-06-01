@@ -19,7 +19,7 @@ from notifications.signals import notify
 from notifications.utils import id2slug
 import datetime
 import pytz
-from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm, DeleteAccountForm
+from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
@@ -306,7 +306,6 @@ class DeleteUser(LoginRequiredMixin, View):
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
         if user:
-            form = DeleteAccountForm(request.POST)
             if request.method == "POST":
                 password = request.POST.get('password')
                 password2 = request.POST.get('password2')

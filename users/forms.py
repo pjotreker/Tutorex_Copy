@@ -55,9 +55,4 @@ class ChangePasswordForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput())
 
 
-class DeleteAccountForm(forms.Form):
-    password = forms.CharField(widget=forms.PasswordInput())
-    password2 = forms.CharField(widget=forms.PasswordInput())
-    # parent_password = forms.CharField(widget=forms.PasswordInput())
-
 
