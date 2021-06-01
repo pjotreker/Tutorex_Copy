@@ -123,6 +123,9 @@ Dane:<ol>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
 
+### Google API
+Tutorex jest połączony z Google API Drive oraz Google API Calendar. W plikach tutorex/Google.py i tutorex/Google-connect.py znajdują się funkcje odpowiedzialne za połączenie z serwerami zewnętrznej aplikacji. Na portalu https://console.cloud.google.com/ i po zalogowaniu się na konto google - tutorex.helpdesk@gmail.com jest możliwa zmiana ustawień uprawnień i przekierowań URL.
+
 ### Ciągła integracja i dostarczanie
 
 Kod aplikacji jest przechowywany na prywatnym repozytorium w serwisie Github.com, do którego mają dostęp wszyscy członkowie zespołu deweloperskiego. W ramach ciągłej integracji w serwisie Github została przeprowadzona konfiguracja testów automatycznych - są one uruchamiane przy każdym **push** oraz **pull request** na branch **master** (wykorzystany wbudowany moduł Actions).

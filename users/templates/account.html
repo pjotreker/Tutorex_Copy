@@ -8,12 +8,6 @@
 {% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
 {% block content %}
   <div id="tui-account-box" onload="highlightTab()">
-     <div id="deleteAccountWindow" class="infoWindow">
-            <div id="deleteAccountText" class="window_text">Czy na pewno chcesz usunąć konto?</div>
-            <button id="cancelDeletingAccountButton" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ANULUJ</button>
-            <button id="confirmDeletingAccountButton" class="edit_data_button" onclick="DeleteAccountConfirm()">USUŃ KONTO</button>
-            <button id="closeDeleteAccountWindow" class="edit_data_button" onclick="CloseWindow('deleteAccountWindow')">ZAMKNIJ OKNO</button>
-        </div>
         <div id="changePasswordWindow" class="infoWindow">
             <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
             <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
@@ -40,7 +34,7 @@
                 <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
             </form>
             <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
-            <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="DeleteAccount()">USUŃ KONTO</button>
+            <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="document.location='delete-account'">USUŃ KONTO</button>
 
         </div>
     </div>
@@ -76,10 +70,6 @@
             dob.disabled = true;
             save.style.display = "none";
             edit.style.display = "block";
-        }
-        function DeleteAccount() {
-            var deleteWindow = document.getElementById("deleteAccountWindow");
-            deleteWindow.style.display = "block";
         }
         function CloseWindow(window) {
             var windowToClose = document.getElementById(window);
