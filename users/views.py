@@ -18,13 +18,23 @@ from django.template import loader
 from notifications.signals import notify
 from notifications.utils import id2slug
 import datetime
+from dateutil.relativedelta import relativedelta
 import pytz
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm, DeleteAccountForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
 
-# Create your views here.
+def get_16_ya():
+    user_16_years = datetime.date.today() - relativedelta(years=16)
+    user_16_years = user_16_years.strftime("%Y-%m-%d")
+    return user_16_years
+
+
+def get_today_date():
+    current_date = datetime.date.today().strftime("%Y-%m-%d")
+    return current_date
+
 
 @csrf_protect
 def signup(request):
@@ -72,10 +82,11 @@ def signup(request):
             return redirect('user-created-success')
 
     form = SignUpForm()
+    user_16_years = get_16_ya()
     template_to_render = "signup_form.html"
     if request.get_full_path() == '/signup/teacher':
         template_to_render = "signup_form_teacher.html"
-    return render(request, template_to_render, {'form': form})
+    return render(request, template_to_render, {'form': form, 'user_16_years': user_16_years})
 
 
 @csrf_protect
@@ -103,7 +114,7 @@ def signup_parent(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=False)
+                                                    is_active=True)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
@@ -124,8 +135,10 @@ def signup_parent(request):
 
             return redirect('user-created-success')
 
+    user_16_years = get_16_ya()
+    today = get_today_date()
     form = SignUpParentForm()
-    return render(request, "signup_form_parent.html", {'form': form})
+    return render(request, "signup_form_parent.html", {'form': form, 'user_16_years': user_16_years, 'today': today})
 
 
 class UserCreatedView(TemplateView):
@@ -219,8 +232,11 @@ class EditUserProfileView(LoginRequiredMixin, View):
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
             raise ValueError("Ojojojoj! Coś poszło nie tak :(")
-        # form = UpdateUserDataForm()
-        return render(request, "account.html", {'user': user})
+
+        age_constr = get_16_ya()
+        today = get_today_date()
+
+        return render(request, "account.html", {'user': user, 'user_18_years': age_constr, 'today': today})
 
     def post(self, request, user_id, *args, **kwargs):
         user = None
@@ -352,7 +368,7 @@ class RequestResetPasswordEmail(View):
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
 
-        if user.exists():
+        if user:
             user_uid = urlsafe_base64_encode(force_bytes(user[0].pk))
             token = PasswordResetTokenGenerator().make_token(user[0])
             reset_passwd_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/reset-password/{token}"
