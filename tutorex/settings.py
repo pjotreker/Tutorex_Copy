@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'users',
     'notifications',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -123,7 +122,6 @@ DATABASES = {
     }
 }
 '''
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -131,9 +129,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "tutorextest@gmail.com"
 EMAIL_HOST_PASSWORD = "U&zra#!8Hy"
 DEFAULT_FROM_MAIL = EMAIL_HOST_USER
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
