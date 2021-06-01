@@ -53,3 +53,6 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())
     password = forms.CharField(widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
+
+
+

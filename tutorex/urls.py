@@ -36,6 +36,7 @@ urlpatterns = [
     path('logout/', user_views.user_logout, name='user-logout'),
     path('user/<user_id>/edit', user_views.EditUserProfileView.as_view(), name='user-edit-data'),
     path('user/<user_id>/password/edit', user_views.ChangePasswordView.as_view(), name='user-change-password'),
+    path('user/<user_id>/delete-account', user_views.DeleteUser.as_view(), name='user-delete-account'),
     path('request-reset-link/', user_views.RequestResetPasswordEmail.as_view(), name='request-password'),
     path('user/<user_uid>/reset-password/<token>', user_views.CompletePasswordReset.as_view(), name='reset-user-password'),
     path('link-send/', user_views.link_send, name='link-send'),

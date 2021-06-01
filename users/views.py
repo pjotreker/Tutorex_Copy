@@ -7,6 +7,7 @@ from django.forms import model_to_dict
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
+from django.views.generic.edit import DeleteView
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
@@ -283,7 +284,6 @@ class ChangePasswordView(LoginRequiredMixin, View):
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
         if user:
-            user = user.first()
             form = ChangePasswordForm(request.POST)
             if form.is_valid():
                 old_password = form.cleaned_data.get('old_password')
@@ -300,6 +300,52 @@ class ChangePasswordView(LoginRequiredMixin, View):
         else:
             context['error'] = "Ojojoj! Coś poszło nie tak!"
             return render(request, "change_password.html", context)
+
+
+class DeleteUser(LoginRequiredMixin, View):
+    def get(self, request, user_id):
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user:
+            return render(request, "delete_user.html")
+
+    def post(self, request, user_id):
+        context = {}
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user:
+            if request.method == "POST":
+                password = request.POST.get('password')
+                password2 = request.POST.get('password2')
+                parent_password = request.POST.get('parent_password')
+                if user.parent_password is not None:
+                    if parent_password == '':
+                        context['error'] = 'Musisz podać hasło rodzica'
+                        return render(request, 'delete_user.html', context=context)
+                    if not (check_password(password, user.password) and password == password2 and parent_password == user.parent_password):
+                        raise ValueError("Któreś z podanych haseł jest nieprawidłowe :/")
+                    user.delete()
+                    return redirect('user-login')
+                else:
+                    if not (check_password(password, user.password) and password == password2):
+                        raise ValueError("Hasła różnią się od siebie albo są niepoprawne :/")
+                    user.delete()
+                    return redirect('user-login')
+            else:
+                context['error'] = "Coś nie teges"
+                return render(request, 'delete_user.html', context)
+        else:
+            return render(request, 'delete_user.html')
+
+
 
 def link_send(request):
     return render(request, "link_send.html")
