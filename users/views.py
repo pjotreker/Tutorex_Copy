@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.forms import model_to_dict
 from django.utils.encoding import force_bytes, force_text
@@ -16,13 +17,23 @@ from django.template import loader
 from notifications.signals import notify
 from notifications.utils import id2slug
 import datetime
+from dateutil.relativedelta import relativedelta
 import pytz
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
 from .tokens import account_invitation_token
 
 
-# Create your views here.
+def get_16_ya():
+    user_16_years = datetime.date.today() - relativedelta(years=16)
+    user_16_years = user_16_years.strftime("%Y-%m-%d")
+    return user_16_years
+
+
+def get_today_date():
+    current_date = datetime.date.today().strftime("%Y-%m-%d")
+    return current_date
+
 
 @csrf_protect
 def signup(request):
@@ -70,10 +81,11 @@ def signup(request):
             return redirect('user-created-success')
 
     form = SignUpForm()
+    user_16_years = get_16_ya()
     template_to_render = "signup_form.html"
     if request.get_full_path() == '/signup/teacher':
         template_to_render = "signup_form_teacher.html"
-    return render(request, template_to_render, {'form': form})
+    return render(request, template_to_render, {'form': form, 'user_16_years': user_16_years})
 
 
 @csrf_protect
@@ -101,7 +113,7 @@ def signup_parent(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=False)
+                                                    is_active=True)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
@@ -122,8 +134,10 @@ def signup_parent(request):
 
             return redirect('user-created-success')
 
+    user_16_years = get_16_ya()
+    today = get_today_date()
     form = SignUpParentForm()
-    return render(request, "signup_form_parent.html", {'form': form})
+    return render(request, "signup_form_parent.html", {'form': form, 'user_16_years': user_16_years, 'today': today})
 
 
 class UserCreatedView(TemplateView):
@@ -212,20 +226,23 @@ class EditUserProfileView(LoginRequiredMixin, View):
         try:
             user = BaseUser.objects.get(pk=user_id)
             if user.id != request.user.id or not request.user.id:
-                return HttpResponseForbidden("You cannot edit data of users except your own!")
+                raise PermissionDenied
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
             raise ValueError("Ojojojoj! Coś poszło nie tak :(")
-        # form = UpdateUserDataForm()
-        return render(request, "account.html", {'user': user})
+
+        age_constr = get_16_ya()
+        today = get_today_date()
+
+        return render(request, "account.html", {'user': user, 'user_18_years': age_constr, 'today': today})
 
     def post(self, request, user_id, *args, **kwargs):
         user = None
         try:
             user = BaseUser.objects.get(pk=user_id)
             if user.id != request.user.id or not request.user.id:
-                return HttpResponseForbidden("You cannot edit data of users except your own!")
+                raise PermissionDenied
 
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
@@ -248,15 +265,24 @@ class EditUserProfileView(LoginRequiredMixin, View):
 
 class ChangePasswordView(LoginRequiredMixin, View):
     def get(self, request, user_id):
-        return render(request, "change_password.html")
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user:
+            return render(request, "change_password.html")
 
     def post(self, request, user_id):
         context = {}
         try:
-            user = BaseUser.objects.filter(id=user_id)
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
-        if user.exists():
+        if user:
             user = user.first()
             form = ChangePasswordForm(request.POST)
             if form.is_valid():
@@ -295,7 +321,7 @@ class RequestResetPasswordEmail(View):
         except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
             user = None
 
-        if user.exists():
+        if user:
             user_uid = urlsafe_base64_encode(force_bytes(user[0].pk))
             token = PasswordResetTokenGenerator().make_token(user[0])
             reset_passwd_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/reset-password/{token}"
@@ -375,7 +401,6 @@ class NotificationsView(LoginRequiredMixin, View):
         request_timestamp = datetime.datetime.now()
         request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
         new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
-        # breakpoint()
         return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
 
 def get_user_notifications(request):
@@ -388,6 +413,8 @@ def get_user_notifications(request):
     for notification in new_notifications:
         struct = model_to_dict(notification)
         struct['slug'] = id2slug(notification.id)
+        struct['id'] = str(notification.id)
+        struct['timestamp'] = str(notification.timestamp.strftime("%B %d, %Y %H:%M %p"))
         if notification.actor:
             struct['actor'] = str(notification.actor)
         if notification.target:
@@ -395,8 +422,9 @@ def get_user_notifications(request):
         if notification.action_object:
             struct['action_object'] = str(notification.action_object)
         if notification.data:
-            struct['verb'] = notification.data
+            struct['verb'] = notification.verb
         struct['unread'] = notification.unread
+        struct['need_acceptance'] = notification.data.get('need_acceptance', False)
 
         all_list.append(struct)
     data = {
@@ -404,3 +432,19 @@ def get_user_notifications(request):
         'all_count': len(new_notifications),
     }
     return JsonResponse(data)
+
+
+def handler_404(request, exception, template_name='404.html'):
+    if request.user.is_authenticated:
+        template_name = '404_auth.html'
+    return render(request, template_name, status=404)
+
+
+def handler_500(request, *args, **kwargs):
+    template_name = '500_auth.html' if request.user.is_authenticated else '500.html'
+    return render(request, template_name, status=500)
+
+
+def handler_403(request, exception, template_name='403.html'):
+    template_name = '403_auth.html' if request.user.is_authenticated else '403.html'
+    return render(request, template_name, status=403)

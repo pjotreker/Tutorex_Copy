@@ -1,0 +1,445 @@
+#tui-classes_page {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 150px);
+    left: 0%;
+    right: 0%;
+    top: 20px;
+    bottom: 20px;
+}
+
+#classesTopBar {
+    position: relative;
+    background-color: white;
+    height: 50px;
+
+    display: flex;
+}
+
+#createNewClassIcon {
+    margin-left: 5px;
+    margin-right: 7px;
+}
+
+#createNewClassButton {
+    position: absolute;
+    background-color: white;
+    border-radius: 24px;
+    border: 1px solid #c7c7c7;
+
+    right: 15%;
+    height: 42px;
+    width: auto;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+#createNewClassButton:hover {
+    background-color: #0e4ca40c;
+}
+
+#classesContainer {
+    margin-left: 15%;
+    margin-right: 15%;
+    top: 20px;
+    height: 90%;
+    min-height: 240px;
+
+    overflow: auto;
+    overflow-x: hidden;
+
+    display: grid;
+
+    border-top: 1px solid #e9e9e9;
+    padding-top: 10px;
+}
+
+#classesContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.grid-container#classesContainer {
+    grid-template-columns: auto auto auto;
+    grid-template-rows: repeat(500, 160px);
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.class_sample {
+    background-color: white;
+
+    border: 1px solid #c7c7c7;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    max-height: 160px;
+    max-width: 500px;
+
+    overflow: hidden;
+    overflow-x: hidden;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    cursor: pointer;
+}
+
+.class_sample:hover {
+    background-color: #0e4ca40c;
+}
+
+.nameOfTheClass {
+    position: relative;
+    width: 100%;
+    max-height: auto;
+    padding-top: 10px;
+    padding-bottom: 8px;
+    padding-left: 5px;
+
+    font-size: 20px;
+    line-height: 24px;
+
+    overflow: visible;
+    /*white-space: nowrap;
+    overflow: hidden;*/
+
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.teacherOfTheClass {
+    padding-left: 5px;
+    padding-bottom: 8px;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.descriptionOfTheClass {
+    position: relative;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-top: 8px;
+    line-height: 26px;
+    text-align: justify;
+
+    font-size: 14px;
+}
+
+/* Student section */
+
+#joinNewClassBar {
+    position: relative;
+    height: 50px;
+
+    margin-left: 15%;
+    margin-right: 15%;
+
+    font-size: 20px;
+
+    justify-content: space-between;
+    align-items: center;
+    display: none;
+}
+
+#joinNewClassDescription {
+    max-height: 30px;
+    min-width: 154px !important;
+    overflow-x: hidden;
+    overflow: hidden;
+}
+
+#joinNewClassCodeInput {
+    position: relative;
+    max-width: 600px;
+    width: calc(100% - 540px);
+    height: 38px;
+
+    border-radius: 6px;
+    border: 1px solid #c7c7c7;
+
+    font-size: 16px;
+}
+
+::placeholder {
+    color: #c7c7c7;
+}
+
+#joinNewClassButton {
+    position: relative;
+    background-color: #1BB55C;
+    color: white;
+    border-radius: 24px;
+    border: none;
+
+    height: 40px;
+    width: auto;
+    right: 0px;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#joinNewClassButton:hover {
+    background-color: #47c079;
+}
+
+#joinNewClassIcon {
+    margin-left: 2px;
+    margin-right: 8px;
+}
+
+#exitJoinNewClassButton {
+    position: relative;
+    background-color: #E74C3C;;
+    color: white;
+    border-radius: 24px;
+    border: none;
+
+    height: 40px;
+    width: auto;
+    right: 0px;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding-left: 10px;
+    padding-right: 15px;
+}
+
+#exitJoinNewClassButton:hover {
+    background-color: #f16258;
+}
+
+#exitJoinNewClassIcon {
+    color: white;
+    margin-right: 2px;
+}
+
+/* Teacher section */
+
+#createNewClassBar {
+    position: relative;
+    height: auto;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 10px;
+
+    padding: 10px;
+
+    border: 1px solid #c7c7c7;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    font-size: 20px;
+
+    display: none;
+    justify-content: space-between;
+}
+
+#createNewClassForm {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#createNewClassLeftSection {
+    position: relative;
+    height: 100%;
+    width: 50%;
+    padding-right: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid #c7c7c7;
+}
+
+label {
+    padding-top: 6px;
+}
+
+.rightLabel {
+    font-size: 15px;
+    width: auto;
+}
+
+.createNewClassInput {
+    position: relative;
+
+    border-radius: 6px;
+    border: 1px solid #c7c7c7;
+
+    font-size: 16px;
+}
+
+#nameOfNewClassCodeInput {
+    height: 38px;
+}
+
+#descriptionOfNewClassCodeInput {
+    height: 290px;
+    vertical-align: top;
+    overflow: visible;
+    word-break: break-word;
+}
+
+#descriptionOfNewClassCodeInput::-webkit-scrollbar {
+    display: none;
+}
+
+#createNewClassRightSection {
+    position: relative;
+    width: 50%;
+    padding: 10px;
+
+    display: grid;
+}
+
+.grid-container#createNewClassRightSection {
+    grid-template-columns: 47% 51%;
+    grid-template-rows: 20% 60% 20%;
+    row-gap: 20px;
+    column-gap: 20px;
+}
+
+#minimumNumOfStudents {
+    width: 99%;
+}
+
+#maximumNumOfStudents {
+    width: 99%;
+}
+
+#startClassDate {
+    width: 99%;
+}
+
+#endClassDate {
+    width: 99%;
+}
+
+.createNewClassButtons {
+    position: relative;
+    color: white;
+    border-radius: 24px;
+    border: none;
+
+    height: 40px;
+    font-size: 16px;
+
+    padding-left: 10px;
+    padding-right: 16px;
+
+    display: inline-flex;
+    align-items: center;
+}
+
+#cancelCreatingNewClassButton {
+    background-color: #E74C3C;
+}
+
+#cancelCreatingNewClassButton:hover {
+    background-color: #f16258;
+}
+
+#confirmCreatingNewClassButton {
+    background-color: #1BB55C;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+#confirmCreatingNewClassButton:hover {
+    background-color: #47c079;
+}
+
+#buttonsSection {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+/* Scale section */
+
+@media only screen and (max-width: 1200px) {
+    /* For mobile phones: */
+    .grid-container#classesContainer {
+        grid-template-columns: auto auto;
+    }
+    .class_sample {
+        min-height: 160px;
+    }
+    #exitJoinNewClassButtonDescription {
+        display: none;
+    }
+    #exitJoinNewClassButton {
+        padding-left: 6px;
+        padding-right: 4px;
+    }
+    #joinNewClassCodeInput {
+        width: calc(100% - 460px);
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    /* For mobile phones: */
+    #joinNewClassButton {
+        padding-left: 7px;
+        padding-right: 7px;
+        margin-right: -10px;
+    }
+    #joinNewClassButtonDescription {
+        display: none;
+    }
+    #joinNewClassIcon {
+        margin-left: 5px;
+        margin-right: 2px;
+    }
+    #joinNewClassCodeInput {
+        width: calc(100% - 300px);
+    }
+    #createNewClassBar {
+        display: block !important;
+    }
+    #createNewClassLeftSection {
+        width: 100%;
+        border-right: none;
+        padding-right: 0px;
+    }
+    #createNewClassRightSection {
+        width: 100%;
+    }
+    .grid-container#createNewClassRightSection {
+        grid-template-rows: 30% 30% 20%;
+    }
+    #descriptionOfNewClassCodeInput {
+        height: 220px;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    #joinNewClassButton {
+        margin-right: -2px;
+    }
+    #createNewClassButton {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+    #createNewClassIcon {
+        margin-right: 5px;
+    }
+    #createNewClassDescription {
+        display: none;
+    }
+    #joinNewClassCodeInput {
+        width: calc(100% - 270px);
+    }
+}

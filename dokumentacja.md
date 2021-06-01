@@ -63,7 +63,7 @@
 4. Został dodany endpoint *api/user/notifications/* zwracający w formacie JSON powiadomienia za ostatnie 7 dni włącznie
 5. Zostały dodane funkcje napisane w Javascript wysyłające co 10 sekund request GET na endpoint z punktu 4 i aktualizujące listę powiadomień
 6. Została dodana funkcja w Javascript wysyłająca po kliknięciu w powiadomienie request na endpoint *notifications/mark-as-read/<id_powiadomienia>* w celu oznaczenia powiadomienia jako przeczytane.
-
+7. Zostały dodane klasy widoków AcceptJoinClassroom i RejectJoinClassroom, umożliwiające dodanie ucznia do klasy gdy powiadomienie tego dotyczy
 
 ### Front-end
 

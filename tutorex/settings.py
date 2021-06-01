@@ -28,7 +28,7 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True
 SECRET_KEY = 'otbziimne0%k@nngq*1mb6ryz#5z=gb!50y$d$&ydn77zi)03t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['tutorex-test.herokuapp.com', 'tutorex-app.herokuapp.com', '127.0.0.1', 'localhost', 'tutorex.azurewebsites.net', '*']
 
@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'users',
     'notifications',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,6 +61,7 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = 'tutorex.urls' ###
+DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
@@ -69,7 +69,7 @@ SECURE_SSL_REDIRECT = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], ##
+        'DIRS': [(os.path.join(BASE_DIR, 'tutorex/templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,7 +94,7 @@ hostname = 'tutorexserver'
 # Configure Postgres database; the full username is username@servername,
 # which we construct using the DBHOST value.
 import sys
-#'''
+# '''
 if 'test' in sys.argv:
     DATABASES = {
          'default': {
@@ -113,7 +113,7 @@ else:
          'PORT':'5432'
         }
     }
-#'''
+# '''
 '''
 DATABASES = {
     'default': {
@@ -122,7 +122,6 @@ DATABASES = {
     }
 }
 '''
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -130,9 +129,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "tutorextest@gmail.com"
 EMAIL_HOST_PASSWORD = "U&zra#!8Hy"
 DEFAULT_FROM_MAIL = EMAIL_HOST_USER
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -171,7 +167,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "tutorex/static")
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 

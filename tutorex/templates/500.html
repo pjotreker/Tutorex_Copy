@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} 500 - Internal server error {% endblock %}
+{% block content %}
+    <div>
+        <h1>Uuuups!</h1>
+        <h1>500</h1>
+        <h6>Internal server error, skontaktuj się z administratorem :(</h6>
+    </div>
+{% endblock %}

@@ -97,10 +97,12 @@
                         <button type="submit" id="saveClassButton" class="class_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
                       </form>
                     </div>
+                    {% if user.is_teacher == True %}
                     <button id="deleteClassButton" class="class_button" style="background-color: #E74C3C;" onclick="deleteClass()">USUŃ KLASĘ</button>
                     <button id="editClassButton" class="class_button" style="background-color: #0E4DA4;" onclick="editContent()">EDYTUJ DANE</button>
                     <button id="dontDeleteClassButton" onclick="dontDeleteClass()">ANULUJ</button>
                     <button id="confirmDeletingClassButton" class="class_button" onclick="confirmDeletingClass()" style="background-color: #E74C3C;">POTWIERDŹ</button>
+                    {% endif %}
                 </div>
             </div>
             <div id="codeOfClass">Kod klasy: {{ classroom.classroom_id }}</div>

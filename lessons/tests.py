@@ -11,7 +11,7 @@ class BaseTest(TestCase):
         self.home_url = reverse('home')
         self.notifications_url = reverse('my-notifications')
         self.classrooms_url = reverse('show-classrooms')
-        self.join_classroom_url = reverse('join-classroom')
+        self.join_classroom_url = reverse('join_classroom')
 
         self.user = {
             'email':'test@example.com',
@@ -211,7 +211,7 @@ class ClassroomTest(BaseTest):
         self.client.logout()
 
         user = self.set_up_user()
-        response = self.client.post(self.join_classroom_url, {'classroom_id':'abc123'}, format='text/html', secure=True)
+        response = self.client.post(self.classrooms_url, {'classroom_id':'abc123'}, format='text/html', secure=True)
         self.assertEqual(response.status_code, 200) # to check (302?)
         self.client.logout()
 

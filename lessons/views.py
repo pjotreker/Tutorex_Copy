@@ -1,7 +1,5 @@
-from tkinter import Entry
-
 from django.conf import settings
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -81,14 +79,18 @@ class JoinClassroom(LoginRequiredMixin, View):
 
     def post(self, request):
         classroom_id = request.POST.get('classroom_id')
-        user_id = request.user.id
-        student = BaseUser.objects.get(pk=user_id)
+        user_id = request.user
+        student = BaseUser.objects.get(pk=user_id.id)
         try:
             classroom = Classroom.objects.get(classroom_id=classroom_id)
             join_classroom_request = StudentClassRequest.objects.create(
                 classroom_id=classroom,
                 student_id=student
             )
+            teacher_user = classroom.owner.user
+            notify.send(sender=user_id, recipient=teacher_user,
+                        verb=f"Uczeń {user_id.first_name} {user_id.last_name} chce dołączyć do twojej klasy {classroom.name}",
+                        request_id=join_classroom_request.id, need_acceptance=True)
             try:
                 join_classroom_request.save()
             except:
@@ -98,6 +100,31 @@ class JoinClassroom(LoginRequiredMixin, View):
 
         return render(request, "request_sent.html")
 
+
+class AcceptJoinClassroom(LoginRequiredMixin, View):
+    def get(self, request, join_request_id):
+        tmp_join_request = StudentClassRequest.objects.get(id=join_request_id)
+        student_id = tmp_join_request.student_id
+        classroom_id = tmp_join_request.classroom_id
+        classroom_id.students.add(student_id)
+        classroom_id.save()
+        tmp_join_request.delete()
+        src_notification = request.user.notifications.filter(data__contains=join_request_id)
+        if src_notification:
+            src_notification[0].data['need_acceptance'] = False
+            src_notification[0].save()
+        return JsonResponse({'success': True})
+
+
+class RejectJoinClassroom(LoginRequiredMixin, View):
+    def get(self, request, join_request_id):
+        tmp_join_request = StudentClassRequest.objects.get(id=join_request_id)
+        tmp_join_request.delete()
+        src_notification = request.user.notifications.filter(data__contains=join_request_id)
+        if src_notification:
+            src_notification[0].data['need_acceptance'] = False
+            src_notification[0].save()
+        return JsonResponse({'success': True})
 
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
@@ -141,6 +168,7 @@ class ModifyClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
         return redirect('show-classrooms')
 
+
 class ShowClassrooms(LoginRequiredMixin, View):
     def get(self, request):
         if request.user.is_teacher:
@@ -152,43 +180,69 @@ class ShowClassrooms(LoginRequiredMixin, View):
             user_id = user.id
             student = BaseUser.objects.get(pk=user_id)
             classrooms = Classroom.objects.filter(students=student)
-            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms})
+            return render(request, "show_classrooms.html", {'classrooms_obj': classrooms })
+            #return render(request, "show_classrooms.html", {'classrooms_obj': classrooms, 'students':students })
 
     def post(self, request):
-        context = {}
-        form = CreateClassroomForm(request.POST)
-        classroom_id = create_code()
-        if form.is_valid():
-            class_name = form.cleaned_data.get('class_name')
-            subject = form.cleaned_data.get('subject')
-            owner = TeacherProfile.objects.get(user=request.user)
-            age_range_min = form.cleaned_data.get('age_range_min')
-            age_range_max = form.cleaned_data.get('age_range_max')
-            time_frame_start = form.cleaned_data.get('time_frame_start')
-            time_frame_end = form.cleaned_data.get('time_frame_end')
+        if request.user.is_teacher:
+            context = {}
+            form = CreateClassroomForm(request.POST)
+            classroom_id = create_code()
+            if form.is_valid():
+                class_name = form.cleaned_data.get('class_name')
+                subject = form.cleaned_data.get('subject')
+                owner = TeacherProfile.objects.get(user=request.user)
+                age_range_min = form.cleaned_data.get('age_range_min')
+                age_range_max = form.cleaned_data.get('age_range_max')
+                time_frame_start = form.cleaned_data.get('time_frame_start')
+                time_frame_end = form.cleaned_data.get('time_frame_end')
 
-            classroom = Classroom.objects.create(classroom_id=classroom_id,
-                                                 name=class_name,
-                                                 subject=subject,
-                                                 owner=owner,
-                                                 age_range_min=age_range_min,
-                                                 age_range_max=age_range_max,
-                                                 time_frame_start=time_frame_start,
-                                                 time_frame_end=time_frame_end)
+                classroom = Classroom.objects.create(classroom_id=classroom_id,
+                                                     name=class_name,
+                                                     subject=subject,
+                                                     owner=owner,
+                                                     age_range_min=age_range_min,
+                                                     age_range_max=age_range_max,
+                                                     time_frame_start=time_frame_start,
+                                                     time_frame_end=time_frame_end)
+                try:
+                    classroom.save()
+                except:
+                    raise ValueError("Nie udało się utworzyc klasy :C")
+                return redirect('classroom-created-success', classroom_id=classroom_id)
+            context['error'] = "Ajjj coś poszło nie tak"
+            return render(request, "show_classrooms.html", context) # empty display!
+        if not request.user.is_teacher:
+            classroom_id = request.POST.get('classroom_id')
+            user_id = request.user
+            student = BaseUser.objects.get(pk=user_id.id)
             try:
-                classroom.save()
-            except:
-                raise ValueError("Nie udało się utworzyc klasy :C")
-            return redirect('classroom-created-success', classroom_id=classroom_id)
-        context['error'] = "Ajjj coś poszło nie tak"
-        return render(request, "show_classrooms.html", context) # empty display!
+                classroom = Classroom.objects.get(classroom_id=classroom_id)
+                join_classroom_request = StudentClassRequest.objects.create(
+                    classroom_id=classroom,
+                    student_id=student
+                )
+                teacher_user = classroom.owner.user
+                notify.send(sender=user_id, recipient=teacher_user,
+                            verb=f"Uczeń {user_id.first_name} {user_id.last_name} chce dołączyć do twojej klasy {classroom.name}",
+                            request_id=join_classroom_request.id, need_acceptance=True)
+                try:
+                    join_classroom_request.save()
+                except:
+                    return HttpResponseForbidden("Nie udało się wysłać prośby o dołącznie do klasy, spróbuj ponownie")
+            except (ValueError, TypeError, OverflowError, Classroom.DoesNotExist):
+                return HttpResponseForbidden("Dana klasa nie istnieje!")
+
+            return render(request, "request_sent.html")
 
 
 class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
-        students = ','.join([a.first_name + ' ' + a.last_name for a in classroom.students.all()])
-        return render(request, "display_classroom.html", {'classroom': classroom})
+        students = []
+        for a in classroom.students.all():
+            students.append(a.first_name + ' ' + a.last_name)
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -220,7 +274,10 @@ class DisplayClassroom(LoginRequiredMixin, View):
                 classroom.save()
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
-        return render(request, "display_classroom.html", {'classroom': classroom})
+        students = []
+        for a in classroom.students.all():
+            students.append(a.first_name + ' ' + a.last_name)
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students})
 
 
 class DeleteClassroom(LoginRequiredMixin, View):

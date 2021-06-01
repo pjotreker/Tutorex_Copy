@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wysłano prośbę!</title>
-</head>
-<body>
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/class_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
+{% block content %}
+<div class="tui-class_page">
+    <h4 style="position: relative; margin-top: 2px; left: 15%;">Twoja proba o dołączenie do klasy została wysłana, zaczekaj aż nauczyciel Cię zaakceptuje</h4>
+</div>
+    <script>
+        function highlightTab() {
+            var tab = document.getElementById("classesButton");
+            tab.style.borderBottom = "4px solid white";
+        }
 
-    <p>Twoja proba o dołączenie do klasy została wysłana, zaczekaj aż nauczyciel Cię zaakceptuje</p>
-
-</body>
-</html>
+    highlightTab();
+</script>
+{% endblock %}
