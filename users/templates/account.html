@@ -12,6 +12,19 @@
             <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
             <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
         </div>
+        <div id="parental_password_page">
+            <div id="parental_password_box">
+                <form id="parent_pass_form" method="post">
+                    {% csrf_token %}
+                    <h6 class="data_header">PODAJ HASŁO RODZICIELSKIE</h6>
+                    <input type="password" name="parent_password" id="parent_password" placeholder="Podaj hasło rodzicielskie" required/><br/>
+                    <h6 class="data_header">POWTÓRZ HASŁO RODZICIELSKIE</h6>
+                    <input type="password" name="parent_password2" id="parent_password2" placeholder="Podaj hasło rodzicielskie" required/><br/>
+                    <input type="button" id="confirm_passwords_button" value="Dalej"/>
+                    <input type="button" id="cancel_parent_button" onclick="SaveData()" value="Anuluj"/>
+            </form>
+            </div>
+        </div>
         <div id="tui-account_page" style="top: 150px;">
             <h1 style="padding-top: 10px;"> {{ user.first_name }} {{ user.last_name }} </h1>
             {% if user.is_teacher %}
@@ -35,10 +48,62 @@
             </form>
             <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
             <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="document.location='delete-account'">USUŃ KONTO</button>
-
         </div>
     </div>
     <script>
+        $(document).ready(function(){
+            SaveData();
+        });
+        $("#editDataButton").click(function(){
+            let parent_pass = {% if user.parent_password %}"{{ user.parent_password }}"{% else %} null {% endif %};
+            if(parent_pass != null){
+                let password_page = $("#parental_password_page");
+                password_page.css("display","block");
+                let password_box = $("#parental_password_box");
+                password_box.css("display","block");
+                console.log("jest");
+            }
+        });
+        $("#confirm_passwords_button").click(function(){
+            let form = $("#parent_pass_form")[0];
+            let form_data = new FormData(form);
+            let pass_1 = form_data.get('parent_password');
+            let pass_2 = form_data.get('parent_password2');
+            //console.log(form_data);
+            let pass_identical = false;
+            form.checkValidity();
+            if(pass_1 == pass_2){
+                pass_identical = true;
+            }else{
+                alert("Hasła nie są identyczne!");
+            }
+            if(form.checkValidity() && pass_identical){
+                $.ajax({
+                    'url': '/api/user/parent-pass-validate',
+                    'method': 'POST',
+                    'data': {
+                            parent_password: pass_1,
+                            parent_password2: pass_2,
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            },
+                      statusCode: {
+                        403: function() {
+                            alert( "Złe dane logowania!" );
+                        },
+                        404: function() {
+                            console.log("Page not found");
+                        },
+                        200: function() {
+                            $("#parental_password_page").css('display', 'none');
+                            $("#parental_password_box").css('display', 'none');
+                        }
+                      }
+                })
+                console.log(form_data.get('parent_password'));
+            }else{
+                form.reportValidity();
+            }
+        });
         function EditData() {
             var name = document.getElementById("first_name");
             var surname = document.getElementById("last_name");
@@ -58,18 +123,22 @@
             edit.style.display = "none";
         }
         function SaveData() {
-            var name = document.getElementById("editName");
-            var surname = document.getElementById("editSurname");
-            var dob = document.getElementById("editDOB");
+            var name = document.getElementById("first_name");
+            var surname = document.getElementById("last_name");
+            var dob = document.getElementById("birthday");
             var save = document.getElementById("saveDataChangeButton");
             var edit = document.getElementById("editDataButton");
-            name.setAttribute("contenteditable", false);
+            name.disabled = true;
             name.style.backgroundColor = "#ffffff";
-            surname.setAttribute("contenteditable", false);
+            surname.disabled = true;
             surname.style.backgroundColor = "#ffffff";
             dob.disabled = true;
             save.style.display = "none";
             edit.style.display = "block";
+            let password_page = $("#parental_password_page");
+            password_page.css("display","none");
+            //let password_box = $("#parental_password_box");
+            //password_box.css("display","block");
         }
         function CloseWindow(window) {
             var windowToClose = document.getElementById(window);

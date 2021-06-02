@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponse
 from django.core.mail import send_mail
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
@@ -235,7 +235,6 @@ class EditUserProfileView(LoginRequiredMixin, View):
 
         age_constr = get_16_ya()
         today = get_today_date()
-
         return render(request, "account.html", {'user': user, 'user_18_years': age_constr, 'today': today})
 
     def post(self, request, user_id, *args, **kwargs):
@@ -478,6 +477,21 @@ def get_user_notifications(request):
         'all_count': len(new_notifications),
     }
     return JsonResponse(data)
+
+
+@login_required(login_url="/login/")
+def parent_password_validate(request):
+    user = request.user
+    if not request.is_ajax():
+        return HttpResponse(status=403)
+    parent_pass = request.POST.get('parent_password')
+    parent_pass2 = request.POST.get('parent_password2')
+    if parent_pass != parent_pass2:
+        return HttpResponse(status=403)
+    if parent_pass != user.parent_password:
+        return HttpResponse(status=403)
+
+    return HttpResponse(status=200)
 
 
 def handler_404(request, exception, template_name='404.html'):
