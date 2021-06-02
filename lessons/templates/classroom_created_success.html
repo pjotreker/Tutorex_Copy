@@ -1,14 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Klasa utworzona</title>
-</head>
-<body>
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/class_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
+{% block content %}
+<div class="tui-class_page">
+    <div style="width: 50%; margin: auto; text-align: center; padding-top: 10px;">
+      <p>Klasa została utworzona! Oto kod Twojej klasy: </p>
+      <p><b>{{ classroom_id }}</b></p>
+      <p>Przekaż go swoim uczniom, aby mogli dołączyć do tej klasy.</p>
+      <p>Spokojnie, kod klasy możesz sprawdzić w każdej chwili w widoku klasy!</p>
+    </div>
+  </div>
 
-    <p>Klasa została utworzona! Oto kod Twojej klasy: </p>
-    <p>{{ classroom_id }}</p>
-    <p>Przekaż go swoim uczniom, aby mogli dołączyć do tej klasy.</p>
-    <p>Spokojnie, kod klasy możesz sprawdzić w każdej chwili w widoku klasy!</p>
-</body>
-</html>
+      <script>
+          function highlightTab() {
+              var tab = document.getElementById("classesButton");
+              tab.style.borderBottom = "4px solid white";
+          }
+
+          highlightTab();
+      </script>
+    {% endblock %}
