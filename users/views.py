@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.tokens import PasswordResetTokenGenerator, default_token_generator
 from django.template import loader
 from notifications.signals import notify
 from notifications.utils import id2slug
@@ -391,6 +391,44 @@ def link_send(request):
     return render(request, "link_send.html")
 
 
+class RequestResetParentPasswordEmail(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, "reset_parent_password.html")
+
+    def post(self, request):
+        context = {}
+        email = request.POST['email']
+        try:
+            user = BaseUser.objects.filter(email=email)
+            print(user)
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user[0].parent_password is None:
+            raise PermissionDenied
+        if user:
+            user_uid = urlsafe_base64_encode(force_bytes(user[0].pk))
+            token = PasswordResetTokenGenerator().make_token(user[0])
+            reset_passwd_url = f"{request.scheme}://{request.get_host()}/user/{user_uid}/reset-parent-password/{token}"
+            html_message = loader.render_to_string('reset_parent_email_temp.html',
+                                                   {'user_name': user[0].first_name, 'reset_link': reset_passwd_url})
+            print("wysyłam maila")
+            mail_sent = send_mail(
+                "Tutorex - zresetuj swoje hasło rodzica",
+                '',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+                html_message=html_message
+            )
+            if mail_sent == 0:
+                raise ValueError("Nie udało się wysłać maila resetującego hasło :(")
+
+            return redirect('link-send')
+        else:
+            context['error'] = "Bro ... rodzicowi hasło próbujesz zmienić? o.O"
+            return render(request, "reset_parent_password.html", context)
+
+
 class RequestResetPasswordEmail(View):
     def get(self, request):
         return render(request, "reset_password.html")
@@ -431,6 +469,46 @@ class RequestResetPasswordEmail(View):
             return render(request, "reset_password.html", context)
 
 
+class CompleteParentPasswordReset(View):
+    def get(self, request, user_uid, token):
+        print('ok')
+        context = {
+            "user_uid": user_uid,
+            "token": token
+        }
+        return render(request, "set_new_parent_password.html", context=context)
+
+    def post(self, request, user_uid, token):
+        context = {
+            "user_uid": user_uid,
+            "token": token
+        }
+        print("co sie dzieje")
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
+        if password != password2:
+            context['error'] = "Hasła nie są identyczne!"
+            return render(request, "set_new_parent_password.html", context=context)
+
+        try:
+            user_id = force_text(urlsafe_base64_decode(user_uid))
+            user = BaseUser.objects.get(pk=user_id)
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+            context['error'] = "Coś poszło nie tak, spróbuj ponownie"
+            return render(request, "set_new_password.html", context=context)
+
+        if user is not None:
+            print("japierdole co się dzieje???")
+            user.parent_password = password
+            print('lol no chyba zmenione')
+            user.save()
+            print(user.parent_password)
+            context['success'] = "Hasło rodzica zmienione pomyślnie"
+            return redirect('home')
+
+
 class CompletePasswordReset(View):
     def get(self, request, user_uid, token):
         context = {
@@ -465,6 +543,7 @@ class CompletePasswordReset(View):
             return render(request, "set_new_password.html", context=context)
 
         if user is not None:
+            print('Dlaczegoooo')
             user.set_password(password)
             user.save()
             context['success'] = "Hasło zmienione pomyślnie"
