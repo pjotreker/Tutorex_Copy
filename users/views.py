@@ -521,6 +521,21 @@ def get_user_notifications(request):
 
 
 @login_required(login_url="/login/")
+def check_if_password_matches(request):
+    password = request.POST.get('password')
+    if request.POST.get('parent'):
+        data = {
+            'matches': password == request.user.parent_password,
+        }
+    else:
+        user = authenticate(request, username=request.user.email, password=password)
+        data = {
+            'matches': True if user else False,
+        }
+    return JsonResponse(data)
+
+
+@login_required(login_url="/login/")
 def parent_password_validate(request):
     user = request.user
     if not request.is_ajax():
