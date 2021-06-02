@@ -43,8 +43,8 @@
 }
 
 #classesContainer {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
     top: 20px;
     height: 90%;
     min-height: 240px;
@@ -228,8 +228,8 @@
 #createNewClassBar {
     position: relative;
     height: auto;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-bottom: 10px;
     
     padding: 10px;
@@ -422,6 +422,14 @@ label {
 
 @media only screen and (max-width: 720px) {
     /* For mobile phones: */
+    #createNewClassBar {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    #classesContainer {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
     #joinNewClassButton {
         margin-right: -2px;
     }

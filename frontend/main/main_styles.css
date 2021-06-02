@@ -46,34 +46,6 @@ html, body {
     padding-left: 9%;
 }
 
-@media only screen and (max-width: 720px) {
-    /* For mobile phones: */
-    .column_mobile {
-        width: 100%;
-    }
-    #headerLogo {
-        left: 5%
-    }
-    #headerButtons {
-        margin-right: 0%;
-    }
-    #headerButtonsSection {
-        padding-left: 0%;
-        display: flex;
-        justify-content: space-evenly;
-    }
-    .name_of_Tab {
-        display: none;
-    }
-    .tui-header_tabs_button:not(#profileButton, #logOutButton) {
-        width: 25vw !important;
-    }
-    .notification_icon {
-        align-self: center;
-        margin-left: 39%;
-    }
-}
-
 .tui-header_tabs_button {
     padding: 15px 20px;
     height: 60px;
@@ -98,4 +70,35 @@ html, body {
 
 a:hover, a:visited, a:link, a:active {
     text-decoration: none !important;
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    .column_mobile {
+        width: 100%;
+    }
+    #headerLogo {
+        left: 5%
+    }
+    #headerButtons {
+        margin-right: 0%;
+    }
+    #headerButtonsSection {
+        padding-left: 0%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .name_of_Tab {
+        display: none;
+    }
+    .tui-header_tabs_button:not(#profileButton, #logOutButton, #contactButton) {
+        width: 25vw !important;
+    }
+    #profileButton, #logOutButton, #contactButton {
+        padding: 15px 12px;
+    }
+    .notification_icon {
+        align-self: center;
+        margin-left: 39%;
+    }
 }

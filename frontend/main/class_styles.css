@@ -11,8 +11,8 @@
 
 #tui-class_box {
     position: relative;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 18%;
+    margin-right: 18%;
     height: 100%;
     min-height: 350px;
     max-height: 700px;
@@ -121,6 +121,28 @@
     min-width: 350px;
     max-height: 500px;
     background-color: white;
+}
+
+#listOfClassLessonsHeader {
+    display: flex;
+}
+
+#addLessonButton {
+    position: absolute;
+    margin-top: 0px;
+    right: 14px;
+    top: 5px;
+    
+    background-color: #0E4DA4;
+}
+
+#addLessonIcon {
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+#addLessonButton:hover {
+    background-color: #375eb9 !important;
 }
 
 .class_from_list {
@@ -290,11 +312,19 @@
     display: none;
 }
 
+@media only screen and (max-width: 1400px) {
+    /* For mobile phones: */
+    #tui-class_box { 
+        margin-left: 12%;
+        margin-right: 12%;
+    }
+}
+
 @media only screen and (max-width: 1111px) {
     /* For mobile phones: */
     #tui-class_box { 
-        margin-left: 15%;
-        margin-right: 15%;
+        margin-left: 10%;
+        margin-right: 10%;
     }
     #bottomClassContainer {
         position: relative;
@@ -318,7 +348,7 @@
 @media only screen and (max-width: 720px) {
     /* For mobile phones: */
     #tui-class_box { 
-        margin-left: 10%;
-        margin-right: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
     }
 }
