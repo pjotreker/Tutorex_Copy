@@ -290,6 +290,7 @@ class DeleteClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Musisz byc nauczycielem aby móc usunąć klasę!")
         try:
             classroom.delete()
-        except:
+            return redirect('show-classrooms')
+        except Exception:
             return HttpResponseForbidden("Coś poszło nieteges")
-        return render(request, "delete_classroom_ask.html", {'classroom': classroom})
+
