@@ -301,6 +301,48 @@ class ChangePasswordView(LoginRequiredMixin, View):
             return render(request, "change_password.html", context)
 
 
+class ChangeParentPasswordView(LoginRequiredMixin, View):
+    def get(self, request, user_id):
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id or request.user.parent_password is None:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user:
+            return render(request, "change_parent_password.html")
+
+    def post(self, request, user_id):
+        context = {}
+        try:
+            user = BaseUser.objects.get(pk=user_id)
+            if user.id != request.user.id or not request.user.id or request.user.parent_password is None:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user:
+            form = ChangePasswordForm(request.POST)
+            if form.is_valid():
+                old_password = form.cleaned_data.get('old_password')
+                password = form.cleaned_data.get('password')
+                password2 = form.cleaned_data.get('password2')
+                print(old_password)
+                print(user.parent_password)
+                if not (user.parent_password == old_password and password == password2):
+                    print('lol')
+                    context['error'] = "Ojojoj! Coś poszło nie tak!"
+                    return render(request, "change_parent_password.html", context)
+                else:
+                    print('lol2')
+                    user.parent_password = password
+                    user.save()
+                    context['success'] = 'Hasło rodzica zmieniono pomyślnie'
+                    return redirect('home')
+        else:
+            context['error'] = "Ojojoj! Coś poszło nie tak!"
+            return render(request, "change_parent_password.html", context)
+
+
 class DeleteUser(LoginRequiredMixin, View):
     def get(self, request, user_id):
         try:
@@ -343,7 +385,6 @@ class DeleteUser(LoginRequiredMixin, View):
                 return render(request, 'delete_user.html', context)
         else:
             return render(request, 'delete_user.html')
-
 
 
 def link_send(request):
