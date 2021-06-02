@@ -100,8 +100,10 @@
                     {% if user.is_teacher == True %}
                     <button id="deleteClassButton" class="class_button" style="background-color: #E74C3C;" onclick="deleteClass()">USUŃ KLASĘ</button>
                     <button id="editClassButton" class="class_button" style="background-color: #0E4DA4;" onclick="editContent()">EDYTUJ DANE</button>
+                    <p id=askDeleteClass style="color: #E74C3C; display: none;"><br>
+                      Czy na pewno chcesz usunąć klasę?</p>
                     <button id="dontDeleteClassButton" onclick="dontDeleteClass()">ANULUJ</button>
-                    <button id="confirmDeletingClassButton" class="class_button" onclick="confirmDeletingClass()" style="background-color: #E74C3C;">POTWIERDŹ</button>
+                    <button id="confirmDeletingClassButton" class="class_button" onclick="document.location='./delete-classroom/{{ classroom.id }}'" style="background-color: #E74C3C;">POTWIERDŹ</button>
                     {% endif %}
                 </div>
             </div>
@@ -217,18 +219,22 @@
             var deleting = document.getElementById("deleteClassButton");
             var dont = document.getElementById("dontDeleteClassButton");
             var confirm = document.getElementById("confirmDeletingClassButton");
+            var ask = document.getElementById("askDeleteClass");
             deleting.style.display = "none";
-            dont.style.display = 'block';
-            confirm.style.display = 'block';
+            dont.style.display = 'inline-block';
+            confirm.style.display = 'inline-block';
+            ask.style.display = 'block';
         }
 
         function dontDeleteClass() {
             var deleting = document.getElementById("deleteClassButton");
             var dont = document.getElementById("dontDeleteClassButton");
             var confirm = document.getElementById("confirmDeletingClassButton");
-            deleting.style.display = "block";
+            var ask = document.getElementById("askDeleteClass");
+            deleting.style.display = "inline-block";
             dont.style.display = 'none';
             confirm.style.display = 'none';
+            ask.style.display = 'none';
         }
 
         function confirmDeletingClass() {
