@@ -1,10 +1,20 @@
 from django.db import models
 from users.models import BaseUser, TeacherProfile
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from datetime import datetime, timedelta
 
 class Lesson(models.Model):
     pass
+
+
+class LessonTimeSlot(models.Model):
+    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    time_start = models.DateTimeField()
+    duration = models.IntegerField(default=45)
+    students = models.ManyToManyField(BaseUser)
+
+    def calculate_time_end(self):
+        return self.time_start + timedelta(minutes=self.duration)
 
 
 class Classroom(models.Model):
