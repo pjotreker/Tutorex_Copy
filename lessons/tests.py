@@ -175,14 +175,6 @@ class ClassroomTest(BaseTest):
         self.client.logout()
     '''
 
-    def test_view_delete_classroom_teacher(self):
-        user = self.set_up_teacher()
-        classroom = self.set_up_classroom(user)
-        response = self.client.get(reverse('delete-classroom', args=[classroom.id]), secure=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'delete_classroom_ask.html')
-        self.client.logout()
-
     # create classroom tests
     def test_create_classroom(self):
         user = self.set_up_teacher()
@@ -226,5 +218,13 @@ class ClassroomTest(BaseTest):
                                                                 'age_range_max':'20',
                                                                 'time_frame_start':'2021-05-23',
                                                                 'time_frame_out':'2050-10-24'}, format='text/html', secure=True)
+        self.assertEqual(response.status_code, 302)
+        self.client.logout()
+
+    # delete classroom tests
+    def test_delete_classroom_teacher(self):
+        user = self.set_up_teacher()
+        classroom = self.set_up_classroom(user)
+        response = self.client.get(reverse('delete-classroom', args=[classroom.id]), secure=True)
         self.assertEqual(response.status_code, 302)
         self.client.logout()
