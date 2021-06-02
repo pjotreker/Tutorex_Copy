@@ -471,7 +471,6 @@ class RequestResetPasswordEmail(View):
 
 class CompleteParentPasswordReset(View):
     def get(self, request, user_uid, token):
-        print('ok')
         context = {
             "user_uid": user_uid,
             "token": token
@@ -483,7 +482,6 @@ class CompleteParentPasswordReset(View):
             "user_uid": user_uid,
             "token": token
         }
-        print("co sie dzieje")
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
@@ -500,11 +498,8 @@ class CompleteParentPasswordReset(View):
             return render(request, "set_new_password.html", context=context)
 
         if user is not None:
-            print("japierdole co się dzieje???")
             user.parent_password = password
-            print('lol no chyba zmenione')
             user.save()
-            print(user.parent_password)
             context['success'] = "Hasło rodzica zmienione pomyślnie"
             return redirect('home')
 
