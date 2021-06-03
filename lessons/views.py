@@ -126,6 +126,7 @@ class RejectJoinClassroom(LoginRequiredMixin, View):
             src_notification[0].save()
         return JsonResponse({'success': True})
 
+
 class ModifyClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
