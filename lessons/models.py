@@ -28,7 +28,7 @@ class Lesson(models.Model):
     subject = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     note = models.CharField(max_length=1000, blank=True, null=True)
-    owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, default=None)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=None)
     lesson_done = models.BooleanField(default=False)
 
