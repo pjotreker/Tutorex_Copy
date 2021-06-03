@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from lessons import views as lesson_views
 from lessons.urls import urlpatterns as lessons_urls
+from calendar_google.urls import urlpatterns as calendar_google_urls
 from users import views as user_views
 import notifications.urls
 
@@ -51,3 +52,4 @@ handler404 = 'users.views.handler_404'
 handler500 = 'users.views.handler_500'
 
 urlpatterns += lessons_urls
+urlpatterns += calendar_google_urls
