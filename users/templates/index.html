@@ -77,6 +77,14 @@
     </div>
 
     <script>
+        $(document).ready(function(){
+            let errors_occured = {% if error %}true{% else %} false {% endif %};
+            console.log("Błędy:" +errors_occured);
+            if(errors_occured) {
+                //let e = document.getElementsByClassName("tui-window_login");
+                $(".tui-window_login").css("display", 'block');
+            }
+        });
         // Slideshow script
 
         var myIndex = 0;
