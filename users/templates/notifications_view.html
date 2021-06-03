@@ -5,7 +5,7 @@
     <link href="{% static 'css/notification_styles.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 {% endblock %}
-{% block title %} Powiadomienia{% endblock %}
+{% block title %}Powiadomienia{% endblock %}
 {% block content %}
 <!--    <ul class="list-group" id="notification_list">-->
 <!--        {% for record in notifications %}-->
@@ -40,6 +40,14 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        function highlightTab() {
+            var tab = document.getElementById("notificationButton");
+            tab.style.borderBottom = "4px solid white";
+        }
+        highlightTab();
+    </script>
 {% endblock %}
 
 {% block scripts %}
