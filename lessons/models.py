@@ -23,11 +23,11 @@ class Classroom(models.Model):
 
 
 class Lesson(models.Model):
-    date = models.DateField()
-    hour = models.TimeField()
-    subject = models.CharField(max_length=100)
-    description = models.CharField(max_length=255)
-    note = models.CharField(max_length=1000, blank=True)
+    date = models.DateField(blank=True, null=True)
+    hour = models.TimeField(blank=True, null=True)
+    subject = models.CharField(max_length=100, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    note = models.CharField(max_length=1000, blank=True, null=True)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     lesson_done = models.BooleanField(default=False)
