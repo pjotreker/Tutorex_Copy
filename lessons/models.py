@@ -25,7 +25,7 @@ class Classroom(models.Model):
 class Lesson(models.Model):
     date = models.DateField(blank=True, null=True)
     hour = models.TimeField(blank=True, null=True)
-    subject = models.CharField(max_length=100, blank=True, null=True)
+    subject = models.CharField(max_length=100)
     description = models.CharField(max_length=255, blank=True, null=True)
     note = models.CharField(max_length=1000, blank=True, null=True)
     owner = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, default=None)

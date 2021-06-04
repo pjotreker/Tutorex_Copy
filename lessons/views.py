@@ -12,8 +12,8 @@ from notifications.signals import notify
 
 from users.models import TeacherProfile
 
-from .models import Classroom, BaseUser, StudentClassRequest
-from .forms import CreateClassroomForm, ModifyClassroomForm
+from .models import Classroom, BaseUser, StudentClassRequest, Lesson
+from .forms import CreateClassroomForm, ModifyClassroomForm, AddLessonForm
 from datetime import datetime
 import re
 
@@ -295,3 +295,51 @@ class DeleteClassroom(LoginRequiredMixin, View):
         except Exception:
             return HttpResponseForbidden("Coś poszło nieteges")
 
+
+class AddLesson(LoginRequiredMixin, View):
+    def get(self, request, classroom_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=classroom_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz dodawać lekcji w nieswojej klasie!")
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby dodać lekcję!")
+        return render(request, "add_lesson.html")
+
+    def post(self, request, classroom_id):
+        context = {}
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=classroom_id)
+        if classroom.owner != owner:
+            return HttpResponseForbidden("Nie możesz dodawać lekcji w nieswojej klasie!")
+        if not request.user.is_teacher:
+            return HttpResponseForbidden("Musisz byc nauczycielem aby dodać lekcję!")
+        form = AddLessonForm(request.POST)
+        try:
+            if form.is_valid():
+                subject = form.cleaned_data.get('lesson_name')
+                description = form.cleaned_data.get('description')
+                note = form.cleaned_data.get('note')
+                lesson_date = form.data.get('lesson_date')
+                if lesson_date == '':
+                    lesson_date = None
+                lesson_hour = form.data.get('lesson_hour')
+                if lesson_hour == '':
+                    lesson_hour = None
+                lesson_done = form.cleaned_data.get('lesson_done')
+                lesson = Lesson.objects.create(date=lesson_date,
+                                               hour=lesson_hour,
+                                               subject=subject,
+                                               description=description,
+                                               note=note,
+                                               owner=owner,
+                                               classroom=classroom,
+                                               lesson_done=lesson_done)
+                lesson.save()
+            else:
+                context['error'] = "Coś źle uzupełnione :( "
+                return render(request, "add_lesson.html", context)
+        except Exception:
+            context['error'] = "Coś poszło nie tak"
+            return render(request, "add_lesson.html", context)
+        return redirect('display-classroom', classroom_id=classroom_id)
