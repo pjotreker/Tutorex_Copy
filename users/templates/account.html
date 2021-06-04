@@ -55,7 +55,7 @@
             SaveData();
         });
         $("#editDataButton").click(function(){
-            let parent_pass = {% if user.parent_password %}"{{ user.parent_password }}"{% else %} null {% endif %};
+            let parent_pass = {% if not user.is_adult %}"{{ user.parent_password }}"{% else %} null {% endif %};
             if(parent_pass != null){
                 let password_page = $("#parental_password_page");
                 password_page.css("display","block");

@@ -114,7 +114,7 @@ def signup_parent(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=True)
+                                                    is_active=False)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
