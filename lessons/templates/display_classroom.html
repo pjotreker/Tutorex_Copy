@@ -32,7 +32,11 @@
                         {% for lesson in lessons %}
                           <div class="class_from_list">
                               <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
+                              {% if lesson.date != None %}
                               <div class="date_of_class_from_list">{{lesson.date}}</div>
+                              {% else %}
+                              <div class="date_of_class_from_list">Nie przypisano</div>
+                              {% endif %}
                           </div>
                         {% endfor %}
                     </div>
