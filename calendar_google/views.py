@@ -5,6 +5,7 @@ from django.http import HttpResponseForbidden, JsonResponse
 from .models import BaseUser
 from django.core.exceptions import PermissionDenied
 
+
 class ShowCalendarTeacher(LoginRequiredMixin, View):
         def get(self, request, user_uid):
             try:
@@ -19,6 +20,7 @@ class ShowCalendarTeacher(LoginRequiredMixin, View):
             else:
                 HttpResponseForbidden("Błąd z uwierzytelnieniem. Skontaktuj się z administratorami.")
 
+
 class ShowCalendarStudent(LoginRequiredMixin, View):
     def get(self, request, user_uid):
         try:
@@ -32,3 +34,16 @@ class ShowCalendarStudent(LoginRequiredMixin, View):
             return render(request, "show_calendar_student.html", context)
         else:
             HttpResponseForbidden("Błąd z uwierzytelnieniem. Skontaktuj się z administratorami.")
+
+
+class ShowCalendar(LoginRequiredMixin, View):
+    def get(self, request):
+        try:
+            user_id = request.user.id
+            user = BaseUser.objects.get(pk=user_id)
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user.is_teacher:
+            return render(request, "show_calendar_teacher.html")
+        else:
+            return render(request, "show_calendar_student.html")

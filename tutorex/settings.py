@@ -64,8 +64,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'tutorex.urls' ###
 DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
 
 TEMPLATES = [
     {
@@ -115,14 +115,14 @@ else:
         }
     }
 '''
-
+#'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+#'''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
