@@ -18,6 +18,7 @@
 
                 <label for="email"><b>Email</b></label>
                 <input type="email" placeholder="Email" name="email" id="email" required>
+                <div id="mail_alert" class="passwords-alert"> </div>
 
                 <label for="birthday"><b>Data urodzenia</b></label>
                 <input type="date" min="1900-01-01" max="{{ user_16_years }}" name="birthday" id="birthday" value="2017-06-01" required>
@@ -26,6 +27,7 @@
 
                 <label for="password"><b>Hasło</b></label>
                 <input type="password" placeholder="Hasło" name="password" id="password" required>
+                <div id="pass_validation_errors" class="passwords-alert"> </div>
 
                 <label for="password2"><b>Powtórz hasło</b></label>
                 <input type="password" placeholder="Powtórz hasło" name="password2" id="password2" required>
@@ -81,15 +83,6 @@
 
         // First Page of Registration
 
-        document.getElementById("next1").addEventListener("click", function() {
-            var e = document.getElementById("registrationPage2");
-            e.style.display = 'block';
-            var f = document.getElementById("registrationPage1");
-            f.style.display = 'none';
-        });
-
-        // First Page of Registration
-
         document.getElementById("previous").addEventListener("click", function() {
             var e = document.getElementById("registrationPage2");
             e.style.display = 'none';
@@ -98,6 +91,53 @@
         });
 
         // Check if entered passwords are the same
+
+        function email_validation() {
+            let email = $("#email").val();
+            let mail_valid = true;
+            $.ajax({
+                'method': 'POST',
+                'url': '/api/mail-check-exists',
+                'data': {email: email},
+                'dataType': 'json',
+                'async': false,
+                'success': function(response) {
+                    console.log(response.valid);
+                    if(!response.valid){
+                        $("#mail_alert").html(response.mail_error);
+                        $("#mail_alert").css("display","block");
+                        mail_valid = false;
+                    }else{
+                        $("#mail_alert").css("display","none");
+                    }
+                }
+            });
+            return mail_valid;
+        }
+
+        function password_validation() {
+            let passwd = $("#password").val();
+            let valid_pass = true;
+            $.ajax({
+                'method': 'POST',
+                'url': '/api/pass-check-constrains',
+                'data': {password: passwd, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                'success': function(response){
+                    if("pass_error" in response){
+                        $("#pass_validation_errors").html(response.pass_error);
+                        $("#pass_validation_errors").css("display","block");
+                        valid_pass = false;
+                    }else{
+                        $("#pass_validation_errors").css("display","none");
+                    }
+                },
+                'error': function(response){
+                    console.log(response);
+                },
+                'async': false
+            });
+            return valid_pass;
+        }
 
         function check_dates() {
             var birthday = document.getElementById("birthday").value;
@@ -135,10 +175,23 @@
             var dates_valid = check_dates();
             var form = document.getElementsByTagName('form')[0];
             var is_valid = form.checkValidity();
-            if (valid_password && dates_valid && is_valid){
+            var pass_valid = password_validation();
+            var mail_valid = email_validation();
+            console.log(mail_valid);
+            if (valid_password && dates_valid && is_valid && pass_valid && mail_valid){
                 form.submit();
             }
         }
+        let timer = null;
+        $("#password").on("keyup",function(){
+            clearTimeout(timer);
+            timer = setTimeout(password_validation,1000);
+        });
+        $("#email").on("keyup",function(){
+            clearTimeout(timer);
+            console.log("start!");
+            timer = setTimeout(email_validation,1000);
+        });
 
         //Login window script
 

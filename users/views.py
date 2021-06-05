@@ -2,13 +2,14 @@ from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponse
 from django.core.mail import send_mail
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.password_validation import validate_password
 from django.shortcuts import render, redirect
 from django.forms import model_to_dict
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView, View
 from django.views.generic.edit import DeleteView
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
@@ -20,6 +21,7 @@ from notifications.utils import id2slug
 import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
+import json
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
 from .models import BaseUser
 from .tokens import account_invitation_token
@@ -40,6 +42,7 @@ def get_today_date():
 def signup(request):
     if request.user.is_authenticated:
         return redirect("home")
+
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
@@ -59,8 +62,10 @@ def signup(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=False,
+                                                    is_active=True,
                                                     is_teacher=is_teacher)
+
+            # res = validate_password(password, new_user)
             new_user.save()
             token = account_invitation_token.make_token(user=new_user)
             user_uid = urlsafe_base64_encode(force_bytes(new_user.pk))
@@ -471,14 +476,6 @@ class CompletePasswordReset(View):
             return redirect('user-login')
 
 
-@login_required(login_url="/login/")
-def send_test_notification(request, user_id: int):
-    dst_user = BaseUser.objects.get(pk=user_id)
-    src_user = request.user
-    notify.send(sender=src_user, recipient=dst_user, verb="Lorem ipsum dolor sit amet")
-    return redirect('home')
-
-
 class NotificationsView(LoginRequiredMixin, View):
 
     def get(self, request):
@@ -517,6 +514,31 @@ def get_user_notifications(request):
         'notifications': all_list[::-1],
         'all_count': len(new_notifications),
     }
+    return JsonResponse(data)
+
+
+def validate_pass(request):
+    password = request.POST.get('password')
+    try:
+        res = validate_password(password)
+    except Exception as e:
+        data = {'pass_error': e.messages[0]}
+        return JsonResponse(data)
+
+    return JsonResponse({})
+
+
+@csrf_exempt
+def check_email_exists(request):
+    email = request.POST.get('email')
+    user = BaseUser.objects.filter(email=email)
+    data = dict()
+    if user:
+        data['valid'] = False
+        data['mail_error'] = 'Użytkownik o podanym mailu już istnieje!'
+        return JsonResponse(data)
+
+    data['valid'] = True
     return JsonResponse(data)
 
 

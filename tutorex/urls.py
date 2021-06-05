@@ -42,11 +42,12 @@ urlpatterns = [
     path('user/<user_uid>/reset-password/<token>', user_views.CompletePasswordReset.as_view(), name='reset-user-password'),
     path('link-send/', user_views.link_send, name='link-send'),
     path('notifications/', include(notifications.urls, namespace='notifications')),
-    path('notification/send-test/<user_id>', user_views.send_test_notification, name='send-test-notification'),
     path('user/notifications', user_views.NotificationsView.as_view(), name='my-notifications'),
     path('api/user/notifications/', user_views.get_user_notifications, name='my-notifications-json'),
     path('api/user/parent-pass-validate', user_views.parent_password_validate, name='parent-pass-validate'),
-    path('api/check-pass-matches/', user_views.check_if_password_matches, name='check-parent-pass-matches')
+    path('api/check-pass-matches/', user_views.check_if_password_matches, name='check-parent-pass-matches'),
+    path('api/pass-check-constrains', user_views.validate_pass, name='password-check-constrains'),
+    path('api/mail-check-exists', user_views.check_email_exists, name='email-check-exists'),
 ]
 
 handler403 = 'users.views.handler_403'
