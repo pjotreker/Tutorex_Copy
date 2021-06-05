@@ -13,6 +13,6 @@ urlpatterns = [
     path('show-classrooms/display-classroom/delete-classroom/<class_id>', lessons_views.DeleteClassroom.as_view(), name="delete-classroom"),
     path('join-classroom/', lessons_views.JoinClassroom.as_view(), name="join_classroom"),
     path('requests/<join_request_id>/accept/', lessons_views.AcceptJoinClassroom.as_view(), name="accept_join_classroom"),
-    path('requests/<join_request_id>/reject/', lessons_views.RejectJoinClassroom.as_view(), name="reject_join_classroom")
+    path('requests/<join_request_id>/reject/', lessons_views.RejectJoinClassroom.as_view(), name="reject_join_classroom"),
 ]
 
