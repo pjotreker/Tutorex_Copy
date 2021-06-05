@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'lessons',
     'users',
     'notifications',
+    'calendar_google'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,7 +95,7 @@ hostname = 'tutorexserver'
 # Configure Postgres database; the full username is username@servername,
 # which we construct using the DBHOST value.
 import sys
-# '''
+#'''
 if 'test' in sys.argv:
     DATABASES = {
          'default': {
@@ -113,7 +114,7 @@ else:
          'PORT':'5432'
         }
     }
-# '''
+#'''
 '''
 DATABASES = {
     'default': {
