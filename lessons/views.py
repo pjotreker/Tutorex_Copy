@@ -241,9 +241,11 @@ class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
         students = []
+        lessons = Lesson.objects.filter(classroom=classroom)
         for a in classroom.students.all():
             students.append(a.first_name + ' ' + a.last_name)
-        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students})
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
+                                                          'lessons': lessons})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -276,9 +278,11 @@ class DisplayClassroom(LoginRequiredMixin, View):
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
         students = []
+        lessons = Lesson.objects.filter(classroom=classroom)
         for a in classroom.students.all():
             students.append(a.first_name + ' ' + a.last_name)
-        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students})
+        return render(request, "display_classroom.html",
+                      {'classroom': classroom, 'students': students, 'lessons': lessons})
 
 
 class DeleteClassroom(LoginRequiredMixin, View):

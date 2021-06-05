@@ -29,42 +29,12 @@
                 <div id="leftPartOfBottomClassContainer">
                     <div id="listOfClassLessonsBox" class="bottom_class_box">
                         <div style="font-size: 20px; padding-left: 4px;">Spis lekcji</div>
+                        {% for lesson in lessons %}
                           <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 9: całki</div>
-                              <div class="date_of_class_from_list">04.05.2020</div>
+                              <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
+                              <div class="date_of_class_from_list">{{lesson.date}}</div>
                           </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 8: pochodne</div>
-                              <div class="date_of_class_from_list">27.04.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 7: liczby zespolone</div>
-                              <div class="date_of_class_from_list">20.04.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 6: trygonometria</div>
-                              <div class="date_of_class_from_list">13.04.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 5: wzory skróconego mnożenia i inne nieprzydatne tricki</div>
-                              <div class="date_of_class_from_list">06.04.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 4: planimetria</div>
-                              <div class="date_of_class_from_list">29.03.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 3: rachunek prawdopodobieństwa i kominatoryka</div>
-                              <div class="date_of_class_from_list">22.03.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 2: statystyka</div>
-                              <div class="date_of_class_from_list">15.03.2020</div>
-                          </div>
-                          <div class="class_from_list">
-                              <div class="name_of_class_from_list">Lekcja 1: funkcje</div>
-                              <div class="date_of_class_from_list">08.03.2020</div>
-                          </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div id="rightPartOfBottomClassContainer">

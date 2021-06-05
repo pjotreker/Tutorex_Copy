@@ -32,6 +32,9 @@ class Lesson(models.Model):
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=None)
     lesson_done = models.BooleanField(default=False)
 
+    #def __str__(self):
+    #    return f"Lekcja {self.subject}"
+
 
 class LessonTimeSlot(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
