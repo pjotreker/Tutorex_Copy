@@ -344,8 +344,6 @@ class AddLesson(LoginRequiredMixin, View):
                 if lesson_hour == '':
                     lesson_hour = None
                 lesson_done = form.cleaned_data.get('lesson_done')
-                #pdb.set_trace()
-                #breakpoint()
                 try:
                     lesson = Lesson.objects.create(date=lesson_date,
                                                    hour=lesson_hour,
@@ -356,11 +354,11 @@ class AddLesson(LoginRequiredMixin, View):
                                                    classroom=classroom,
                                                    lesson_done=lesson_done)
                 except Exception:
-                    return HttpResponseForbidden("chuj 1")
+                    return HttpResponseForbidden("Can't create the lesson")
                 try:
                     lesson.save()
                 except Exception:
-                    return HttpResponseForbidden("chuj 2")
+                    return HttpResponseForbidden("Can't save the lesson")
             else:
                 context['error'] = "Coś źle uzupełnione :( "
                 return render(request, "add_lesson.html", context)
