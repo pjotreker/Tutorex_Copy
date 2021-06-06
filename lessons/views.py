@@ -242,10 +242,16 @@ class DisplayClassroom(LoginRequiredMixin, View):
         classroom = Classroom.objects.get(id=classroom_id)
         students = []
         lessons = Lesson.objects.filter(classroom=classroom)
-        for a in classroom.students.all():
-            students.append(a.first_name + ' ' + a.last_name)
-        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
-                                                          'lessons': lessons})
+        if lessons.exists():
+            for a in classroom.students.all():
+                students.append(a.first_name + ' ' + a.last_name)
+            return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
+                                                              'lessons': lessons})
+        else:
+            for a in classroom.students.all():
+                students.append(a.first_name + ' ' + a.last_name)
+            return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
+                                                              'lessons': []})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)
