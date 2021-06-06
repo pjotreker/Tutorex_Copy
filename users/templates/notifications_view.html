@@ -23,7 +23,7 @@
         <div id="tui-notification_page">
         <div id="tui-notification_box">
             {% if notifications|length == 0 %}
-            <p style="text-align: center; padding-top: 20px;">Brak powiadomień.</p>
+            <p style="text-align: center; padding-top: 20px;">Brak powiadomień</p>
             {% endif %}
             {% for record in notifications %}
                 <div class="notification_sample" style="{% if record.unread %} background-color:#c5edd3; {% endif %}" id="{{ record.slug }}">
