@@ -201,3 +201,16 @@
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
+
+#changeParentPasswordButton {
+    position: absolute;
+    height: 32px;
+    width: 290px;
+    font-size: 15px;
+    padding-top: 3px;
+    bottom: 64px;
+}
+
+#changeParentPasswordButton:hover {
+    background-color: #466CC8 !important;
+}
