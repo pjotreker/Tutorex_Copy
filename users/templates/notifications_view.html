@@ -7,19 +7,6 @@
 {% endblock %}
 {% block title %}Powiadomienia{% endblock %}
 {% block content %}
-<!--    <ul class="list-group" id="notification_list">-->
-<!--        {% for record in notifications %}-->
-<!--            <li id="{{ record.slug }}" class="list-group-item" style="{% if record.unread %} background-color:#c5edd3; {% endif %}">&lt;!&ndash;<h6>{{record.actor.first_name}} {{ record.actor.last_name }}&ndash;&gt;</h6>-->
-<!--                <h6>{{ record.verb }}</h6>-->
-<!--                {% if record.data.need_acceptance %}-->
-<!--                    <button href="/requests/{{record.data.request_id}}/accept" class='accept_button'>Akceptuj</button>  <button href="/requests/{{record.data.request_id}}/accept" class='reject_button'>Odrzuć</button>-->
-<!--                {% endif %}-->
-<!--                <p style="display:none;">{{ record.id }}</p>-->
-<!--            </li>-->
-<!--        {% empty %}-->
-<!--            <li class="list-group-item">Nic tu nie ma</li>-->
-<!--        {% endfor %}-->
-<!--    </ul>-->
         <div id="tui-notification_page">
         <div id="tui-notification_box">
             {% if notifications|length == 0 %}
@@ -28,7 +15,7 @@
             {% for record in notifications %}
                 <div class="notification_sample" style="{% if record.unread %} background-color:#c5edd3; {% endif %}" id="{{ record.slug }}">
                 <div class="notificationContent">
-                    <div class=descriptionOfNotification>{{ record.verb }}</div>
+                    <div class=descriptionOfNotification>{{ record.verb|safe }}</div>
                     <div class="bottomWrapper">
                         <div class="timeOfNotification">{{ record.timestamp }}</div>
                         {% if record.data.need_acceptance %}
