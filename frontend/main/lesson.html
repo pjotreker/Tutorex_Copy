@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="main_styles.css" rel="stylesheet">
+    <link href="lesson_styles.css" rel="stylesheet">
+    <title>Tutorex</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+    </style>
+
+    <!-- jQuery import-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body onload="highlightTab()">
+
+    <div id="tuiHeader">
+        <div class="column_mobile" id="headerLogoSection">
+            <a href="./notification.html" id="headerLogo">
+                <img src="../images/logo.jpg" id="logo" alt="TutorexLogo" width="186" height="60">
+            </a>
+            <div id="headerButtons">
+                <a href="./account.html">
+                    <div class="tui-header_tabs_button" id="profileButton"> <!-- #offset-lg-6 offset-md-5 offset-sm-4 offset-3 -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V19C4 19.55 4.45 20 5 20H19C19.55 20 20 19.55 20 19V18C20 15.34 14.67 14 12 14Z" fill="white"/>
+                        </svg><div style="margin-left: 6px;">Natalia Plitta</div> 
+                    </div>
+                </a>
+                <a href="../start/index.html">
+                    <div class="tui-header_tabs_button" id="logOutButton">                
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.7057 7.70568C17.3159 7.31594 16.6841 7.31594 16.2943 7.70568C15.9051 8.09489 15.9045 8.72572 16.293 9.11568L18.17 11H9C8.44771 11 8 11.4477 8 12C8 12.5523 8.44772 13 9 13H18.17L16.2946 14.8754C15.9051 15.2649 15.9043 15.8966 16.2925 16.2875C16.6826 16.6804 17.3181 16.6819 17.7096 16.2904L21.2929 12.7071C21.6834 12.3166 21.6834 11.6834 21.2929 11.2929L17.7057 7.70568ZM4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 4.55228 12 4C12 3.44772 11.5523 3 11 3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H11C11.5523 21 12 20.5523 12 20C12 19.4477 11.5523 19 11 19H5C4.44772 19 4 18.5523 4 18V6Z" fill="white"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="./contact_us.html">
+                    <div class="tui-header_tabs_button" id="contactButton">                
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 23.59V19.99C5.99 19.73 2 15.57 2 10.5C2 5.26 6.26 1 11.5 1C16.74 1 21 5.26 21 10.5C21 15.45 17.56 20.43 12.43 22.9L11 23.59ZM11.5 3C7.36 3 4 6.36 4 10.5C4 14.64 7.36 18 11.5 18H13V20.3C16.64 18 19 14.22 19 10.5C19 6.36 15.64 3 11.5 3ZM10.5 14.5H12.5V16.5H10.5V14.5ZM12.5 13H10.5C10.5 9.75 13.5 10 13.5 8C13.5 6.9 12.6 6 11.5 6C10.4 6 9.5 6.9 9.5 8H7.5C7.5 5.79 9.29 4 11.5 4C13.71 4 15.5 5.79 15.5 8C15.5 10.5 12.5 10.75 12.5 13Z" fill="white"/>
+                        </svg>                            
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="headerButtonsSection">
+            <a href="./notification.html">
+                <div class="tui-header_tabs_button" id="notificationButton">
+                    <svg class="notification_icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.2901 17.29L18.0001 16V11C18.0001 7.93 16.3601 5.36 13.5001 4.68V4C13.5001 3.17 12.8301 2.5 12.0001 2.5C11.1701 2.5 10.5001 3.17 10.5001 4V4.68C7.63005 5.36 6.00005 7.92 6.00005 11V16L4.71005 17.29C4.08005 17.92 4.52005 19 5.41005 19H18.5801C19.4801 19 19.9201 17.92 19.2901 17.29ZM16.0001 17H8.00005V11C8.00005 8.52 9.51005 6.5 12.0001 6.5C14.4901 6.5 16.0001 8.52 16.0001 11V17ZM12.0001 22C13.1001 22 14.0001 21.1 14.0001 20H10.0001C10.0001 21.1 10.8901 22 12.0001 22Z" fill="white"/>
+                    </svg>
+                    <div class="name_of_Tab">Powiadomienia</div> 
+                </div>
+            </a>
+            <a href="./schedule.html">
+                <div class="tui-header_tabs_button" id="scheduleButton">
+                    <svg class="notification_icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 5H3C2.45 5 2 5.45 2 6V18C2 18.55 2.45 19 3 19H6C6.55 19 7 18.55 7 18V6C7 5.45 6.55 5 6 5ZM20 5H17C16.45 5 16 5.45 16 6V18C16 18.55 16.45 19 17 19H20C20.55 19 21 18.55 21 18V6C21 5.45 20.55 5 20 5ZM13 5H10C9.45 5 9 5.45 9 6V18C9 18.55 9.45 19 10 19H13C13.55 19 14 18.55 14 18V6C14 5.45 13.55 5 13 5Z" fill="white"/>
+                    </svg> 
+                    <div class="name_of_Tab">Harmonogram</div>
+                </div>
+            </a>
+            <a href="./registration.html">
+                <div class="tui-header_tabs_button" id="registerButton">
+                    <svg class="notification_icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 10H8C7.45 10 7 10.45 7 11C7 11.55 7.45 12 8 12H16C16.55 12 17 11.55 17 11C17 10.45 16.55 10 16 10ZM19 3H18V2C18 1.45 17.55 1 17 1C16.45 1 16 1.45 16 2V3H8V2C8 1.45 7.55 1 7 1C6.45 1 6 1.45 6 2V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM18 19H6C5.45 19 5 18.55 5 18V8H19V18C19 18.55 18.55 19 18 19ZM13 14H8C7.45 14 7 14.45 7 15C7 15.55 7.45 16 8 16H13C13.55 16 14 15.55 14 15C14 14.45 13.55 14 13 14Z" fill="white"/>
+                    </svg>
+                    <div class="name_of_Tab">Zapisy</div>
+                </div>
+            </a>
+            <a href="./classes.html">
+                <div class="tui-header_tabs_button" id="classesButton">
+                    <svg class="notification_icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.00003 13.1798V15.9898C5.00003 16.7198 5.40003 17.3998 6.04003 17.7498L11.04 20.4798C11.64 20.8098 12.36 20.8098 12.96 20.4798L17.96 17.7498C18.6 17.3998 19 16.7198 19 15.9898V13.1798L12.96 16.4798C12.36 16.8098 11.64 16.8098 11.04 16.4798L5.00003 13.1798ZM11.04 3.51979L2.61003 8.11978C1.92003 8.49978 1.92003 9.49978 2.61003 9.87979L11.04 14.4798C11.64 14.8098 12.36 14.8098 12.96 14.4798L21 10.0898V15.9998C21 16.5498 21.45 16.9998 22 16.9998C22.55 16.9998 23 16.5498 23 15.9998V9.58979C23 9.21979 22.8 8.88978 22.48 8.70978L12.96 3.51979C12.36 3.19979 11.64 3.19979 11.04 3.51979Z" fill="white"/>
+                    </svg>
+                    <div class="name_of_Tab">Klasy</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="tui-lesson_page">
+        <div id="returnLessonBar" class="tui-lesson_button_bar">
+            <button class="nav_button">
+                <svg class="nav_button_icon" width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 10.9998H7.14L10.77 6.63979C10.9397 6.43557 11.0214 6.17229 10.997 5.90786C10.9726 5.64344 10.8442 5.39953 10.64 5.22979C10.4358 5.06005 10.1725 4.97839 9.90808 5.00277C9.64365 5.02715 9.39974 5.15557 9.23 5.35979L4.23 11.3598C4.19636 11.4075 4.16628 11.4576 4.14 11.5098C4.14 11.5598 4.14 11.5898 4.07 11.6398C4.02467 11.7544 4.00094 11.8765 4 11.9998C4.00094 12.1231 4.02467 12.2451 4.07 12.3598C4.07 12.4098 4.07 12.4398 4.14 12.4898C4.16628 12.5419 4.19636 12.5921 4.23 12.6398L9.23 18.6398C9.32402 18.7527 9.44176 18.8435 9.57485 18.9057C9.70793 18.9679 9.85309 19 10 18.9998C10.2337 19.0002 10.4601 18.9189 10.64 18.7698C10.7413 18.6858 10.825 18.5827 10.8863 18.4664C10.9477 18.35 10.9855 18.2227 10.9975 18.0918C11.0096 17.9608 10.9957 17.8287 10.9567 17.7031C10.9176 17.5775 10.8542 17.4608 10.77 17.3598L7.14 12.9998H19C19.2652 12.9998 19.5196 12.8944 19.7071 12.7069C19.8946 12.5194 20 12.265 20 11.9998C20 11.7346 19.8946 11.4802 19.7071 11.2927C19.5196 11.1051 19.2652 10.9998 19 10.9998Z" fill="black"/>
+                </svg><div class="descriptionOfTheButton" style="padding-right: 8px;">POWRÓT</div>
+            </button>
+        </div>
+        <div id="navLessonBar" class="tui-lesson_button_bar">
+            <button class="nav_button">
+                <svg class="nav_button_icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.9101 6.70992C14.8176 6.61722 14.7077 6.54367 14.5867 6.49349C14.4658 6.44331 14.3361 6.41748 14.2051 6.41748C14.0742 6.41748 13.9445 6.44331 13.8235 6.49349C13.7025 6.54367 13.5926 6.61722 13.5001 6.70992L8.91012 11.2999C8.81742 11.3924 8.74387 11.5023 8.69369 11.6233C8.64351 11.7443 8.61768 11.874 8.61768 12.0049C8.61768 12.1359 8.64351 12.2656 8.69369 12.3865C8.74387 12.5075 8.81742 12.6174 8.91012 12.7099L13.5001 17.2999C13.5927 17.3925 13.7026 17.4659 13.8236 17.5161C13.9445 17.5662 14.0742 17.5919 14.2051 17.5919C14.3361 17.5919 14.4657 17.5662 14.5867 17.5161C14.7076 17.4659 14.8175 17.3925 14.9101 17.2999C15.0027 17.2073 15.0761 17.0974 15.1262 16.9765C15.1764 16.8555 15.2021 16.7259 15.2021 16.5949C15.2021 16.464 15.1764 16.3343 15.1262 16.2134C15.0761 16.0924 15.0027 15.9825 14.9101 15.8899L11.0301 11.9999L14.9101 8.11992C15.2901 7.72992 15.2901 7.08992 14.9101 6.70992V6.70992Z" fill="black"/>
+                </svg><div class="descriptionOfTheButton" style="padding-right: 8px;">POPRZEDNIA LEKCJA</div>
+            </button>
+            <button class="nav_button">
+                <div class="descriptionOfTheButton" style="padding-right: 5px;">NASTĘPNA LEKCJA</div>
+                <svg class="nav_button_icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.31002 6.70978C9.21732 6.80229 9.14377 6.91218 9.09359 7.03315C9.04341 7.15413 9.01758 7.28381 9.01758 7.41478C9.01758 7.54575 9.04341 7.67543 9.09359 7.7964C9.14377 7.91738 9.21732 8.02726 9.31002 8.11978L13.19 11.9998L9.31002 15.8798C9.12304 16.0668 9.018 16.3204 9.018 16.5848C9.018 16.8492 9.12304 17.1028 9.31002 17.2898C9.497 17.4768 9.7506 17.5818 10.015 17.5818C10.2794 17.5818 10.533 17.4768 10.72 17.2898L15.31 12.6998C15.4027 12.6073 15.4763 12.4974 15.5265 12.3764C15.5766 12.2554 15.6025 12.1257 15.6025 11.9948C15.6025 11.8638 15.5766 11.7341 15.5265 11.6132C15.4763 11.4922 15.4027 11.3823 15.31 11.2898L10.72 6.69978C10.34 6.31978 9.70002 6.31978 9.31002 6.70978Z" fill="black"/>
+                </svg>
+            </button>
+        </div>
+        <div id="tui-lesson_box">
+            <div id="lessonInfoContainer" style="margin-top: 8px; border-left: 2px solid #e9e9e9;">
+                <div class="lesson_info">
+                    <input id="dateOfLesson" class="lesson_date_input" type="date" disabled="true" value="2020-03-08">
+                </div>
+                <div class="lesson_info">
+                    <input id="hourOfLesson" class="lesson_date_input" type="time" value="19:20" disabled="true">
+                </div>
+            </div>
+            <div id="nameOfTheLessonBox">
+                <div id="nameOfTheLesson" contentEditable="false">
+                WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW WMWM WMW
+                </div>
+                <svg id="openCloseNameIcon" onclick="openCloseName()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="descriptionOfTheLessonBox">
+                <div id="descriptionOfTheLesson" contentEditable="false">
+                WWWWW WWWW WWWMMM MMM MMMWMW MWWWWWWWW WWWWMMMMMM MM
+                MWMWMW WWWWWWWWWWWMMMM MMMMMWM WMWWW WWWWWWWWWM MMMMMMMMWMWM
+                WWWWWWW WW WWWMMMM MMMMMW M WMWWWW WWWWWWWWMMM MMMMMMWMW MWWWWW WWWWWWWMMM
+                MMMM MMWMW WW WWWWWW WWW WMMMMMMMMM WMWM
+                WWWWW WWWWWWWMMM MMMMMMWMWMWW WWWWW WWWWWMM MMMMMM MWM
+                </div>
+                <svg id="openCloseDescriptionIcon" onclick="openCloseDescription()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="noteForTheLessonBox">
+                <div id="noteForTheLesson" contentEditable="false">
+                    <div style="border-bottom: 1px solid #c7c774; margin-bottom: 8px;">Notatka do lekcji:</div>
+                    WWWWW WWWW WWWMMM MMM MMMWMW MWWWWWWWW WWWWMMMMMM MM
+                    MWMWMW WWWWWWWWWWWMMMM MMMMMWM WMWWW WWWWWWWWWM MMMMMMMMWMWM
+                    WWWWWWW WW WWWMMMM MMMMMW M WMWWWW WWWWWWWWMMM MMMMMMWMW MWWWWW WWWWWWWMMM
+                    MMMM MMWMW WW WWWWWW WWW WMMMMMMMMM WMWM
+                    WWWWW WWWWWWWMMM MMMMMMWMWMWW WWWWW WWWWWMM MMMMMM MWM
+                </div>
+                <svg id="openCloseNoteIcon" onclick="openCloseNote()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="bottomLessonContainer">
+                <div id="leftPartOfBottomLessonContainer">
+                    <div id="listOfLessonFilesBox" class="bottom_lesson_box">
+                        <div id="listOfLessonFilesHeader">
+                            <div style="font-size: 20px; padding-left: 4px;">Materiały:</div>
+                            <button id="addFileToLessonButton" class="lesson_button">
+                                <svg id="addLessonIcon" width="16" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="white">
+                                <path d="M8 0C8.26522 0 8.51957 0.105357 8.70711 0.292893C8.89464 0.48043 9 0.734784 9 1V7H15C15.2652 7 15.5196 7.10536 15.7071 7.29289C15.8946 7.48043 16 7.73478 16 8C16 8.26522 15.8946 8.51957 15.7071 8.70711C15.5196 8.89464 15.2652 9 15 9H9V15C9 15.2652 8.89464 15.5196 8.70711 15.7071C8.51957 15.8946 8.26522 16 8 16C7.73478 16 7.48043 15.8946 7.29289 15.7071C7.10536 15.5196 7 15.2652 7 15V9H1C0.734784 9 0.48043 8.89464 0.292893 8.70711C0.105357 8.51957 0 8.26522 0 8C0 7.73478 0.105357 7.48043 0.292893 7.29289C0.48043 7.10536 0.734784 7 1 7H7V1C7 0.734784 7.10536 0.48043 7.29289 0.292893C7.48043 0.105357 7.73478 0 8 0V0Z"/>
+                                </svg><div class="descriptionOfTheButton">DODAJ MATERIAŁ</div>
+                            </button>
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 3</div>
+                            <div class="date_of_file_from_list">14:55, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 2</div>
+                            <div class="date_of_file_from_list">14:54, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 1</div>
+                            <div class="date_of_file_from_list">14:53, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                        <button id="deleteFileFromLessonButton" class="lesson_button" onclick="deleteFile()">USUŃ MATERIAŁ</button>
+                        <button id="dontDeleteFileFromLessonButton" class="lesson_button" onclick="dontDeleteFile()">ANULUJ</button>
+                        <button id="confirmDeletingFileFromLessonButton" class="lesson_button" onclick="confirmDeletingFile()">POTWIERDŹ</button>
+                    </div>
+                </div>
+                <div id="rightPartOfBottomLessonContainer"> 
+                    <div id="listOfHomeworkBox" class="bottom_lesson_box">
+                        <div id="listOfLessonFilesHeader">
+                            <div style="font-size: 20px; padding-left: 4px;">Zadania domowe:</div>
+                            <button id="addHomeworkToLessonButton" class="lesson_button">
+                                <svg id="addLessonIcon" width="16" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="white">
+                                    <path d="M8 0C8.26522 0 8.51957 0.105357 8.70711 0.292893C8.89464 0.48043 9 0.734784 9 1V7H15C15.2652 7 15.5196 7.10536 15.7071 7.29289C15.8946 7.48043 16 7.73478 16 8C16 8.26522 15.8946 8.51957 15.7071 8.70711C15.5196 8.89464 15.2652 9 15 9H9V15C9 15.2652 8.89464 15.5196 8.70711 15.7071C8.51957 15.8946 8.26522 16 8 16C7.73478 16 7.48043 15.8946 7.29289 15.7071C7.10536 15.5196 7 15.2652 7 15V9H1C0.734784 9 0.48043 8.89464 0.292893 8.70711C0.105357 8.51957 0 8.26522 0 8C0 7.73478 0.105357 7.48043 0.292893 7.29289C0.48043 7.10536 0.734784 7 1 7H7V1C7 0.734784 7.10536 0.48043 7.29289 0.292893C7.48043 0.105357 7.73478 0 8 0V0Z"/>
+                                </svg><div id="addHomeworkToLessonDescription" class="descriptionOfTheButton">DODAJ ZADANIE</div>
+                            </button>
+                        </div>
+                        <div class="homework_from_list">Zadanie domowe nr 1
+                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                            <div class="listOfReceivedHomeworks">
+                                <div class="receivedHomework">asddd.jpeg od <em>Mariusz Gołąb</em></div>
+                                <div class="receivedHomework">rozwiazanie.jpg od <em>Stanisław Czajka</em></div>
+                            </div>
+                        </div>
+                        <div class="homework_from_list">Zadanie domowe nr 2
+                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                        </div>                    
+                        <button id="deleteHomeworkFromLessonButton" class="lesson_button" onclick="deleteHomework()">USUŃ ZADANIE</button>
+                        <button id="dontDeleteHomeworkFromLessonButton" class="lesson_button" onclick="dontDeleteHomework()">ANULUJ</button>
+                        <button id="confirmDeletingHomeworkFromLessonButton" class="lesson_button" onclick="confirmDeletingHomework()">POTWIERDŹ</button>
+                    </div>
+                    <button id="deleteLessonButton" class="lesson_button" style="background-color: #E74C3C;" onclick="deleteLesson()">USUŃ LEKCJĘ</button>
+                    <button id="editLessonButton" class="lesson_button" style="background-color: #0E4DA4;" onclick="editContent()">EDYTUJ DANE</button>
+                    <button id="dontDeleteLessonButton" onclick="dontDeleteLesson()">ANULUJ</button>
+                    <button id="confirmDeletingLessonButton" class="lesson_button" onclick="confirmDeletingLesson()" style="background-color: #E74C3C;">POTWIERDŹ</button>
+                    <button id="saveLessonButton" class="lesson_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var clicked = 0;
+        $(document).ready(function(){
+                $(".homework_from_list").click(function(){
+                    if (clicked = 0) {
+                        clicked = 1;
+                        console.log("hahaha");
+                        $(".listOfReceivedHomeworks").slideDown();
+                    } else {
+                        clicked = 0;
+                        console.log("bububu");
+                        $(".listOfReceivedHomeworks").slideUp();
+                    }
+                });
+        });
+    </script>
+
+    <script>
+        function highlightTab() {
+            var tab = document.getElementById("classesButton");
+            tab.style.borderBottom = "4px solid white";
+        }
+
+        function openCloseName() {
+            var name = document.getElementById("nameOfTheLesson");
+            if (name.style.height == "auto") {
+                name.style.height = "25px";
+            } else {
+                name.style.height = "auto";
+            }
+        }
+
+        function openCloseDescription() {
+            var desc = document.getElementById("descriptionOfTheLesson");
+            if (desc.style.height == "auto") {
+                desc.style.height = "42px";
+            } else {
+                desc.style.height = "auto";
+            }
+        }
+
+        function openCloseNote() {
+            var note = document.getElementById("noteForTheLesson");
+            if (note.style.height == "auto") {
+                note.style.height = "80px";
+            } else {
+                note.style.height = "auto";
+            }
+        }
+
+        function editContent() {
+            var name = document.getElementById("nameOfTheLesson");
+            var desc = document.getElementById("descriptionOfTheLesson");
+            var note = document.getElementById("noteForTheLesson");
+            var date = document.getElementById("dateOfLesson");
+            var hour = document.getElementById("hourOfLesson");
+            var edit = document.getElementById("editLessonButton");
+            var save = document.getElementById("saveLessonButton");
+            save.style.display = "block";
+            edit.style.backgroundColor = "#7693d8"
+            name.contentEditable = "true";
+            desc.contentEditable = "true";
+            note.contentEditable = "true";
+            date.disabled = false;
+            hour.disabled = false;
+        }
+
+        function saveContent() {
+            var name = document.getElementById("nameOfTheLesson");
+            var desc = document.getElementById("descriptionOfTheLesson");
+            var note = document.getElementById("noteForTheLesson");
+            var date = document.getElementById("dateOfLesson");
+            var hour = document.getElementById("hourOfLesson");
+            var edit = document.getElementById("editLessonButton");
+            var save = document.getElementById("saveLessonButton");
+            save.style.display = "none";
+            edit.style.backgroundColor = "#375eb9";
+            name.contentEditable = "false";
+            desc.contentEditable = "false";
+            note.contentEditable = "false";
+            date.disabled = true;
+            hour.disabled = true;
+        }
+
+        function deleteFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'block';
+            }
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function deleteHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'block';
+            }
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+        
+        function deleteLesson() {
+            var deleting = document.getElementById("deleteLessonButton");
+            var dont = document.getElementById("dontDeleteLessonButton");
+            var confirm = document.getElementById("confirmDeletingLessonButton");
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteLesson() {
+            var deleting = document.getElementById("deleteLessonButton");
+            var dont = document.getElementById("dontDeleteLessonButton");
+            var confirm = document.getElementById("confirmDeletingLessonButton");
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingLesson() {
+            window.location.href = "./notification.html";
+        }
+    
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,509 @@
+.tui-lesson_page {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 220px);
+    min-height: 500px;
+    left: 0%;
+    right: 0%;
+    top: 10px;
+    padding-bottom: 20px;
+}
+
+.tui-lesson_button_bar {
+    position: relative;
+    margin-left: 18%;
+    margin-right: 18%;
+}
+
+.nav_button {
+    position: relative;
+    border-radius: 24px;
+    border: 1px solid #DFE2E0;
+    background-color: white;
+    
+    font-size: 14px;
+    width: auto;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+
+    display: flex;
+    align-items: center;
+}
+
+.nav_button:hover {
+    background-color: #DFE2E0;
+}
+
+.nav_button_icon {
+}
+
+.descriptionOfTheButton {
+    margin-left: 8px;
+    display: block;
+}
+
+#navLessonBar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#tui-lesson_box {
+    position: relative;
+    margin-left: 18%;
+    margin-right: 18%;
+    height: 100%;
+    min-height: 300px;
+    max-height: 700px;
+
+    padding: 10px;
+
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 12px;
+
+    overflow: auto;
+    overflow-x: hidden;
+
+    background-color: white;
+}
+
+#tui-lesson_box::-webkit-scrollbar {
+    display: none;
+}
+
+#nameOfTheLessonBox {
+    position: relative;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    font-size: 22px;
+    line-height: 24px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#nameOfTheLesson {
+    height: 25px;
+    overflow: hidden;
+}
+
+#openCloseNameIcon {
+    margin-bottom: -5px;
+    cursor: pointer;
+}
+
+#descriptionOfTheLessonBox {
+    position: relative;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+
+    font-size: 15px;
+    line-height: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#descriptionOfTheLesson {
+    height: 42px;
+    overflow: hidden;
+    background-color: white;
+}
+
+#openCloseDescriptionIcon {
+    margin-bottom: -5px;
+    cursor: pointer;
+}
+
+#openCloseNoteIcon {
+    margin-bottom: -5px;
+    cursor: pointer;
+}
+
+#noteForTheLessonBox {
+    position: relative;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+    border-bottom: 4px solid #d8d882;
+    border-right: 2px solid #e9e985;
+
+    font-size: 15px;
+    line-height: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    cursor: pointer;
+
+    background: linear-gradient(135deg, transparent 10px, #ffffd6 0) top left;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#noteForTheLessonBox:hover {
+    background: linear-gradient(135deg, transparent 10px, #fafac8 0) top left;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#noteForTheLesson {
+    height: 80px;
+    padding: 10px;
+
+    overflow: hidden;
+}
+
+#bottomLessonContainer {
+    position: relative;
+    bottom: 0px;
+    height: calc(100% - 127px);
+    min-height: 420px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#leftPartOfBottomLessonContainer {
+    height: 100%;
+    width: 54%;
+}
+
+.bottom_lesson_box {
+    position: relative;
+    padding: 10px;
+    height: auto;
+
+    border: 1px solid #DFE2E0;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    overflow: scroll;
+}
+
+.bottom_lesson_box::-webkit-scrollbar {
+    display: none;
+}
+
+#listOfLessonFilesBox {
+    max-height: 500px;
+    background-color: white;
+}
+
+#listOfLessonFilesHeader {
+    display: flex;
+}
+
+#addFileToLessonButton {
+    position: absolute;
+    margin-top: 0px;
+    right: 14px;
+    top: 5px;
+    
+    background-color: #0E4DA4;
+}
+
+#addFileToLessonButton:hover {
+    background-color: #375eb9 !important;
+}
+
+#addHomeworkToLessonDescription {
+    display: block;
+}
+
+.file_from_list {
+    cursor: pointer;
+    padding: 4px;
+    border-top: 1px solid #DFE2E0;
+}
+
+.file_from_list:hover {
+    background-color: #DFE2E0;
+}
+
+.name_of_file_from_list {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.date_of_file_from_list {
+    font-size: 12px;
+    line-height: 24px;
+}
+
+#rightPartOfBottomLessonContainer {
+    width: 44%;
+    display: block;
+}
+
+#listOfHomeworkBox {
+    max-height: 240px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.homework_from_list {
+    cursor: pointer;
+    padding: 4px;
+    border-top: 1px solid #DFE2E0;
+}
+
+.homework_from_list:hover {
+    background-color: #DFE2E0;
+}
+
+.listOfReceivedHomeworks {
+    padding: 10px;
+    display: none;
+}
+
+.receivedHomework {
+    border-top: 1px solid #DFE2E0; 
+    padding-bottom: 4px;
+}
+
+.delete_checkbox {
+    position: absolute;
+    right: 10px;
+    margin-top: -18px;
+    display: none;
+}
+
+.delete_file_checkbox {
+    position: absolute;
+    right: 10px;
+    margin-top: -42px;
+    display: none;
+}
+
+#deleteFileFromLessonButton {
+    background-color: #E74C3C;
+}
+
+#dontDeleteFileFromLessonButton {
+    background-color: #ffffff;
+    color: #363636;
+    border: 1px solid #E74C3C;
+
+    font-weight: bolder;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    display: none;
+}
+
+#confirmDeletingFileFromLessonButton {
+    background-color: #E74C3C;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    display: none;
+}
+
+#addHomeworkToLessonButton {
+    position: absolute;
+    margin-top: 0px;
+    right: 14px;
+    top: 5px;
+    
+    background-color: #1BB55C;
+}
+
+#deleteHomeworkFromLessonButton {
+    background-color: #E74C3C;
+}
+
+#dontDeleteHomeworkFromLessonButton {
+    background-color: #ffffff;
+    color: #363636;
+    border: 1px solid #E74C3C;
+
+    font-weight: bolder;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    display: none;
+}
+
+#confirmDeletingHomeworkFromLessonButton {
+    background-color: #E74C3C;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    display: none;
+}
+
+#lessonInfoContainer {
+    margin-bottom: 30px;    
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.lesson_info {
+    font-size: 16px;
+    line-height: 21px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.lesson_date_input {
+    width: 180px;
+    height: 22px;
+    border: none;
+    background-color: white;
+}
+
+.lesson_button {
+    position: relative;
+    color: white;
+    border-radius: 24px;
+    border: none;
+    
+    font-size: 14px;
+    height: 30px;
+    width: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px;
+
+    display: flex;
+    align-items: center;
+}
+
+#deleteLessonButton:hover {
+    background-color: #f16258 !important;
+}
+
+#editLessonButton:hover {
+    background-color: #375eb9 !important;
+}
+
+#saveLessonButton {
+    display: none;
+}
+
+#saveLessonButton:hover {
+    background-color: #47c079 !important;
+}
+
+#dontDeleteLessonButton {
+    position: relative;
+    color: #363636;
+    background-color: white;
+    border-radius: 24px;
+    border: 1px solid #363636;
+    display: none;
+    
+    font-size: 14px;
+    height: 30px;
+    width: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px; 
+}
+
+#confirmDeletingLessonButton {
+    display: none;
+}
+
+@media only screen and (max-width: 1400px) {
+    /* For mobile phones: */
+    .tui-lesson_button_bar {
+        margin-left: 12%;
+        margin-right: 12%;
+    }
+    #tui-lesson_box { 
+        margin-left: 12%;
+        margin-right: 12%;
+    }    
+    #addHomeworkToLessonDescription {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1111px) {
+    /* For mobile phones: */
+    #newLessonHeader {
+        margin-top: -10px;
+    }
+    #buttonsSection {
+        margin-bottom: -10px;
+    }
+    .tui-lesson_button_bar {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+    #tui-lesson_box { 
+        margin-left: 10%;
+        margin-right: 10%;
+    }    
+    #newLessonBox {
+        margin-left: 10%;
+        margin-right: 10%;
+        padding: 30px;
+    }
+    #bottomLessonContainer {
+        position: relative;
+        bottom: 0px;
+        height: auto;
+        min-height: 420px;
+        padding: 10px;
+        display: block;
+    }
+    #leftPartOfBottomLessonContainer {
+        width: 100%;
+        padding-bottom: 10px;
+    }
+    #rightPartOfBottomLessonContainer {
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid #DFE2E0;
+    }
+    #addHomeworkToLessonDescription {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    /* For mobile phones: */
+    .descriptionOfTheButton {
+        display: none;
+    }
+    #newLessonHeader {
+        margin-top: 0px;
+    }
+    .tui-lesson_button_bar {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    #tui-lesson_box { 
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    #newLessonBox {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 20px;
+    }
+    #addHomeworkToLessonDescription {
+        display: none;
+    }
+}
