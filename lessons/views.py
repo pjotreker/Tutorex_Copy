@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from notifications.signals import notify
+import pdb
 
 from users.models import TeacherProfile
 
@@ -241,17 +242,17 @@ class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
         students = []
-        lessons = Lesson.objects.filter(classroom=classroom)
-        if lessons.exists():
+        if Lesson.objects.all().exists():
+            lessons = Lesson.objects.filter(classroom=classroom)
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
-            return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
-                                                              'lessons': lessons})
+            print(lessons)
         else:
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
-            return render(request, "display_classroom.html", {'classroom': classroom, 'students': students,
-                                                              'lessons': []})
+            lessons = []
+        print(lessons)
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -284,11 +285,17 @@ class DisplayClassroom(LoginRequiredMixin, View):
         except:
             return HttpResponseForbidden("Coś poszło nie tak :/ ")
         students = []
-        lessons = Lesson.objects.filter(classroom=classroom)
-        for a in classroom.students.all():
-            students.append(a.first_name + ' ' + a.last_name)
-        return render(request, "display_classroom.html",
-                      {'classroom': classroom, 'students': students, 'lessons': lessons})
+        if Lesson.objects.all().exists():
+            lessons = Lesson.objects.filter(classroom=classroom)
+            for a in classroom.students.all():
+                students.append(a.first_name + ' ' + a.last_name)
+            print(lessons)
+        else:
+            for a in classroom.students.all():
+                students.append(a.first_name + ' ' + a.last_name)
+            lessons = []
+        print(lessons)
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
 
 class DeleteClassroom(LoginRequiredMixin, View):
@@ -337,15 +344,23 @@ class AddLesson(LoginRequiredMixin, View):
                 if lesson_hour == '':
                     lesson_hour = None
                 lesson_done = form.cleaned_data.get('lesson_done')
-                lesson = Lesson.objects.create(date=lesson_date,
-                                               hour=lesson_hour,
-                                               subject=subject,
-                                               description=description,
-                                               note=note,
-                                               owner=owner,
-                                               classroom=classroom,
-                                               lesson_done=lesson_done)
-                lesson.save()
+                #pdb.set_trace()
+                #breakpoint()
+                try:
+                    lesson = Lesson.objects.create(date=lesson_date,
+                                                   hour=lesson_hour,
+                                                   subject=subject,
+                                                   description=description,
+                                                   note=note,
+                                                   owner=owner,
+                                                   classroom=classroom,
+                                                   lesson_done=lesson_done)
+                except Exception:
+                    return HttpResponseForbidden("chuj 1")
+                try:
+                    lesson.save()
+                except Exception:
+                    return HttpResponseForbidden("chuj 2")
             else:
                 context['error'] = "Coś źle uzupełnione :( "
                 return render(request, "add_lesson.html", context)
