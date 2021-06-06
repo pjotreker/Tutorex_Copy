@@ -29,6 +29,9 @@
                 <div id="leftPartOfBottomClassContainer">
                     <div id="listOfClassLessonsBox" class="bottom_class_box">
                         <div style="font-size: 20px; padding-left: 4px;">Spis lekcji</div>
+                        {% if lessons|length == 0 %}
+                          <p>Brak lekcji dla tej klasy</p>
+                        {% else %}
                         {% for lesson in lessons %}
                           <div class="class_from_list">
                               <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
@@ -39,6 +42,7 @@
                               {% endif %}
                           </div>
                         {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div id="rightPartOfBottomClassContainer">
@@ -49,9 +53,11 @@
                             <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
                         </div>
                         {% endfor %}
+                        {% if user.is_teacher == True %}
                         <button id="deleteStudentsFromClassButton" onclick="deleteStudents()">USUŃ UCZNIA</button>
                         <button id="dontDeleteStudentsFromClassButton" onclick="dontDeleteStudents()">ANULUJ</button>
                         <button id="confirmDeletingStudentsFromClassButton" onclick="confirmDeletingStudents()">POTWIERDŹ</button>
+                        {% endif %}
                     </div>
                     <div id="classInfoContainer">
                       <form method="post">
