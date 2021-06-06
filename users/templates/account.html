@@ -47,7 +47,7 @@
                 <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
             </form>
             {% if not user.is_adult %}
-            <button id="changeParentPasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="document.location='/request-reset-parent-link/'">ZMIEŃ HASŁO RODZICIELSKIE</button>
+            <button id="changeParentPasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="document.location='parent-password/edit'">ZMIEŃ HASŁO RODZICIELSKIE</button>
             {% endif %}
             <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
             <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="document.location='delete-account'">USUŃ KONTO</button>
