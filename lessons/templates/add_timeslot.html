@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/class_styles.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'css/password_change_styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %} {{ user.first_name }} {{ user.last_name }} {% endblock %}
+{% block content %}
+    <br/>
+    <form method="post">
+      {% csrf_token %}
+      <label for="time_start_date">Początek slotu</label>
+      <input type="date" id="time_start_date" name="time_start_date" value="{{ today|date:'Y-m-d' }}"/>
+        <input style="display:inline;" type="time" id="time_start_time" name="time_start_time"/>
+      <br/><br/>
+      <label for="duration">Czas trwania</label>
+      <input type="number" id="duration" min="10" max="240" step="5" name="duration" value="45"/>
+      <br/>
+      <input type="submit" value="Utwórz slot"/>
+    </form>
+{% endblock %}

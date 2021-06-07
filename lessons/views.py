@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -7,16 +7,17 @@ from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.template import loader
+from django.urls import reverse
 from notifications.signals import notify
 import pdb
 
 from users.models import TeacherProfile
 
-from .models import Classroom, BaseUser, StudentClassRequest, Lesson
-from .forms import CreateClassroomForm, ModifyClassroomForm, AddLessonForm
+from .models import Classroom, BaseUser, StudentClassRequest, Lesson, LessonTimeSlot
+from .forms import CreateClassroomForm, ModifyClassroomForm, AddLessonForm, AddTimeSlotForm
 from datetime import datetime
 import re
 
@@ -373,3 +374,33 @@ class AddLesson(LoginRequiredMixin, View):
             context['error'] = "Coś poszło nie tak"
             return render(request, "add_lesson.html", context)
         return redirect('display-classroom', classroom_id=classroom_id)
+
+
+class CreateTimeSlot(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+    def get(self, request):
+        today = datetime.today()
+        return render(request, "add_timeslot.html", {'today': today})
+
+    def post(self, request):
+
+        form = AddTimeSlotForm(request.POST)
+        if form.is_valid():
+            time_start_date = form.cleaned_data.get('time_start_date')
+            time_start_time = form.cleaned_data.get('time_start_time')
+            slot_duration = form.cleaned_data.get('duration')
+            time_start = datetime.combine(time_start_date, time_start_time)
+            new_slot = LessonTimeSlot.objects.create(
+                time_start=time_start,
+                duration=slot_duration
+            )
+
+            new_slot.save()
+            return HttpResponseRedirect(reverse('show-classrooms'))
+
+        form = AddTimeSlotForm()
+        today = datetime.today()
+        return render(request, "add_timeslot.html", {'today': today})
