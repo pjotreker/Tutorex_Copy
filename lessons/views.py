@@ -3,6 +3,7 @@ from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
@@ -108,12 +109,15 @@ class AcceptJoinClassroom(LoginRequiredMixin, View):
         student_id = tmp_join_request.student_id
         classroom_id = tmp_join_request.classroom_id
         classroom_id.students.add(student_id)
+        teacher = request.user
         classroom_id.save()
         tmp_join_request.delete()
-        src_notification = request.user.notifications.filter(data__contains=join_request_id)
+        src_notification = teacher.notifications.filter(data__contains=join_request_id)
         if src_notification:
             src_notification[0].data['need_acceptance'] = False
             src_notification[0].save()
+        notify.send(sender=teacher, recipient=student_id,
+                    verb=mark_safe(f"{teacher.first_name} {teacher.last_name} dodał Cię do klasy <em> {classroom_id.name} </em>"),)
         return JsonResponse({'success': True})
 
 

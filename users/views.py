@@ -564,6 +564,7 @@ def get_user_notifications(request):
     user = request.user
     new_notifications = user.notifications.all()
     request_timestamp = datetime.datetime.now()
+
     request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
     new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
     all_list = []
@@ -576,12 +577,14 @@ def get_user_notifications(request):
             struct['actor'] = str(notification.actor)
         if notification.target:
             struct['target'] = str(notification.target)
+        elif notification.recipient:
+            struct['target'] = str(notification.recipient)
         if notification.action_object:
             struct['action_object'] = str(notification.action_object)
         if notification.data:
             struct['verb'] = notification.verb
         struct['unread'] = notification.unread
-        struct['need_acceptance'] = notification.data.get('need_acceptance', False)
+        struct['need_acceptance'] = notification.data.get('need_acceptance', False) if isinstance(notification.data, dict) else False
 
         all_list.append(struct)
     data = {
