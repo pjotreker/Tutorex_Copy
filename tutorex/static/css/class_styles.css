@@ -11,8 +11,8 @@
 
 #tui-class_box {
     position: relative;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 18%;
+    margin-right: 18%;
     height: 100%;
     min-height: 350px;
     max-height: 700px;
@@ -123,6 +123,28 @@
     background-color: white;
 }
 
+#listOfClassLessonsHeader {
+    display: flex;
+}
+
+#addLessonButton {
+    position: absolute;
+    margin-top: 0px;
+    right: 14px;
+    top: 5px;
+
+    background-color: #0E4DA4;
+}
+
+#addLessonIcon {
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+#addLessonButton:hover {
+    background-color: #375eb9 !important;
+}
+
 .class_from_list {
     cursor: pointer;
     padding: 4px;
@@ -182,7 +204,7 @@
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 #dontDeleteStudentsFromClassButton {
@@ -215,7 +237,7 @@
     width: auto;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 10px; 
+    margin-top: 10px;
 
     display: none;
 }
@@ -245,13 +267,13 @@
     color: white;
     border-radius: 24px;
     border: none;
-    
+
     font-size: 14px;
     height: 30px;
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 #deleteClassButton:hover {
@@ -277,24 +299,32 @@
     border-radius: 24px;
     border: 1px solid #363636;
     display: none;
-    
+
     font-size: 14px;
     height: 30px;
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
 
 #confirmDeletingClassButton {
     display: none;
 }
 
+@media only screen and (max-width: 1400px) {
+    /* For mobile phones: */
+    #tui-class_box {
+        margin-left: 12%;
+        margin-right: 12%;
+    }
+}
+
 @media only screen and (max-width: 1111px) {
     /* For mobile phones: */
-    #tui-class_box { 
-        margin-left: 15%;
-        margin-right: 15%;
+    #tui-class_box {
+        margin-left: 10%;
+        margin-right: 10%;
     }
     #bottomClassContainer {
         position: relative;
@@ -317,8 +347,8 @@
 
 @media only screen and (max-width: 720px) {
     /* For mobile phones: */
-    #tui-class_box { 
-        margin-left: 10%;
-        margin-right: 10%;
+    #tui-class_box {
+        margin-left: 5%;
+        margin-right: 5%;
     }
 }

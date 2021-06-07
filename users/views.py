@@ -560,6 +560,10 @@ class NotificationsView(LoginRequiredMixin, View):
         new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
         return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
 
+class Contact(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "contact_us.html")
+
 def get_user_notifications(request):
     user = request.user
     new_notifications = user.notifications.all()
