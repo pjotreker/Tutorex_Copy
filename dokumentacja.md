@@ -45,7 +45,8 @@
 2. Po wprowadzaniu zmian i poprawnym zapisaniu ich przez system, nauczyciel zostaje przekierowany do widoku wszystkich klas 'show-classrooms/'.
 3. W przypadku niepowdzenia zwracane jest *HttpResponseForbidden*
 
-####Wyświetlanie klasy
+##### Wyświetlanie klasy
+
 1. Wyświetlenie klasy odbywa się dzięki użyciu klasy ShowClassrooms.
 2. W widoku klas pojawiają się klasy przypisane tylko do aktualnie zalogowanego użytkownika serwisu.
 
@@ -54,6 +55,13 @@
 1. Po naciśnięciu odpowiedniego przycisku w widoku klasy nauczyciel ma możliwość usunięcia danej klasy - widok *DeleteClassroom* ('show-classrooms/display-classroom/delete-classroom/<class_id>'; nie ma potrzeby podawania niczego, musi ew. potwierdzić swoją decyzję).
 2. Po wprowadzaniu zmian i poprawnym zapisaniu ich przez system, nauczyciel zostaje przekierowany do widoku wszystkich klas 'show-classrooms/'.
 3. W przypadku niepowdzenia zwracane jest *HttpResponseForbidden*.
+
+##### Dodawanie lekcji w klasie
+
+1. W celu umożliwienia nauczycielowi dodania lekcji w klasie, został stworzony model *Lesson* z polami: *date*, *hour*, *subject*, *descriprion, note, owner, classroom, lesson_done* (odpowiednio typu: DateField, TimeField, CharField, CharField, CharField, klucz obcy typu TeacherProfile, klucz obcy typu Classroom i BooleanField).
+2. pod adresem 'show-classrooms/display-classroom/<classroom_id>/add-lesson' został dodany  template 'add_lesson.html', który umożliwia wypełnienie pól *date*, *hour*, *subject*, *descriprion, note oraz *lesson_done*. Reszta pól uzupełniana jest automatycznie w widoku widok *AddLesson()*, w którym to jest tworzony i zapisywany rekord lekcji.
+3. Po udanym utworzniu lekcji nauczyciel zostaje przekierowny na widok klasy, w której utworzył lekcję.
+4. Jeśli tworzenie lekcji się nie powiedzie zostaje wyświetlony odpowiedni komunikat.
 
 ##### Powiadomienia
 
@@ -122,7 +130,6 @@ Dane:<ol>
 <li>Heroku CLI: heroku pg:psql postgresql-triangular-25080 --app tutorex-test</li></ol></p>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
-
 ### Google API
 Tutorex jest połączony z Google API Drive oraz Google API Calendar. W plikach tutorex/Google.py i tutorex/Google-connect.py znajdują się funkcje odpowiedzialne za połączenie z serwerami zewnętrznej aplikacji. Na portalu https://console.cloud.google.com/ i po zalogowaniu się na konto google - tutorex.helpdesk@gmail.com jest możliwa zmiana ustawień uprawnień i przekierowań URL.
 
