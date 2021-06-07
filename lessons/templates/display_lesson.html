@@ -5,9 +5,17 @@
     <title>Lekcja</title>
 </head>
 <body>
-<h4>Temat lekcji: {{ lesson.subject }}</h4>
-<p>Opis lekcji: {{lesson.description}}</p>
-<p>Notatka do lekcji (tylko dla nauczyciela powinna być): {{lesson.note}}</p>
-<p>Czy lekcja się odbyła? {{lesson.lesson_done}}</p>
+    <h4>Temat lekcji: {{ lesson.subject }}</h4>
+    <p>Data lekcji {{lesson.date}}</p>
+    <p>Godzina lekcji {{lesson.hour}}</p>
+    <p>Opis lekcji: {{lesson.description}}</p>
+    {% if user.is_teacher %}
+    <p>Notatka do lekcji (tylko dla nauczyciela powinna być): {{lesson.note}}</p>
+    {% endif %}
+    {% if lesson.lesson_done %}
+    <p>Czy lekcja się odbyła? Tak</p>
+    {% else %}
+    <p>Czy lekcja się odbyła? nie</p>
+    {% endif %}
 </body>
 </html>
