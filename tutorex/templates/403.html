@@ -12,5 +12,8 @@
         <h1>Nie dla psa!</h1>
         <h1>403</h1>
         <h6>Próbujesz się dostać na stronę do której nie powinieneś mieć dostępu</h6>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
     </div>
 {% endblock %}

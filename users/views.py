@@ -62,7 +62,7 @@ def signup(request):
                                                     first_name=first_name,
                                                     birthday=birthday,
                                                     last_name=last_name,
-                                                    is_active=True,
+                                                    is_active=False,
                                                     is_teacher=is_teacher)
 
             # res = validate_password(password, new_user)
@@ -661,5 +661,6 @@ def handler_500(request, *args, **kwargs):
 
 
 def handler_403(request, exception, template_name='403.html'):
+    message = exception.args[0] if exception.args else None
     template_name = '403_auth.html' if request.user.is_authenticated else '403.html'
-    return render(request, template_name, status=403)
+    return render(request, template_name, {'message': message}, status=403)

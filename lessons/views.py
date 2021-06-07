@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.template import loader
 from notifications.signals import notify
 import pdb
@@ -319,12 +320,14 @@ class DeleteClassroom(LoginRequiredMixin, View):
 
 class AddLesson(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
-        owner = TeacherProfile.objects.get(user=request.user)
+
+        try:
+            owner = TeacherProfile.objects.get(user=request.user)
+        except TeacherProfile.DoesNotExist:
+            raise PermissionDenied("Musisz byc nauczycielem aby dodać lekcję!")
         classroom = Classroom.objects.get(id=classroom_id)
         if classroom.owner != owner:
-            return HttpResponseForbidden("Nie możesz dodawać lekcji w nieswojej klasie!")
-        if not request.user.is_teacher:
-            return HttpResponseForbidden("Musisz byc nauczycielem aby dodać lekcję!")
+            raise PermissionDenied("Nie możesz dodawać lekcji w nieswojej klasie!")
         return render(request, "add_lesson.html")
 
     def post(self, request, classroom_id):
