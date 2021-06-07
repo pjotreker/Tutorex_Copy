@@ -10,7 +10,7 @@ html, body {
     height: 100%;
 }
 
-#tuiHeader {
+#tuiHeader { 
     z-index: 999;
     width: 100vp;
 }
@@ -46,6 +46,32 @@ html, body {
     padding-left: 9%;
 }
 
+.tui-header_tabs_button {
+    padding: 15px 20px;
+    height: 60px;
+    width: fit-content;
+
+    color: white;
+
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.tui-header_tabs_button:hover {
+    background-color: #23c767;     
+    padding: 15px 20px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.name_of_Tab {
+    margin-left: 6px;
+}
+
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none !important;
+}
+
 @media only screen and (max-width: 720px) {
     /* For mobile phones: */
     .column_mobile {
@@ -65,38 +91,14 @@ html, body {
     .name_of_Tab {
         display: none;
     }
-    .tui-header_tabs_button:not(#profileButton, #logOutButton) {
+    .tui-header_tabs_button:not(#profileButton, #logOutButton, #contactButton) {
         width: 25vw !important;
+    }
+    #profileButton, #logOutButton, #contactButton {
+        padding: 15px 12px;
     }
     .notification_icon {
         align-self: center;
         margin-left: 39%;
     }
-}
-
-.tui-header_tabs_button {
-    padding: 15px 20px;
-    height: 60px;
-    width: fit-content;
-
-    color: white;
-
-    display: inline-flex;
-    cursor: pointer;
-}
-
-.tui-header_tabs_button:hover {
-    background-color: #23c767;
-    padding: 15px 20px;
-    width: fit-content;
-    cursor: pointer;
-}
-
-.name_of_Tab {
-    margin-left: 6px;
-    color: white;
-}
-
-a:hover, a:visited, a:link, a:active {
-    text-decoration: none !important;
 }
