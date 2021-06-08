@@ -132,7 +132,7 @@
     margin-top: 0px;
     right: 14px;
     top: 5px;
-
+    
     background-color: #0E4DA4;
 }
 
@@ -204,7 +204,7 @@
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px;
+    margin-top: 10px; 
 }
 
 #dontDeleteStudentsFromClassButton {
@@ -237,7 +237,7 @@
     width: auto;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 10px;
+    margin-top: 10px; 
 
     display: none;
 }
@@ -267,13 +267,13 @@
     color: white;
     border-radius: 24px;
     border: none;
-
+    
     font-size: 14px;
     height: 30px;
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px;
+    margin-top: 10px; 
 }
 
 #deleteClassButton:hover {
@@ -299,13 +299,13 @@
     border-radius: 24px;
     border: 1px solid #363636;
     display: none;
-
+    
     font-size: 14px;
     height: 30px;
     width: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 10px;
+    margin-top: 10px; 
 }
 
 #confirmDeletingClassButton {
@@ -328,6 +328,7 @@
     margin-left: 12%;
     margin-right: 12%;
     margin-top: 20px;
+    height: 100%;
     padding: 50px;
 
     border: 1px solid #DFE2E0;
@@ -402,7 +403,7 @@
 
 @media only screen and (max-width: 1400px) {
     /* For mobile phones: */
-    #tui-class_box {
+    #tui-class_box { 
         margin-left: 12%;
         margin-right: 12%;
     }
@@ -416,10 +417,10 @@
     #buttonsSection {
         margin-bottom: -10px;
     }
-    #tui-class_box {
+    #tui-class_box { 
         margin-left: 10%;
         margin-right: 10%;
-    }
+    }    
     #newLessonBox {
         margin-left: 10%;
         margin-right: 10%;
@@ -449,7 +450,7 @@
     #newLessonHeader {
         margin-top: 0px;
     }
-    #tui-class_box {
+    #tui-class_box { 
         margin-left: 5%;
         margin-right: 5%;
     }
