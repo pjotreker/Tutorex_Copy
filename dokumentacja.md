@@ -130,8 +130,10 @@ Dane:<ol>
 <li>Heroku CLI: heroku pg:psql postgresql-triangular-25080 --app tutorex-test</li></ol></p>
 
 <p>Bazą można zadządzać dzięki zainstalowaniu lokalnie programu pgAdmin i zalogowaniu się danymi podanymi wyżej.</p>
+
 ### Google API
-Tutorex jest połączony z Google API Drive oraz Google API Calendar. W plikach tutorex/Google.py i tutorex/Google-connect.py znajdują się funkcje odpowiedzialne za połączenie z serwerami zewnętrznej aplikacji. Na portalu https://console.cloud.google.com/ i po zalogowaniu się na konto google - tutorex.helpdesk@gmail.com jest możliwa zmiana ustawień uprawnień i przekierowań URL.
+Tutorex jest połączony z Google API Cloud oraz Google API Calendar. W pliku tutorex/Google_cloud.py znajdują się funkcje odpowiedzialne za połączenie z serwerami zewnętrznej aplikacji. Na portalu https://console.cloud.google.com/ i po zalogowaniu się na konto google - tutorex.helpdesk@gmail.com jest możliwa zmiana ustawień uprawnień i przekierowań URL.
+Kalendarz jest wyświetlany dzięki odpowiednim linkom i widokom utowrzonym w Django.
 
 ### Ciągła integracja i dostarczanie
 
