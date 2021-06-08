@@ -38,16 +38,16 @@
     #tui-notification_page {
         height: calc(100% - 210px);
     }
-    .descriptionOfNotification {
+    #descriptionOfNotification {
         height: calc(100% - 80px) !important;
     }
-    .bottomWrapper {
+    #bottomWrapper {
         height: 80px !important;
     }
-    .timeOfNotification {
+    #timeOfNotification {
         max-width: 125px;
     }
-    .buttonWrapper {
+    #buttonWrapper {
         display: flex;
         flex-direction: column;
     }
@@ -91,7 +91,7 @@
     margin-left: 5px;
 }
 
-.descriptionOfNotification {
+#descriptionOfNotification {
     margin-top: 4px;
     height: calc(100% - 40px);
 }
@@ -100,7 +100,7 @@ em {
     white-space: nowrap;
 }
 
-.timeOfNotification {
+#timeOfNotification {
     position: relative;
     width: auto;
     margin-top: 4px;
@@ -110,7 +110,7 @@ em {
     font-size: 14px;
 }
 
-.bottomWrapper {
+#bottomWrapper {
     position: relative;
     height: 40px;
     right: 0px;
@@ -143,19 +143,22 @@ em {
     border: none;
 }
 
-.accept_button {
+#acceptNotification {
     background-color: #1BB55C;
 }
 
-.reject_button {
+#rejectNotification {
     background-color: #E74C3C;
 }
 
-.accept_button:hover {
+#acceptNotification:hover {
     background-color: #47c079;
 }
 
-.reject_button:hover {
+#rejectNotification:hover {
     background-color: #f16258;
 }
 
+svg {
+    fill: #323232;
+}

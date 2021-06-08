@@ -4,7 +4,7 @@
     height: auto;
     left: 0%;
     right: 0%;
-    top: 130px;
+    top: 100px;
     bottom: 0px;
 }
 
@@ -40,7 +40,7 @@
     position: absolute;
     width: 350px;
     height: 300px;
-    top: 25%;
+    top: 25%;    
     left: calc(50% - 350px/2);
     /* Light / Background */
 
@@ -50,7 +50,7 @@
     border: 1px solid #DFE2E0;
     box-sizing: border-box;
     border-radius: 12px;
-
+    
     z-index: 997;
     display: none;
 }
@@ -85,7 +85,7 @@
 }
 
 #closeChangePasswordWindow:hover {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0;    
 }
 
 #closeDeleteAccountWindow {
@@ -177,40 +177,4 @@
     margin-bottom: 10px;
     margin-top: 5px;
     margin-right: 20px;
-}
-
-#parental_password_page {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 2137; /* Sit on top */
-  left: 0;
-  top: 0;
-  text-align:center;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-#parental_password_box {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
-#changeParentPasswordButton {
-    position: absolute;
-    height: 32px;
-    width: 295px;
-    font-size: 15px;
-    padding-top: 3px;
-    bottom: 64px;
-}
-
-#changeParentPasswordButton:hover {
-    background-color: #466CC8 !important;
 }
