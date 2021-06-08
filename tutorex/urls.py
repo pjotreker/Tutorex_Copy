@@ -52,6 +52,7 @@ urlpatterns = [
     path('api/pass-check-constrains', user_views.validate_pass, name='password-check-constrains'),
     path('api/mail-check-exists', user_views.check_email_exists, name='email-check-exists'),
     path('contact/', user_views.Contact.as_view(), name='contact'),
+    path('terms/', user_views.Terms.as_view(), name='terms'),
 ]
 
 handler403 = 'users.views.handler_403'
