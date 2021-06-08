@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.safestring import mark_safe
+from django.core.exceptions import PermissionDenied
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
@@ -377,13 +378,13 @@ class DisplayLesson(LoginRequiredMixin, View):
         if user.is_teacher:
             owner = TeacherProfile.objects.get(user=request.user)
             if classroom.owner != owner or lesson.owner != owner:
-                return HttpResponseForbidden("Nie powinno Cię tu być")
+                raise PermissionDenied("Nie powinno Cię tu być")
         else:
             students = classroom.students.all()
             print(students)
             print(user)
             if user not in students:
-                return HttpResponseForbidden("Nie powinno Cię tu być uczniu")
+                raise PermissionDenied("Nie powinno Cię tu być uczniu")
         return render(request, "display_lesson.html", {'user': user, 'lesson': lesson})
 
 
