@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.safestring import mark_safe
+from django.core.exceptions import PermissionDenied
 from django.views.generic import TemplateView, View
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
@@ -250,12 +251,10 @@ class DisplayClassroom(LoginRequiredMixin, View):
             lessons = Lesson.objects.filter(classroom=classroom)
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
-            print(lessons)
         else:
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
             lessons = []
-        print(lessons)
         return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
     def post(self, request, classroom_id):
@@ -293,12 +292,10 @@ class DisplayClassroom(LoginRequiredMixin, View):
             lessons = Lesson.objects.filter(classroom=classroom)
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
-            print(lessons)
         else:
             for a in classroom.students.all():
                 students.append(a.first_name + ' ' + a.last_name)
             lessons = []
-        print(lessons)
         return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
 
@@ -372,3 +369,24 @@ class AddLesson(LoginRequiredMixin, View):
             context['error'] = "Coś poszło nie tak"
             return render(request, "add_lesson.html", context)
         return redirect('display-classroom', classroom_id=classroom_id)
+
+
+class DisplayLesson(LoginRequiredMixin, View):
+    def get(self, request, classroom_id, lesson_id):
+        user_id = request.user.id
+        user = BaseUser.objects.get(pk=user_id)
+        classroom = Classroom.objects.get(id=classroom_id)
+        lesson = Lesson.objects.get(pk=lesson_id)
+        if user.is_teacher:
+            owner = TeacherProfile.objects.get(user=request.user)
+            if classroom.owner != owner or lesson.owner != owner:
+                raise PermissionDenied("Nie powinno Cię tu być")
+        else:
+            students = classroom.students.all()
+            print(students)
+            print(user)
+            if user not in students:
+                raise PermissionDenied("Nie powinno Cię tu być uczniu")
+        return render(request, "display_lesson.html", {'user': user, 'lesson': lesson})
+
+
