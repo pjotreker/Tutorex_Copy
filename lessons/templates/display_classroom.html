@@ -12,34 +12,35 @@
 <div id="newLessonView">
         <div id="newLessonBox">
             <div id="newLessonHeader" style="font-size: 24px;">TWORZENIE NOWEJ LEKCJI</div>
-            <form id="createNewLessonForm">
+            <form id="createNewLessonForm" method="post">
+              {% csrf_token %}
                 <label for="nameOfLesson"><b>Tytuł lekcji:</b></label>
-                <input id="nameOfNewClassCodeInput" class="createNewLessonInput" type="text" placeholder="Tytuł lekcji" name="nameOfLesson" maxlength="100" required>
+                <input id="nameOfNewClassCodeInput" class="createNewLessonInput" type="text" placeholder="Tytuł lekcji" name="lesson_name" maxlength="100" required>
                 <label for="descriptionOfLesson"><b>Opis lekcji:</b></label>
-                <textarea name="descriptionOfLesson" id="descriptionOfNewLessonCodeInput" class="createNewLessonInput" placeholder="Opis lekcji" cols="30" rows="4" maxlength="250"></textarea>
+                <textarea name="description" id="descriptionOfNewLessonCodeInput" class="createNewLessonInput" placeholder="Opis lekcji" cols="30" rows="4" maxlength="250"></textarea>
                 <label for="descriptionOfLesson"><b>Notatka do lekcji:</b></label>
-                <textarea name="descriptionOfLesson" id="descriptionOfNewLessonCodeInput" class="createNewLessonInput" placeholder="Notatka do lekcji" cols="30" rows="5" maxlength="1000"></textarea>
+                <textarea name="note" id="descriptionOfNewLessonCodeInput" class="createNewLessonInput" placeholder="Notatka do lekcji" cols="30" rows="5" maxlength="1000"></textarea>
                 <div>
                     <label for="startDate" class="rightLabel"><b>Data rozpoczęcia:</b></label>
-                    <input id="startLessonDate" class="createNewLessonInput" name="startDate" type="date" value="2021-05-26">
+                    <input id="startLessonDate" class="createNewLessonInput" name="lesson_date" type="date" value="2021-05-26">
                 </div>
                 <div>
                     <label for="startHour" class="rightLabel"><b>Godzina rozpoczęcia:</b></label>
-                    <input id="startLessonHour" class="createNewLessonInput" name="startHour" type="time" value="19:20">
+                    <input id="startLessonHour" class="createNewLessonInput" name="lesson_hour" type="time" value="19:20">
                 </div>
-            </form>
-            <div id="buttonsSection">
+            <div id="buttonsSection" style="margin: auto; padding-top: 20px;">
                 <button id="cancelCreatingNewLessonButton" class="createNewLessonButtons" style="background-color: #E74C3C;">
                     <svg id="exitJoinNewClassIcon" width="30" height="30" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M26.6876 8.32717C26.5527 8.19197 26.3924 8.08472 26.216 8.01153C26.0396 7.93835 25.8504 7.90068 25.6595 7.90068C25.4685 7.90068 25.2793 7.93835 25.1029 8.01153C24.9265 8.08472 24.7662 8.19197 24.6313 8.32717L17.5001 15.4438L10.3688 8.31258C10.2338 8.17757 10.0735 8.07047 9.89712 7.9974C9.72072 7.92433 9.53165 7.88672 9.34071 7.88672C9.14977 7.88672 8.9607 7.92433 8.78429 7.9974C8.60788 8.07047 8.4476 8.17757 8.31258 8.31258C8.17757 8.4476 8.07047 8.60788 7.9974 8.78429C7.92433 8.9607 7.88672 9.14977 7.88672 9.34071C7.88672 9.53165 7.92433 9.72072 7.9974 9.89712C8.07047 10.0735 8.17757 10.2338 8.31258 10.3688L15.4438 17.5001L8.31258 24.6313C8.17757 24.7663 8.07047 24.9266 7.9974 25.103C7.92433 25.2794 7.88672 25.4685 7.88672 25.6595C7.88672 25.8504 7.92433 26.0395 7.9974 26.2159C8.07047 26.3923 8.17757 26.5526 8.31258 26.6876C8.4476 26.8226 8.60788 26.9297 8.78429 27.0028C8.9607 27.0758 9.14977 27.1134 9.34071 27.1134C9.53165 27.1134 9.72072 27.0758 9.89712 27.0028C10.0735 26.9297 10.2338 26.8226 10.3688 26.6876L17.5001 19.5563L24.6313 26.6876C24.7663 26.8226 24.9266 26.9297 25.103 27.0028C25.2794 27.0758 25.4685 27.1134 25.6595 27.1134C25.8504 27.1134 26.0395 27.0758 26.2159 27.0028C26.3923 26.9297 26.5526 26.8226 26.6876 26.6876C26.8226 26.5526 26.9297 26.3923 27.0028 26.2159C27.0758 26.0395 27.1134 25.8504 27.1134 25.6595C27.1134 25.4685 27.0758 25.2794 27.0028 25.103C26.9297 24.9266 26.8226 24.7663 26.6876 24.6313L19.5563 17.5001L26.6876 10.3688C27.2417 9.81467 27.2417 8.88133 26.6876 8.32717Z" fill="#ffffff"/>
                     </svg><div class="createNewLessonButtonsDescription">Anuluj</div>
                 </button>
-                <button id="confirmCreatingNewLessonButton" class="createNewLessonButtons" style="background-color: #1BB55C;">
+                <button id="confirmCreatingNewLessonButton" class="createNewLessonButtons" style="background-color: #1BB55C;" type="submit">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 12L10 18L20 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg><div class="createNewLessonButtonsDescription" style="padding-left: 3px;">Stwórz</div>
                 </button>
             </div>
+            </form>
         </div>
     </div>
     <div class="tui-class_page">
