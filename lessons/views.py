@@ -310,6 +310,8 @@ class DeleteClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz usunąć nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby móc usunąć klasę!")
+        # pdb.set_trace()
+        # breakpoint()
         try:
             classroom.delete()
             return redirect('show-classrooms')
