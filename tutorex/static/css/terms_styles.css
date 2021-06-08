@@ -1,0 +1,34 @@
+* {
+    font-family: inter;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0;
+    height: auto;
+}
+
+/* use viewport-relative units to cover page fully */
+body {
+    height: 100vh;
+    width: 100%;
+    right: 0%;
+}
+
+  /* include border and padding in element width and height */
+* {
+    box-sizing: border-box;
+}
+
+.tui-terms {
+    position: absolute;
+    width: 100%;
+    min-width: 830px;
+    height: auto;
+    left: 0%;
+    right: 0%;
+    top: 0px;
+    bottom: 0px;
+
+    background: #ffffff;
+}

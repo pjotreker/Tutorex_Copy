@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Regulamin{% endblock %}
+{% block styles %}
+    <link type="text/css" href="{% static 'css/terms_styles.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'css/index_styles.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="tui-terms">
+  <div style="width: 55%; text-align: center; margin: auto; padding-top: 100px">
+  <p style="font-size: 18px; margin-top: 40px;">Tutorex jest systemem realizowanym na Uniwersytecie im. Adama Mickiewicza w Poznaniu przez grupę studentów w ramach projektu inżynierskiego.
+    W związku z testowym etapem, na jakim jest nasza aplikacja, nie zachęcamy do logowania się realnymi danymi osobowymi, ze względu na jeszcze niezaaplikowane
+    algorytmy bezpieczeństwa. Jednakże wymagane jest podanie istniejącego adresu e-mail, używanego przy późniejszej weryfikacji konta lub zmianie hasła.</p>
+  <p style="font-size: 18px;">Dziękujemy za zrozumienie,</p>
+  <p style="font-size: 18px;">Zespół Tutorex.</p>
+  </div>
+  </div>
+{% endblock %}

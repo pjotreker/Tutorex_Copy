@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Konto rodzic + uczeń{% endblock %}
+{% block title %}Konto rodzic + uczeń{% endblock %}
 {% block styles %}
     <link type="text/css" href="{% static 'css/register_styles.css' %}" rel="stylesheet">
 {% endblock %}
@@ -10,17 +10,17 @@
         <div id="formContainer">
             <form action="/signup/parent" method="post">
                 {% csrf_token %}
-                <label for="first_name"><b>Imię</b></label>
+                <label for="first_name"><b>Imię dziecka</b></label>
                 <input type="text" placeholder="Imię" name="first_name" id="first_name" required>
 
-                <label for="last_name"><b>Nazwisko</b></label>
+                <label for="last_name"><b>Nazwisko dziecka</b></label>
                 <input type="text" placeholder="Nazwisko" name="last_name" id="last_name" required>
 
                 <label for="email"><b>Email</b></label>
                 <input type="email" placeholder="Email" name="email" id="email" required>
                 <div id="mail_alert" class="passwords-alert"> </div>
 
-                <label for="birthday"><b>Data urodzenia</b></label>
+                <label for="birthday"><b>Data urodzenia dziecka</b></label>
                 <input type="date" min="{{ user_16_years }}"  max="{{ today }}" name="birthday" id="birthday" value="2017-06-01" required>
                 <div id="dates_alert" class="passwords-alert">Nieprawidłowa data!</div>
 
@@ -45,7 +45,7 @@
 
                 <label id="acceptStatue">
                     <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px" required>
-                    Zapoznałem się z <a href="url">Regulaminem</a>
+                    Zapoznałem się z <a href="terms">Regulaminem</a>
                 </label>
 
                 <div id="previous" class="nav_button" onclick="location.href = '/signup-choice'">Wstecz</div>

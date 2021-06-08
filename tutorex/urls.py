@@ -24,7 +24,7 @@ import notifications.urls
 
 urlpatterns = [
     path('', user_views.index_view, name='index'),
-    path('home/', user_views.home_view, name='home'),
+    path('home/', user_views.NotificationsView.as_view(), name='home'),
     path('signup-choice/', user_views.SignupTypeChoiceView.as_view(), name='signup-choice-view'),
     path('signup/', user_views.signup, name='signup-view'),
     path('signup/parent', user_views.signup_parent, name='signup-view-parent'),
@@ -51,6 +51,8 @@ urlpatterns = [
     path('api/check-pass-matches/', user_views.check_if_password_matches, name='check-parent-pass-matches'),
     path('api/pass-check-constrains', user_views.validate_pass, name='password-check-constrains'),
     path('api/mail-check-exists', user_views.check_email_exists, name='email-check-exists'),
+    path('contact/', user_views.Contact.as_view(), name='contact'),
+    path('terms/', user_views.Terms.as_view(), name='terms'),
 ]
 
 handler403 = 'users.views.handler_403'
