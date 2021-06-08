@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
-from .models import BaseUser, Classroom, Lesson
+from .models import BaseUser, Classroom, Lesson, LessonTimeSlot
 from datetime import date
 
 
@@ -43,3 +43,12 @@ class AddLessonForm(forms.ModelForm):
         model = Lesson
         fields = ["lesson_name", "description", "note", "date", "hour", "lesson_done"]
 
+
+class AddTimeSlotForm(forms.Form):
+    time_start_date = forms.DateField()
+    time_start_time = forms.TimeField(input_formats=['%H:%M'], widget=forms.TimeInput(attrs={'class':'timepicker'}))
+    duration = forms.IntegerField(initial=45)
+
+    # class Meta:
+    #     model = LessonTimeSlot
+    #     fields = ['duration']

@@ -37,7 +37,7 @@ class Lesson(models.Model):
 
 
 class LessonTimeSlot(models.Model):
-    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson_id = models.OneToOneField(Lesson, on_delete=models.CASCADE, null=True)
     time_start = models.DateTimeField()
     duration = models.IntegerField(default=45)
     students = models.ManyToManyField(BaseUser)
