@@ -47,3 +47,31 @@ class ShowCalendar(LoginRequiredMixin, View):
             return render(request, "show_calendar_teacher.html")
         else:
             return render(request, "show_calendar_student.html")
+
+class ShowCalendarWeekStudent(LoginRequiredMixin, View):
+    def get(self, request, user_uid):
+        try:
+            user = BaseUser.objects.get(pk=user_uid)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user and not request.user.is_teacher:
+            context = {'user_uid': user_uid}
+            return render(request, "show_calendar_week_student.html", context)
+        else:
+            HttpResponseForbidden("Błąd z uwierzytelnieniem. Skontaktuj się z administratorami.")
+
+class ShowCalendarWeekTeacher(LoginRequiredMixin, View):
+    def get(self, request, user_uid):
+        try:
+            user = BaseUser.objects.get(pk=user_uid)
+            if user.id != request.user.id or not request.user.id:
+                raise PermissionDenied
+        except (ValueError, TypeError, OverflowError, BaseUser.DoesNotExist):
+            user = None
+        if user and request.user.is_teacher:
+            context = {'user_uid': user_uid}
+            return render(request, "show_calendar_week_teacher.html", context)
+        else:
+            HttpResponseForbidden("Błąd z uwierzytelnieniem. Skontaktuj się z administratorami.")
