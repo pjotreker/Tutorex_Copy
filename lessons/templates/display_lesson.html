@@ -9,12 +9,6 @@
 {% endblock %}
 {% block title %}Lekcja - {{ lesson.subject }}{% endblock %}
 {% block content %}
-    {% if lesson.lesson_done %}
-    <p>Czy lekcja się odbyła? Tak</p>
-    {% else %}
-    <p>Czy lekcja się odbyła? nie</p>
-    {% endif %}
-
     <div class="tui-lesson_page">
         <div id="returnLessonBar" class="tui-lesson_button_bar">
             <button class="nav_button" onclick="document.location='show-classrooms/display-classroom/{{ classroom_id }}'">
