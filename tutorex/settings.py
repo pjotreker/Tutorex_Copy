@@ -95,7 +95,7 @@ hostname = 'tutorexserver'
 # Configure Postgres database; the full username is username@servername,
 # which we construct using the DBHOST value.
 import sys
-#'''
+'''
 if 'test' in sys.argv:
     DATABASES = {
          'default': {
@@ -114,15 +114,15 @@ else:
          'PORT':'5432'
         }
     }
-#'''
 '''
+#'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-'''
+#'''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
