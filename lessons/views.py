@@ -391,9 +391,22 @@ class DisplayLesson(LoginRequiredMixin, View):
             print(user)
             if user not in students:
                 raise PermissionDenied("Nie powinno Cię tu być uczniu")
-        return render(request, "display_lesson.html", {'user': user, 'lesson': lesson})
+        return render(request, "display_lesson.html", {'user': user, 'classroom': classroom, 'lesson': lesson})
 
-      
+    def post(self, request, classroom_id, lesson_id):
+        subject = request.POST.get('subject', '').strip()
+        description = request.POST.get('description', '').strip()
+        note = request.POST.get('note', '').strip()
+        date = request.POST.get('date', '')
+        hour = request.POST.get('hour', '')
+        try:
+            lesson = Lesson.objects.filter(pk=lesson_id)
+            lesson.update(subject=subject, description=description, note=note, date=date, hour=hour)
+            return redirect('display-lesson', classroom_id=classroom_id, lesson_id=lesson_id)
+        except:
+            raise ValueError("Nie udało się zapisać klasy")
+
+
 class CreateTimeSlot(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def test_func(self):
