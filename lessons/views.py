@@ -383,8 +383,8 @@ def redirectLessonData(request):
     note=request.POST['note'],
     classroom=request.POST['classroom'],
     return redirect(AddLesson.post(request, classroom), {'lesson_name': subject,
-                                                            'lesson_date': lesson_date,
-                                                            'lesson_hour': lesson_hour,
+                                                            'lesson_date': date,
+                                                            'lesson_hour': hour,
                                                             'description': description,
                                                             'note': note})
 
