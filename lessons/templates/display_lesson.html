@@ -31,13 +31,16 @@
             </button>
         </div>
         <div id="tui-lesson_box">
+          <div id="lessonMessages">
+
+            </div>
             <div id="lessonInfoContainer" style="margin-top: 8px; border-left: 2px solid #e9e9e9;">
                 <div id="lessonInfoLeftBox">
                     <div class="lesson_info">
-                        <input id="dateOfLesson" class="lesson_date_input" type="date" disabled="true" value="{{lesson.date}}">
+                        <input id="dateOfLesson" class="lesson_date_input" type="date" disabled="true" value="{{lesson.date|date:'Y-m-d'}}">
                     </div>
                     <div class="lesson_info">
-                        <input id="hourOfLesson" class="lesson_date_input" type="time" value="{{lesson.hour}}" disabled="true">
+                        <input id="hourOfLesson" class="lesson_date_input" type="time" value="{{ lesson.hour|time:'H:i' }}" disabled="true">
                     </div>
                 </div>
                 <div id="lessonInfoRightBox">
@@ -82,10 +85,8 @@
             </div>
             {% if user.is_teacher %}
             <div id="noteForTheLessonBox">
-                <div id="noteForTheLesson" contentEditable="false">
-                    <div style="border-bottom: 1px solid #c7c774; margin-bottom: 8px;">Notatka do lekcji:</div>
-                    {{ lesson.note }}
-                </div>
+              <div style="border-bottom: 1px solid #c7c774; margin-bottom: 8px;">Notatka do lekcji:</div>
+              <input type="textarea" id="noteForTheLesson" contentEditable="false" value="{{ lesson.note }}" disabled="true"/>
                 <svg id="openCloseNoteIcon" onclick="openCloseNote()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
                 </svg>
@@ -284,7 +285,7 @@
             save.style.display = "block";
             name.contentEditable = "true";
             desc.contentEditable = "true";
-            note.contentEditable = "true";
+            note.disabled = false;
             date.disabled = false;
             hour.disabled = false;
         }
@@ -310,20 +311,41 @@
         }
 
         function saveContent() {
-            var name = document.getElementById("nameOfTheLesson");
-            var desc = document.getElementById("descriptionOfTheLesson");
-            var note = document.getElementById("noteForTheLesson");
-            var date = document.getElementById("dateOfLesson");
-            var hour = document.getElementById("hourOfLesson");
-            var edit = document.getElementById("editLessonButton");
-            var dont = document.getElementById("dontEditLessonButton");
-            var save = document.getElementById("saveLessonButton");
+            let name = document.getElementById("nameOfTheLesson");
+            let desc = document.getElementById("descriptionOfTheLesson");
+            let note = document.getElementById("noteForTheLesson");
+            let date = document.getElementById("dateOfLesson");
+            let hour = document.getElementById("hourOfLesson");
+            let edit = document.getElementById("editLessonButton");
+            let dont = document.getElementById("dontEditLessonButton");
+            let save = document.getElementById("saveLessonButton");
+
+            let form_data = {subject: name.innerHTML,
+                            description: desc.innerHTML,
+                            note: note.value,
+                            date: date.value,
+                            hour: hour.value,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'};
+
+            console.log(form_data);
+            $.ajax({
+                'method': 'POST',
+                'url': '/show-classrooms/display-classroom/{{ classroom.id }}/display-lesson/{{ lesson.id }}',
+                'data': form_data,
+                'success': function(){
+                    $("#lessonMessages").html("Lekcja została pomyślnie edytowana");
+                },
+                'error': function(){
+                    $("#lessonMessages").html("Nie udało się edytować lekcji!");
+                }
+            });
+
             edit.style.display = "flex";
             dont.style.display = "none";
             save.style.display = "none";
             name.contentEditable = "false";
             desc.contentEditable = "false";
-            note.contentEditable = "false";
+            note.disabled = true;
             date.disabled = true;
             hour.disabled = true;
         }
