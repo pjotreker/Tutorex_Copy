@@ -77,7 +77,7 @@
                           <p>Brak lekcji dla tej klasy</p>
                         {% else %}
                         {% for lesson in lessons %}
-                          <div class="class_from_list" onclick="document.location='./display-lesson/{{ lesson.id }}'">
+                          <div class="class_from_list" onclick="document.location='{{ classroom.id }}/display-lesson/{{ lesson.id }}'">
                               <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
                               {% if lesson.date != None %}
                               <div class="date_of_class_from_list">{{lesson.date}}</div>
