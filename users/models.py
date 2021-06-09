@@ -53,3 +53,4 @@ def check_if_adult(sender, request, user, **kwargs):
     user_adult_age = BaseUser.get_16_ya(user)
     user_adult = user.birthday <= user_adult_age
     user.is_adult = user_adult
+    user.save()
