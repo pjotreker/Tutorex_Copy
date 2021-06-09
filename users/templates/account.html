@@ -12,6 +12,7 @@
             <div id="changePasswordText" class="window_text">Na Twój adres mailowy został wysłany link do strony zmiany hasła.</div>
             <button id="closeChangePasswordWindow" class="edit_data_button" onclick="CloseWindow('changePasswordWindow')">ZAMKNIJ OKNO</button>
         </div>
+        {% if not user.is_adult and not user.is_teacher %}
         <div id="parental_password_page">
             <div id="parental_password_box">
                 <form id="parent_pass_form" method="post">
@@ -25,6 +26,7 @@
             </form>
             </div>
         </div>
+        {% endif %}
         <div id="tui-account_page" style="top: 150px;">
             <h1 style="padding-top: 10px;"> {{ user.first_name }} {{ user.last_name }} </h1>
             {% if user.is_teacher %}
@@ -46,8 +48,8 @@
                 <input type="button" id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()" value="EDYTUJ DANE"/>
                 <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
             </form>
-            {% if not user.is_adult %}
-            <button id="changeParentPasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="document.location='parent-password/edit'">ZMIEŃ HASŁO RODZICIELSKIE</button>
+            {% if not user.is_adult and not user.is_teacher %}
+            <button id="changeParentPasswordButton" class="edit_data_button" style="background-color: #0E4DA4; width: 295px; height: 32px;" onclick="document.location='parent-password/edit'">ZMIEŃ HASŁO RODZICIELSKIE</button>
             {% endif %}
             <button id="changePasswordButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="ChangePassword()">ZMIEŃ HASŁO</button>
             <button id="deleteAccountButton" class="edit_data_button" style="background-color: #E74C3C;" onclick="document.location='delete-account'">USUŃ KONTO</button>

@@ -1,21 +1,439 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Lekcja</title>
-</head>
-<body>
-    <h4>Temat lekcji: {{ lesson.subject }}</h4>
-    <p>Data lekcji {{lesson.date}}</p>
-    <p>Godzina lekcji {{lesson.hour}}</p>
-    <p>Opis lekcji: {{lesson.description}}</p>
-    {% if user.is_teacher %}
-    <p>Notatka do lekcji (tylko dla nauczyciela powinna być): {{lesson.note}}</p>
-    {% endif %}
-    {% if lesson.lesson_done %}
-    <p>Czy lekcja się odbyła? Tak</p>
-    {% else %}
-    <p>Czy lekcja się odbyła? nie</p>
-    {% endif %}
-</body>
-</html>
+{% extends "main.html" %}
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lesson_styles.css' %}" rel="stylesheet">
+    <!-- jQuery import-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %}Lekcja - {{ lesson.subject }}{% endblock %}
+{% block content %}
+    <div class="tui-lesson_page">
+        <div id="returnLessonBar" class="tui-lesson_button_bar">
+            <button class="nav_button" onclick="document.location='show-classrooms/display-classroom/{{ classroom_id }}'">
+                <svg class="nav_button_icon" width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 10.9998H7.14L10.77 6.63979C10.9397 6.43557 11.0214 6.17229 10.997 5.90786C10.9726 5.64344 10.8442 5.39953 10.64 5.22979C10.4358 5.06005 10.1725 4.97839 9.90808 5.00277C9.64365 5.02715 9.39974 5.15557 9.23 5.35979L4.23 11.3598C4.19636 11.4075 4.16628 11.4576 4.14 11.5098C4.14 11.5598 4.14 11.5898 4.07 11.6398C4.02467 11.7544 4.00094 11.8765 4 11.9998C4.00094 12.1231 4.02467 12.2451 4.07 12.3598C4.07 12.4098 4.07 12.4398 4.14 12.4898C4.16628 12.5419 4.19636 12.5921 4.23 12.6398L9.23 18.6398C9.32402 18.7527 9.44176 18.8435 9.57485 18.9057C9.70793 18.9679 9.85309 19 10 18.9998C10.2337 19.0002 10.4601 18.9189 10.64 18.7698C10.7413 18.6858 10.825 18.5827 10.8863 18.4664C10.9477 18.35 10.9855 18.2227 10.9975 18.0918C11.0096 17.9608 10.9957 17.8287 10.9567 17.7031C10.9176 17.5775 10.8542 17.4608 10.77 17.3598L7.14 12.9998H19C19.2652 12.9998 19.5196 12.8944 19.7071 12.7069C19.8946 12.5194 20 12.265 20 11.9998C20 11.7346 19.8946 11.4802 19.7071 11.2927C19.5196 11.1051 19.2652 10.9998 19 10.9998Z" fill="black"/>
+                </svg><div class="descriptionOfTheButton" style="padding-right: 8px;">POWRÓT</div>
+            </button>
+        </div>
+        <div id="navLessonBar" class="tui-lesson_button_bar">
+            <button class="nav_button">
+                <svg class="nav_button_icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.9101 6.70992C14.8176 6.61722 14.7077 6.54367 14.5867 6.49349C14.4658 6.44331 14.3361 6.41748 14.2051 6.41748C14.0742 6.41748 13.9445 6.44331 13.8235 6.49349C13.7025 6.54367 13.5926 6.61722 13.5001 6.70992L8.91012 11.2999C8.81742 11.3924 8.74387 11.5023 8.69369 11.6233C8.64351 11.7443 8.61768 11.874 8.61768 12.0049C8.61768 12.1359 8.64351 12.2656 8.69369 12.3865C8.74387 12.5075 8.81742 12.6174 8.91012 12.7099L13.5001 17.2999C13.5927 17.3925 13.7026 17.4659 13.8236 17.5161C13.9445 17.5662 14.0742 17.5919 14.2051 17.5919C14.3361 17.5919 14.4657 17.5662 14.5867 17.5161C14.7076 17.4659 14.8175 17.3925 14.9101 17.2999C15.0027 17.2073 15.0761 17.0974 15.1262 16.9765C15.1764 16.8555 15.2021 16.7259 15.2021 16.5949C15.2021 16.464 15.1764 16.3343 15.1262 16.2134C15.0761 16.0924 15.0027 15.9825 14.9101 15.8899L11.0301 11.9999L14.9101 8.11992C15.2901 7.72992 15.2901 7.08992 14.9101 6.70992V6.70992Z" fill="black"/>
+                </svg><div class="descriptionOfTheButton" style="padding-right: 8px;">POPRZEDNIA LEKCJA</div>
+            </button>
+            <button class="nav_button">
+                <div class="descriptionOfTheButton" style="padding-right: 5px;">NASTĘPNA LEKCJA</div>
+                <svg class="nav_button_icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.31002 6.70978C9.21732 6.80229 9.14377 6.91218 9.09359 7.03315C9.04341 7.15413 9.01758 7.28381 9.01758 7.41478C9.01758 7.54575 9.04341 7.67543 9.09359 7.7964C9.14377 7.91738 9.21732 8.02726 9.31002 8.11978L13.19 11.9998L9.31002 15.8798C9.12304 16.0668 9.018 16.3204 9.018 16.5848C9.018 16.8492 9.12304 17.1028 9.31002 17.2898C9.497 17.4768 9.7506 17.5818 10.015 17.5818C10.2794 17.5818 10.533 17.4768 10.72 17.2898L15.31 12.6998C15.4027 12.6073 15.4763 12.4974 15.5265 12.3764C15.5766 12.2554 15.6025 12.1257 15.6025 11.9948C15.6025 11.8638 15.5766 11.7341 15.5265 11.6132C15.4763 11.4922 15.4027 11.3823 15.31 11.2898L10.72 6.69978C10.34 6.31978 9.70002 6.31978 9.31002 6.70978Z" fill="black"/>
+                </svg>
+            </button>
+        </div>
+        <div id="tui-lesson_box">
+            <div id="lessonInfoContainer" style="margin-top: 8px; border-left: 2px solid #e9e9e9;">
+                <div id="lessonInfoLeftBox">
+                    <div class="lesson_info">
+                        <input id="dateOfLesson" class="lesson_date_input" type="date" disabled="true" value="{{lesson.date}}">
+                    </div>
+                    <div class="lesson_info">
+                        <input id="hourOfLesson" class="lesson_date_input" type="time" value="{{lesson.hour}}" disabled="true">
+                    </div>
+                </div>
+                <div id="lessonInfoRightBox">
+                    <div style="display: flex; align-items: center; margin-right: 24px;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.7069 5.29303C16.8944 5.48056 16.9997 5.73487 16.9997 6.00003C16.9997 6.26519 16.8944 6.5195 16.7069 6.70703L8.70692 14.707C8.51939 14.8945 8.26508 14.9998 7.99992 14.9998C7.73475 14.9998 7.48045 14.8945 7.29292 14.707L3.29292 10.707C3.11076 10.5184 3.00997 10.2658 3.01224 10.0036C3.01452 9.74143 3.11969 9.49062 3.3051 9.30521C3.49051 9.1198 3.74132 9.01464 4.00352 9.01236C4.26571 9.01008 4.51832 9.11087 4.70692 9.29303L7.99992 12.586L15.2929 5.29303C15.4804 5.10556 15.7348 5.00024 15.9999 5.00024C16.2651 5.00024 16.5194 5.10556 16.7069 5.29303Z" fill="#167e39"/>
+                        </svg>
+                        {% if lesson.lesson_done %}
+                        <div class="descriptionOfTheButton" style="margin-left: 5px; color: #167e39;">LEKCJA SIĘ ODBYŁA</div>
+                        {% else %}
+                        <div class="descriptionOfTheButton" style="margin-left: 5px; color: #167e39;">LEKCJA JESZCZE SIĘ NIE ODBYŁA</div>
+                        {% endif %}
+                    </div>
+                    <div style="position: absolute; right: 30px;">
+                        <button id="editLessonButton" class="lesson_button" style="background-color: white;" onclick="editContent()">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.0001 20H5.00005C4.73484 20 4.48048 20.1053 4.29295 20.2929C4.10541 20.4804 4.00005 20.7348 4.00005 21C4.00005 21.2652 4.10541 21.5196 4.29295 21.7071C4.48048 21.8946 4.73484 22 5.00005 22H19.0001C19.2653 22 19.5196 21.8946 19.7072 21.7071C19.8947 21.5196 20.0001 21.2652 20.0001 21C20.0001 20.7348 19.8947 20.4804 19.7072 20.2929C19.5196 20.1053 19.2653 20 19.0001 20ZM5.00005 18H5.09005L9.26005 17.62C9.71685 17.5745 10.1441 17.3732 10.4701 17.05L19.4701 8.04998C19.8194 7.68095 20.0082 7.18849 19.995 6.68052C19.9819 6.17254 19.768 5.69049 19.4001 5.33998L16.6601 2.59998C16.3024 2.26408 15.8338 2.07134 15.3434 2.05843C14.8529 2.04553 14.3748 2.21335 14.0001 2.52998L5.00005 11.53C4.67682 11.8559 4.47556 12.2832 4.43005 12.74L4.00005 16.91C3.98658 17.0564 4.00559 17.2041 4.05571 17.3424C4.10584 17.4806 4.18585 17.6062 4.29005 17.71C4.38349 17.8027 4.49431 17.876 4.61615 17.9258C4.73798 17.9755 4.86845 18.0007 5.00005 18ZM15.2701 3.99998L18.0001 6.72998L16.0001 8.67998L13.3201 5.99998L15.2701 3.99998ZM6.37005 12.91L12.0001 7.31998L14.7001 10.02L9.10005 15.62L6.10005 15.9L6.37005 12.91Z" fill="#0E4DA4"/>
+                            </svg><div class="descriptionOfTheButton" style="color: #0E4DA4;">EDYTUJ DANE</div>
+                        </button>
+                        <div style="display: flex; flex-direction: row;">
+                            <button id="dontEditLessonButton" class="lesson_button" onclick="dontEditLesson()">ANULUJ</button>
+                            <button id="saveLessonButton" class="lesson_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="nameOfTheLessonBox">
+                <div id="nameOfTheLesson" contentEditable="false">
+                {{ lesson.subject }}
+                </div>
+                <svg id="openCloseNameIcon" onclick="openCloseName()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            <div id="descriptionOfTheLessonBox">
+                <div id="descriptionOfTheLesson" contentEditable="false">
+                {{ lesson.description }}
+                </div>
+                <svg id="openCloseDescriptionIcon" onclick="openCloseDescription()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            {% if user.is_teacher %}
+            <div id="noteForTheLessonBox">
+                <div id="noteForTheLesson" contentEditable="false">
+                    <div style="border-bottom: 1px solid #c7c774; margin-bottom: 8px;">Notatka do lekcji:</div>
+                    {{ lesson.note }}
+                </div>
+                <svg id="openCloseNoteIcon" onclick="openCloseNote()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
+                </svg>
+            </div>
+            {% endif %}
+            <div id="bottomLessonContainer">
+                <div id="filesForTheLessonBox">
+                    <div id="listOfLessonFilesBox" class="bottom_lesson_box">
+                        <div id="listOfLessonFilesHeader">
+                            <div style="font-size: 20px; padding-left: 4px;">Materiały:</div>
+                            {% if user.is_teacher %}
+                            <button id="addFileToLessonButton" class="lesson_button">
+                                <svg id="addLessonIcon" width="16" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="white">
+                                <path d="M8 0C8.26522 0 8.51957 0.105357 8.70711 0.292893C8.89464 0.48043 9 0.734784 9 1V7H15C15.2652 7 15.5196 7.10536 15.7071 7.29289C15.8946 7.48043 16 7.73478 16 8C16 8.26522 15.8946 8.51957 15.7071 8.70711C15.5196 8.89464 15.2652 9 15 9H9V15C9 15.2652 8.89464 15.5196 8.70711 15.7071C8.51957 15.8946 8.26522 16 8 16C7.73478 16 7.48043 15.8946 7.29289 15.7071C7.10536 15.5196 7 15.2652 7 15V9H1C0.734784 9 0.48043 8.89464 0.292893 8.70711C0.105357 8.51957 0 8.26522 0 8C0 7.73478 0.105357 7.48043 0.292893 7.29289C0.48043 7.10536 0.734784 7 1 7H7V1C7 0.734784 7.10536 0.48043 7.29289 0.292893C7.48043 0.105357 7.73478 0 8 0V0Z"/>
+                                </svg><div class="descriptionOfTheButton">DODAJ MATERIAŁ</div>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 3</div>
+                            <div class="date_of_file_from_list">14:55, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 2</div>
+                            <div class="date_of_file_from_list">14:54, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                        <div class="file_from_list">
+                            <div class="name_of_file_from_list">Zadania z kombinatoryki, część 1</div>
+                            <div class="date_of_file_from_list">14:53, 22.03.2020</div>
+                            <input type="checkbox" class="delete_file_checkbox" name="scales" unchecked>
+                        </div>
+                    </div>
+                    {% if user.is_teacher %}
+                    <div class="button_container">
+                        <button id="deleteFileFromLessonButton" class="lesson_button" onclick="deleteFile()">USUŃ MATERIAŁ</button>
+                        <button id="dontDeleteFileFromLessonButton" class="lesson_button" onclick="dontDeleteFile()">ANULUJ</button>
+                        <button id="confirmDeletingFileFromLessonButton" class="lesson_button" onclick="confirmDeletingFile()">POTWIERDŹ</button>
+                    </div>
+                    {% endif %}
+                </div>
+                <div id="homeworkForTheLessonBox">
+                    <div id="listOfHomeworkBox" class="bottom_lesson_box">
+                        <div id="listOfLessonFilesHeader">
+                            <div style="font-size: 20px; padding-left: 4px;">Zadania domowe:</div>
+                            {% if user.is_teacher %}
+                            <button id="addHomeworkToLessonButton" class="lesson_button">
+                                <svg id="addLessonIcon" width="16" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="white">
+                                    <path d="M8 0C8.26522 0 8.51957 0.105357 8.70711 0.292893C8.89464 0.48043 9 0.734784 9 1V7H15C15.2652 7 15.5196 7.10536 15.7071 7.29289C15.8946 7.48043 16 7.73478 16 8C16 8.26522 15.8946 8.51957 15.7071 8.70711C15.5196 8.89464 15.2652 9 15 9H9V15C9 15.2652 8.89464 15.5196 8.70711 15.7071C8.51957 15.8946 8.26522 16 8 16C7.73478 16 7.48043 15.8946 7.29289 15.7071C7.10536 15.5196 7 15.2652 7 15V9H1C0.734784 9 0.48043 8.89464 0.292893 8.70711C0.105357 8.51957 0 8.26522 0 8C0 7.73478 0.105357 7.48043 0.292893 7.29289C0.48043 7.10536 0.734784 7 1 7H7V1C7 0.734784 7.10536 0.48043 7.29289 0.292893C7.48043 0.105357 7.73478 0 8 0V0Z"/>
+                                </svg><div id="addHomeworkToLessonDescription" class="descriptionOfTheButton">DODAJ ZADANIE</div>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <div id="homework1" class="homework_from_list" onclick="showReceivedHomeworks(this.id)">Zadanie domowe nr 1
+                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                            <div class="listOfReceivedHomeworks">
+                                <div class="receivedHomework">
+                                    <div>Mariusz Gołąb</div>
+                                    <div class="receivedHomeworkFiles">
+                                        <div>asdddsWW.jpeg</div>
+                                    </div>
+                                </div>
+                                <div class="receivedHomework">
+                                    <div>Tadeusz Łabądź</div>
+                                    <div class="receivedHomeworkFiles">
+                                        <div>pliczkiztrzeciejuliczki.jpeg</div>
+                                        <div>pliczkizczwartejuliczki.jpeg</div>
+                                    </div>
+                                </div>
+                                <div class="receivedHomework">
+                                    <div>Tadeusz Łabądź</div>
+                                    <div style="padding-right: 8px; display: flex;">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0)"><path d="M15 12L9.00005 18M2.99805 1H17.5L21 4.5V23H3.00005L2.99805 1ZM16 1V6H21L16 1ZM9.00005 12L15 18L9.00005 12Z" stroke="#E74C3C" stroke-width="2"/></g>
+                                        <defs><clipPath id="clip0"><rect width="24" height="24" fill="white"/></clipPath></defs>
+                                        </svg><div class="descriptionOfTheButton">Nie przesłano</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="homework2" class="homework_from_list" onclick="showReceivedHomeworks(this.id)">Zadanie domowe nr 2
+                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                            <div class="listOfReceivedHomeworks">
+                                <div class="receivedHomework">
+                                    <div>Stanisław Motyla-Noga</div>
+                                    <div class="receivedHomeworkFiles">
+                                        <div>zad44.jpg</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user.is_teacher %}
+                    <div class="button_container">
+                        <button id="deleteHomeworkFromLessonButton" class="lesson_button" onclick="deleteHomework()">USUŃ ZADANIE</button>
+                        <button id="dontDeleteHomeworkFromLessonButton" class="lesson_button" onclick="dontDeleteHomework()">ANULUJ</button>
+                        <button id="confirmDeletingHomeworkFromLessonButton" class="lesson_button" onclick="confirmDeletingHomework()">POTWIERDŹ</button>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if user.is_teacher %}
+                <div style="border-top: 2px solid #DFE2E0;">
+                    <button id="deleteLessonButton" class="lesson_button" style="color: #E74C3C; background-color: white" onclick="deleteLesson()">USUŃ LEKCJĘ</button>
+                    <div style="display: flex; flex-direction: row;">
+                        <button id="dontDeleteLessonButton" onclick="dontDeleteLesson()">ANULUJ</button>
+                        <button id="confirmDeletingLessonButton" class="lesson_button" onclick="confirmDeletingLesson()" style="background-color: #E74C3C;">POTWIERDŹ</button>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var clicked = 0;
+        function showReceivedHomeworks(homework) {
+            var homew = document.getElementById(homework);
+            var list = homew.querySelector(".listOfReceivedHomeworks");
+            if (clicked == 0) {
+                clicked = 1;
+                $(list).slideDown();
+            } else {
+                clicked = 0;
+                $(list).slideUp();
+            }
+        }
+
+        function checkSliders() {
+            var nameSlider = document.getElementById("openCloseNameIcon");
+            var name = document.getElementById("nameOfTheLesson");
+            var heigthOfNam = $("#nameOfTheLesson").prop("scrollHeight");
+            if (heigthOfNam <= 25) {
+                nameSlider.style.display = "none";
+                name.style.marginBottom = "10px";
+            }
+            var descSlider = document.getElementById("openCloseDescriptionIcon");
+            var desc = document.getElementById("descriptionOfTheLesson");
+            var heigthOfDesc = $("#descriptionOfTheLesson").prop("scrollHeight");
+            if (heigthOfDesc <= 42) {
+                descSlider.style.display = "none";
+                desc.style.marginBottom = "10px";
+            }
+            var noteSlider = document.getElementById("openCloseNoteIcon");
+            var note = document.getElementById("noteForTheLesson");
+            var heigthOfNote = $("#noteForTheLesson").prop("scrollHeight");
+            if (heigthOfNote <= 89) {
+                noteSlider.style.display = "none";
+                note.style.marginBottom = "10px";
+            }
+        }
+
+        function highlightTab() {
+            var tab = document.getElementById("classesButton");
+            tab.style.borderBottom = "4px solid white";
+        }
+
+        function openCloseName() {
+            var name = document.getElementById("nameOfTheLesson");
+            if (name.style.height == "auto") {
+                name.style.height = "25px";
+            } else {
+                name.style.height = "auto";
+            }
+        }
+
+        function openCloseDescription() {
+            var desc = document.getElementById("descriptionOfTheLesson");
+            if (desc.style.height == "auto") {
+                desc.style.height = "42px";
+            } else {
+                desc.style.height = "auto";
+            }
+        }
+
+        function openCloseNote() {
+            var note = document.getElementById("noteForTheLesson");
+            if (note.style.height == "auto") {
+                note.style.height = "80px";
+            } else {
+                note.style.height = "auto";
+            }
+        }
+
+        function editContent() {
+            var name = document.getElementById("nameOfTheLesson");
+            var desc = document.getElementById("descriptionOfTheLesson");
+            var note = document.getElementById("noteForTheLesson");
+            var date = document.getElementById("dateOfLesson");
+            var hour = document.getElementById("hourOfLesson");
+            var edit = document.getElementById("editLessonButton");
+            var dont = document.getElementById("dontEditLessonButton");
+            var save = document.getElementById("saveLessonButton");
+            edit.style.display = "none";
+            dont.style.display = "block";
+            save.style.display = "block";
+            name.contentEditable = "true";
+            desc.contentEditable = "true";
+            note.contentEditable = "true";
+            date.disabled = false;
+            hour.disabled = false;
+        }
+
+        function dontEditLesson() {
+            var edit = document.getElementById("editLessonButton");
+            var dont = document.getElementById("dontEditLessonButton");
+            var save = document.getElementById("saveLessonButton");
+            edit.style.display = "flex";
+            dont.style.display = "none";
+            save.style.display = "none";
+
+            var name2 = document.getElementById("nameOfTheLesson");
+            var desc2 = document.getElementById("descriptionOfTheLesson");
+            var note2 = document.getElementById("noteForTheLesson");
+            var date2 = document.getElementById("dateOfLesson");
+            var hour2 = document.getElementById("hourOfLesson");
+            name2.contentEditable = "false";
+            desc2.contentEditable = "false";
+            note2.contentEditable = "false";
+            date2.disabled = true;
+            hour2.disabled = true;
+        }
+
+        function saveContent() {
+            var name = document.getElementById("nameOfTheLesson");
+            var desc = document.getElementById("descriptionOfTheLesson");
+            var note = document.getElementById("noteForTheLesson");
+            var date = document.getElementById("dateOfLesson");
+            var hour = document.getElementById("hourOfLesson");
+            var edit = document.getElementById("editLessonButton");
+            var dont = document.getElementById("dontEditLessonButton");
+            var save = document.getElementById("saveLessonButton");
+            edit.style.display = "flex";
+            dont.style.display = "none";
+            save.style.display = "none";
+            name.contentEditable = "false";
+            desc.contentEditable = "false";
+            note.contentEditable = "false";
+            date.disabled = true;
+            hour.disabled = true;
+        }
+
+        function deleteFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'block';
+            }
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingFile() {
+            var checks = document.getElementsByClassName('delete_file_checkbox');
+            var deleting = document.getElementById("deleteFileFromLessonButton");
+            var dont = document.getElementById("dontDeleteFileFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingFileFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function deleteHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'block';
+            }
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingHomework() {
+            var checks = document.getElementsByClassName('delete_checkbox');
+            var deleting = document.getElementById("deleteHomeworkFromLessonButton");
+            var dont = document.getElementById("dontDeleteHomeworkFromLessonButton");
+            var confirm = document.getElementById("confirmDeletingHomeworkFromLessonButton");
+            console.log(checks)
+            for (var i = 0; i < checks.length; i++) {
+                checks[i].style.display = 'none';
+            }
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function deleteLesson() {
+            var deleting = document.getElementById("deleteLessonButton");
+            var dont = document.getElementById("dontDeleteLessonButton");
+            var confirm = document.getElementById("confirmDeletingLessonButton");
+            deleting.style.display = "none";
+            dont.style.display = 'block';
+            confirm.style.display = 'block';
+        }
+
+        function dontDeleteLesson() {
+            var deleting = document.getElementById("deleteLessonButton");
+            var dont = document.getElementById("dontDeleteLessonButton");
+            var confirm = document.getElementById("confirmDeletingLessonButton");
+            deleting.style.display = "block";
+            dont.style.display = 'none';
+            confirm.style.display = 'none';
+        }
+
+        function confirmDeletingLesson() {
+            window.location.href = "/home";
+        }
+        highlightTab();
+        checkSliders();
+    </script>
+{% endblock %}
