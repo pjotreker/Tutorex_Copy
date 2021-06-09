@@ -12,7 +12,7 @@
     position: absolute;
     width: 400px;
     max-height: 520px;
-    min-height: 480px;
+    min-height: 500px;
     left: calc(50% - 400px/2);
     top: 50px;
     bottom: 50px;
@@ -40,7 +40,7 @@
     position: absolute;
     width: 350px;
     height: 300px;
-    top: 25%;    
+    top: 25%;
     left: calc(50% - 350px/2);
     /* Light / Background */
 
@@ -50,7 +50,7 @@
     border: 1px solid #DFE2E0;
     box-sizing: border-box;
     border-radius: 12px;
-    
+
     z-index: 997;
     display: none;
 }
@@ -85,7 +85,7 @@
 }
 
 #closeChangePasswordWindow:hover {
-    background-color: #f0f0f0;    
+    background-color: #f0f0f0;
 }
 
 #closeDeleteAccountWindow {
