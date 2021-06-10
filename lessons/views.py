@@ -386,13 +386,27 @@ class AddLesson(LoginRequiredMixin, View):
                     return HttpResponseForbidden("Can't save the lesson")
             else:
                 context['error'] = "Coś źle uzupełnione :( "
-                return render(request, "add_lesson.html", context)
+                return render(request, "display_lesson.html", context)
         except Exception:
             context['error'] = "Coś poszło nie tak"
             return render(request, "add_lesson.html", context)
         return redirect('display-classroom', classroom_id=classroom_id)
 
-      
+
+def redirectLessonData(request):
+    date=request.POST['lesson_date'],
+    hour=request.POST['lesson_hour'],
+    subject=request.POST['lesson_name'],
+    description=request.POST['description'],
+    note=request.POST['note'],
+    classroom=request.POST['classroom'],
+    return redirect(AddLesson.post(request, classroom), {'lesson_name': subject,
+                                                            'lesson_date': date,
+                                                            'lesson_hour': hour,
+                                                            'description': description,
+                                                            'note': note})
+
+
 class DisplayLesson(LoginRequiredMixin, View):
     def get(self, request, classroom_id, lesson_id):
         user_id = request.user.id
@@ -453,4 +467,3 @@ class CreateTimeSlot(LoginRequiredMixin, UserPassesTestMixin, View):
         form = AddTimeSlotForm()
         today = datetime.today()
         return render(request, "add_timeslot.html", {'today': today})
-

@@ -43,7 +43,8 @@
                     <input type="text" id="last_name" name="last_name" disabled="true" value="{{ user.last_name }}" required/>
                 </div>
                 <h6 class="data_header">DATA URODZENIA</h6>
-                <input type="date" min="{% if not user.is_adult %}{{ user_18_years }}{% else %}1900-01-01{% endif %}" max="{% if user.is_adult %}{{ user_18_years }}{% else %}{{ today }}{% endif %}" class="edit_data" name="birthday" id="birthday" disabled="true" value="{{ user.birthday|date:'Y-m-d' }}" required/>
+                <input type="date" min="{% if not user.is_adult and not user.is_teacher %}{{ user_18_years }}{% else %}1900-01-01{% endif %}" max="{% if user.is_adult %}{{ user_18_years }}{% else %}{{ today }}{% endif %}" class="edit_data" name="birthday" id="birthday" disabled="true" value="{{ user.birthday|date:'Y-m-d' }}" required/>
+
 
                 <input type="button" id="editDataButton" class="edit_data_button" style="background-color: #0E4DA4;" onclick="EditData()" value="EDYTUJ DANE"/>
                 <input type="submit" id="saveDataChangeButton" class="edit_data_button" value="ZAPISZ"/>
