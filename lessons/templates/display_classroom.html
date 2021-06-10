@@ -77,7 +77,8 @@
                           <p>Brak lekcji dla tej klasy</p>
                         {% else %}
                         {% for lesson in lessons %}
-                          <div class="class_from_list" onclick="document.location='{{ classroom.id }}/display-lesson/{{ lesson.id }}'">
+                          <div class="class_from_list" onclick="document.location='/show-classrooms/display-classroom/{{ classroom.id }}/display-lesson/{{ lesson.id }}'">
+
                               <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
                               {% if lesson.date != None %}
                               <div class="date_of_class_from_list">{{lesson.date}}</div>
@@ -104,13 +105,11 @@
                         {% endif %}
                     </div>
                     <div id="classInfoContainer">
-                      <form method="post">
-                        {% csrf_token %}
                         <div class="class_info">Min. wiek uczniów w klasie:
-                            <input name="age_range_min" id="minNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value={{ classroom.age_range_min }} min="1">
+                            <input name="age_range_min" id="minNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value="{{ classroom.age_range_min }}" min="1">
                         </div>
                         <div class="class_info">Max. wiek uczniów w klasie:
-                            <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value={{ classroom.age_range_max }} max="99">
+                            <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value="{{ classroom.age_range_max }}" max="99">
                         </div>
                         <div class="class_info">Planowane rozpoczęcie zajęć:
                             <input name="time_frame_start" id="startDateOfClass" class="class_date_input" type="date" disabled="true" value="{{ classroom.time_frame_start|date:'Y-m-d' }}" required/>
@@ -119,7 +118,6 @@
                             <input name="time_frame_end" id="endDateOfClass" class="class_date_input" type="date" disabled="true" value="{{ classroom.time_frame_end|date:'Y-m-d' }}" required/>
                         </div>
                         <button type="submit" id="saveClassButton" class="class_button" style="background-color: #1BB55C;" onclick="saveContent()">ZAPISZ</button>
-                      </form>
                     </div>
                     {% if user.is_teacher == True %}
                     <button id="deleteClassButton" class="class_button" style="background-color: #E74C3C;" onclick="deleteClass()">USUŃ KLASĘ</button>
@@ -129,6 +127,9 @@
                     <button id="dontDeleteClassButton" onclick="dontDeleteClass()">ANULUJ</button>
                     <button id="confirmDeletingClassButton" class="class_button" onclick="document.location='./delete-classroom/{{ classroom.id }}'" style="background-color: #E74C3C;">POTWIERDŹ</button>
                     {% endif %}
+                    <div id="lessonMessages">
+
+                      </div>
                 </div>
             </div>
             <div id="codeOfClass">Kod klasy: {{ classroom.classroom_id }}</div>
@@ -180,6 +181,7 @@
             var end = document.getElementById("endDateOfClass");
             var edit = document.getElementById("editClassButton");
             var save = document.getElementById("saveClassButton");
+
             save.style.display = "block";
             edit.style.backgroundColor = "#7693d8"
             edit.style.display = "none";
@@ -200,6 +202,28 @@
             var end = document.getElementById("endDateOfClass");
             var edit = document.getElementById("editClassButton");
             var save = document.getElementById("saveClassButton");
+
+            let form_data = {class_name: name.innerHTML,
+                            subject: desc.innerHTML,
+                            age_range_min: min.value,
+                            age_range_max: max.value,
+                            time_frame_start: start.value,
+                            time_frame_end: end.value,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'};
+
+                            console.log(form_data);
+                            $.ajax({
+                                'method': 'POST',
+                                'url': '/show-classrooms/display-classroom/{{ classroom.id }}',
+                                'data': form_data,
+                                'success': function(){
+                                    $("#classMessages").html("Klasa została pomyślnie edytowana");
+                                },
+                                'error': function(){
+                                    $("#classMessages").html("Nie udało się edytować klasy!");
+                                }
+                            });
+
             save.style.display = "none";
             edit.style.backgroundColor = "#375eb9";
             name.contentEditable = "false";
