@@ -16,15 +16,11 @@
       {% if not user.is_adult %}
         <p style="margin-left: 200px;">Jeśli jesteś rodzicem musisz podać także swoje hasło rodzicielskie:</p>
         {% endif %}
-        <div id="differentPasswordsAlert">Hasła nie są identyczne!</div>
   <form method="post">
       {% csrf_token %}
 
       <label for="password">Hasło</label>
       <input type="password" name="password" id="password" required/>
-
-      <label for="password2">Powtórz hasło</label>
-      <input type="password" name="password2" id="password2" required onkeyup="comparePasswords();">
 
       {% if not user.is_adult %}
         <label for="parent_password">Hasło rodzica</label>
@@ -37,18 +33,18 @@
 </div>
 </div>
 </div>
-<script>
-    function comparePasswords() {
-        var password1 = document.getElementById("password").value;
-        var password2 = document.getElementById("password2").value;
-        var alert = document.getElementById("differentPasswordsAlert");
-        if (password1 != password2) {
-            alert.style.display = 'block';
-        } else {
-            alert.style.display = 'none';
-            document.getElementById('psswd_form').submit();
-            }
-    }
-</script>
+<!--<script>-->
+<!--    function comparePasswords() {-->
+<!--        var password1 = document.getElementById("password").value;-->
+<!--        var password2 = document.getElementById("password2").value;-->
+<!--        var alert = document.getElementById("differentPasswordsAlert");-->
+<!--        if (password1 != password2) {-->
+<!--            alert.style.display = 'block';-->
+<!--        } else {-->
+<!--            alert.style.display = 'none';-->
+<!--            document.getElementById('psswd_form').submit();-->
+<!--            }-->
+<!--    }-->
+<!--</script>-->
 
 {% endblock %}

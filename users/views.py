@@ -370,19 +370,23 @@ class DeleteUser(LoginRequiredMixin, View):
         if user:
             if request.method == "POST":
                 password = request.POST.get('password')
-                password2 = request.POST.get('password2')
                 parent_password = request.POST.get('parent_password')
                 if user.parent_password is not None:
                     if parent_password == '':
-                        context['error'] = 'Musisz podać hasło rodzica'
+                        context['error'] = 'Musisz podać hasło rodzica!'
                         return render(request, 'delete_user.html', context=context)
-                    if not (check_password(password, user.password) and password == password2 and parent_password == user.parent_password):
-                        raise ValueError("Któreś z podanych haseł jest nieprawidłowe :/")
+                    if not (check_password(password, user.password)):
+                        context['error'] = 'Podane hasło jest nieprawidłowe!'
+                        return render(request, 'delete_user.html', context=context)
+                    if parent_password != user.parent_password:
+                        context['error'] = 'Podane hasło rodzica jest nieprawidłowe!'
+                        return render(request, 'delete_user.html', context=context)
                     user.delete()
                     return redirect('user-login')
                 else:
-                    if not (check_password(password, user.password) and password == password2):
-                        raise ValueError("Hasła różnią się od siebie albo są niepoprawne :/")
+                    if not (check_password(password, user.password)):
+                        context['error'] ="Hasło jest nieprawidłowe!"
+                        return render(request, 'delete_user.html', context=context)
                     user.delete()
                     return redirect('user-login')
             else:

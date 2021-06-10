@@ -78,6 +78,7 @@
                         {% else %}
                         {% for lesson in lessons %}
                           <div class="class_from_list" onclick="document.location='/show-classrooms/display-classroom/{{ classroom.id }}/display-lesson/{{ lesson.id }}'">
+
                               <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
                               {% if lesson.date != None %}
                               <div class="date_of_class_from_list">{{lesson.date}}</div>
@@ -183,6 +184,7 @@
 
             save.style.display = "block";
             edit.style.backgroundColor = "#7693d8"
+            edit.style.display = "none";
             name.contentEditable = "true";
             desc.contentEditable = "true";
             min.disabled = false;
