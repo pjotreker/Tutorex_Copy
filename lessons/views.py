@@ -248,15 +248,11 @@ class ShowClassrooms(LoginRequiredMixin, View):
 class DisplayClassroom(LoginRequiredMixin, View):
     def get(self, request, classroom_id):
         classroom = Classroom.objects.get(id=classroom_id)
-        students = []
         if Lesson.objects.all().exists():
             lessons = Lesson.objects.filter(classroom=classroom)
-            for a in classroom.students.all():
-                students.append(a.first_name + ' ' + a.last_name)
         else:
-            for a in classroom.students.all():
-                students.append(a.first_name + ' ' + a.last_name)
             lessons = []
+        students = classroom.students.all()
         return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
     def post(self, request, classroom_id):
@@ -301,6 +297,30 @@ class DisplayClassroom(LoginRequiredMixin, View):
         return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
 
 
+class RemoveStudent(LoginRequiredMixin, View):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+
+    def post(self, request, classroom_id, student_id):
+        resp = dict()
+        try:
+            student = BaseUser.objects.get(pk=student_id)
+            classroom = Classroom.objects.get(pk=classroom_id)
+            classroom.students.remove(student)
+            classroom.save()
+        except:
+            resp = {'mssg': f'Nie udało usunąć sie ucznia {student.first_name} {student.last_name} z klasy, możliwe że uczeń lub klasa przestały istnieć'}
+            resp = JsonResponse(resp)
+            resp.status_code = 500
+            return resp
+
+        resp['mssg'] = f'Uczeń {student.first_name} {student.last_name} został usunięty z klasy'
+        resp = JsonResponse(resp)
+        resp.status_code = 200
+        return resp
+
+
 class DeleteClassroom(LoginRequiredMixin, View):
     def get(self, request, class_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -309,8 +329,6 @@ class DeleteClassroom(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nie możesz usunąć nieswojej klasy!")
         if not request.user.is_teacher:
             return HttpResponseForbidden("Musisz byc nauczycielem aby móc usunąć klasę!")
-        # pdb.set_trace()
-        # breakpoint()
         try:
             classroom.delete()
             return redirect('show-classrooms')

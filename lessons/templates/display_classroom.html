@@ -48,7 +48,7 @@
         <div id="tui-class_box">
             <div id="nameOfTheClassBox">
                 <div id="nameOfTheClass" contentEditable="false">
-                    {{ classroom.name }}
+                    {{ classroom.name }} &emsp; <span style="font-size:12px;" id="messageBox"> </span>
                 </div>
                 <svg id="openCloseNameIcon" onclick="openCloseName()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
@@ -93,8 +93,8 @@
                     <div id="listOfClassStudentsBox" class="bottom_class_box">
                         <div style="font-size: 20px; border-bottom: 1px solid #DFE2E0; margin-bottom: 4px;">Uczniowie w klasie:</div>
                         {% for student in students %}
-                        <div class="student_from_list">{{ student }}
-                            <input type="checkbox" class="delete_checkbox" name="scales" unchecked>
+                        <div class="student_from_list">{{ student.first_name }} {{student.last_name}}
+                            <input id="{{ student.id }}" type="checkbox" class="delete_checkbox" name="scales" unchecked>
                         </div>
                         {% endfor %}
                         {% if user.is_teacher == True %}
@@ -239,14 +239,39 @@
         }
 
         function confirmDeletingStudents() {
-            var checks = document.getElementsByClassName('delete_checkbox');
-            var deleting = document.getElementById("deleteStudentsFromClassButton");
-            var dont = document.getElementById("dontDeleteStudentsFromClassButton");
-            var confirm = document.getElementById("confirmDeletingStudentsFromClassButton");
-            console.log(checks)
-            for (var i = 0; i < checks.length; i++) {
+            let checks = document.getElementsByClassName('delete_checkbox');
+            let deleting = document.getElementById("deleteStudentsFromClassButton");
+            let dont = document.getElementById("dontDeleteStudentsFromClassButton");
+            let confirm = document.getElementById("confirmDeletingStudentsFromClassButton");
+            console.log(checks);
+            let marked = [];
+            for (let i = 0; i < checks.length; i++) {
+                if(checks[i].checked){
+                    marked.push(checks[i])
+                }
                 checks[i].style.display = 'none';
+                checks[i].checked = false;
             }
+            i = 0;
+            for(i; i < marked.length; i++){
+                let student_id = marked[i].id;
+                console.log(student_id);
+                $.ajax({
+                    'method': 'POST',
+                    'url': '/show-classrooms/display-classroom/{{ classroom.id }}/students/'+student_id+'/delete',
+                    'data': {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                    'success': function(result){
+                        let mssg = result.mssg;
+                        $("#messageBox").html(mssg);
+                    },
+                    'error': function(result){
+                            let error = result.mssg;
+                            $("#messageBox").html(error);
+                    }
+                });
+                $("#"+student_id).parent().css("display", "none");
+            }
+
             deleting.style.display = "block";
             dont.style.display = 'none';
             confirm.style.display = 'none';
