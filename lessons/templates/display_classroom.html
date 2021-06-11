@@ -47,20 +47,22 @@
     <div class="tui-class_page">
         <div id="tui-class_box">
             <div id="nameOfTheClassBox">
-                <div id="nameOfTheClass" contentEditable="false">
-                    {{ classroom.name }} &emsp; <span style="font-size:12px;" id="messageBox"> </span>
+                <div id="nameOfTheClass">
+                    <input type="text" id="class_name" disabled="true" value="{{classroom.name}}"/>
                 </div>
+                &emsp; <span id="messageBox"> </span>
                 <svg id="openCloseNameIcon" onclick="openCloseName()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
                 </svg>
             </div>
             <div id="descriptionOfTheClassBox">
-                <div id="descriptionOfTheClass" contentEditable="false">
-                {{ classroom.subject }}
+                <div id="descriptionOfTheClass">
+                    <textarea id="subject_input" wrap="hard" cols="30" rows="4" maxlength="250" disabled="true">{{ classroom.subject }}</textarea>
                 </div>
                 <svg id="openCloseDescriptionIcon" onclick="openCloseDescription()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 10C3.9 10 3 10.9 3 12C3 13.1 3.9 14 5 14C6.1 14 7 13.1 7 12C7 10.9 6.1 10 5 10ZM19 10C17.9 10 17 10.9 17 12C17 13.1 17.9 14 19 14C20.1 14 21 13.1 21 12C21 10.9 20.1 10 19 10ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z" fill="black"/>
                 </svg>
+
             </div>
             <div id="bottomClassContainer">
                 <div id="leftPartOfBottomClassContainer">
@@ -173,8 +175,8 @@
         }
 
         function editContent() {
-            var name = document.getElementById("nameOfTheClass");
-            var desc = document.getElementById("descriptionOfTheClass");
+            var name = document.getElementById("class_name");
+            var desc = document.getElementById("subject_input");
             var min = document.getElementById("minNumberOfStudentsInClass");
             var max = document.getElementById("maxNumberOfStudentsInClass");
             var start = document.getElementById("startDateOfClass");
@@ -185,8 +187,8 @@
             save.style.display = "block";
             edit.style.backgroundColor = "#7693d8"
             edit.style.display = "none";
-            name.contentEditable = "true";
-            desc.contentEditable = "true";
+            name.disabled = false;
+            desc.disabled = false;
             min.disabled = false;
             max.disabled = false;
             start.disabled = false;
@@ -194,8 +196,8 @@
         }
 
         function saveContent() {
-            var name = document.getElementById("nameOfTheClass");
-            var desc = document.getElementById("descriptionOfTheClass");
+            var name = document.getElementById("class_name");
+            var desc = document.getElementById("subject_input");
             var min = document.getElementById("minNumberOfStudentsInClass");
             var max = document.getElementById("maxNumberOfStudentsInClass");
             var start = document.getElementById("startDateOfClass");
@@ -203,8 +205,8 @@
             var edit = document.getElementById("editClassButton");
             var save = document.getElementById("saveClassButton");
 
-            let form_data = {class_name: name.innerHTML,
-                            subject: desc.innerHTML,
+            let form_data = {class_name: name.value,
+                            subject: desc.value,
                             age_range_min: min.value,
                             age_range_max: max.value,
                             time_frame_start: start.value,
@@ -217,17 +219,20 @@
                                 'url': '/show-classrooms/display-classroom/{{ classroom.id }}',
                                 'data': form_data,
                                 'success': function(){
-                                    $("#classMessages").html("Klasa została pomyślnie edytowana");
+                                    $("#messageBox").html("Klasa została pomyślnie edytowana");
+                                    $("#messageBox").addClass("text-success");
                                 },
                                 'error': function(){
-                                    $("#classMessages").html("Nie udało się edytować klasy!");
+                                    $("#messageBox").html("Nie udało się edytować klasy!");
+                                    $("#messageBox").addClass("text-danger");
                                 }
                             });
 
             save.style.display = "none";
             edit.style.backgroundColor = "#375eb9";
-            name.contentEditable = "false";
-            desc.contentEditable = "false";
+            edit.style.display = "block";
+            name.disabled= true;
+            desc.disabled = true;
             min.disabled = true;
             max.disabled = true;
             start.disabled = true;
@@ -287,10 +292,12 @@
                     'success': function(result){
                         let mssg = result.mssg;
                         $("#messageBox").html(mssg);
+                        $("#messageBox").addClass("text-success");
                     },
                     'error': function(result){
                             let error = result.mssg;
                             $("#messageBox").html(error);
+                            $("#messageBox").addClass("text-danger");
                     }
                 });
                 $("#"+student_id).parent().css("display", "none");

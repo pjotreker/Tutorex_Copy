@@ -265,8 +265,8 @@ class DisplayClassroom(LoginRequiredMixin, View):
         form = ModifyClassroomForm(request.POST)
         try:
             if form.is_valid():
-                class_name = form.cleaned_data.get('class_name')
-                subject = form.cleaned_data.get('subject')
+                class_name = form.cleaned_data.get('class_name').strip()
+                subject = form.cleaned_data.get('subject').strip()
                 age_range_min = form.cleaned_data.get('age_range_min')
                 age_range_max = form.cleaned_data.get('age_range_max')
                 time_frame_start = form.cleaned_data.get('time_frame_start')
