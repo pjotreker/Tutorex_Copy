@@ -561,6 +561,11 @@ class NotificationsView(LoginRequiredMixin, View):
         new_notifications = user.notifications.all()
         request_timestamp = datetime.datetime.now()
         request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
+        for n in new_notifications:
+            if abs(request_timestamp - n.timestamp).days > 7:
+                n.unread = False
+                n.save()
+
         new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
         return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
 
@@ -576,7 +581,10 @@ def get_user_notifications(request):
     user = request.user
     new_notifications = user.notifications.all()
     request_timestamp = datetime.datetime.now()
-
+    for n in new_notifications:
+        if abs(request_timestamp - n.timestamp).days > 7:
+            n.unread = False
+            n.save()
     request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
     new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
     all_list = []
