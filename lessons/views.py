@@ -253,7 +253,8 @@ class DisplayClassroom(LoginRequiredMixin, View):
         else:
             lessons = []
         students = classroom.students.all()
-        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
+        today = datetime.today()
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons, 'today': today})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)

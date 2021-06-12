@@ -23,11 +23,11 @@
                 <textarea name="note" id="descriptionOfLessonNote" class="createNewLessonInput" placeholder="Notatka do lekcji" cols="30" rows="5" maxlength="1000"></textarea>
                 <div>
                     <label for="startDate" class="rightLabel"><b>Data rozpoczęcia:</b></label>
-                    <input id="startDate" class="createNewLessonInput" name="lesson_date" type="date" value="2021-05-26">
+                    <input id="startDate" class="createNewLessonInput" name="lesson_date" type="date" value="{{ today|date:'Y-m-d'  }}">
                 </div>
                 <div>
                     <label for="startHour" class="rightLabel"><b>Godzina rozpoczęcia:</b></label>
-                    <input id="startHour" class="createNewLessonInput" name="lesson_hour" type="time" value="19:20">
+                    <input id="startHour" class="createNewLessonInput" name="lesson_hour" type="time" value="19:00">
                 </div>
             <div id="buttonsSection" style="margin: auto; padding-top: 20px;">
                 <button id="cancelCreatingNewLessonButton" class="createNewLessonButtons" style="background-color: #E74C3C;">
@@ -81,7 +81,7 @@
                         {% for lesson in lessons %}
                           <div class="class_from_list" onclick="document.location='/show-classrooms/display-classroom/{{ classroom.id }}/display-lesson/{{ lesson.id }}'">
 
-                              <div class="name_of_class_from_list">{{lesson.id}} {{lesson.subject}}</div>
+                              <div class="name_of_class_from_list">{{ forloop.counter }} {{lesson.subject}}</div>
                               {% if lesson.date != None %}
                               <div class="date_of_class_from_list">{{lesson.date}}</div>
                               {% else %}
