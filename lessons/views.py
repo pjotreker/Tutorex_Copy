@@ -83,7 +83,7 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "join_classroom.html")
 
     def post(self, request):
-        classroom_id = request.POST.get('classroom_id')
+        classroom_id = request.POST.get('classroom_id').strip()
         user_id = request.user
         student = BaseUser.objects.get(pk=user_id.id)
         try:
@@ -222,7 +222,7 @@ class ShowClassrooms(LoginRequiredMixin, View):
             context['error'] = "Ajjj coś poszło nie tak"
             return render(request, "show_classrooms.html", context) # empty display!
         if not request.user.is_teacher:
-            classroom_id = request.POST.get('classroom_id')
+            classroom_id = request.POST.get('classroom_id').strip()
             user_id = request.user
             student = BaseUser.objects.get(pk=user_id.id)
             try:

@@ -143,11 +143,11 @@ em {
     border: none;
 }
 
-#acceptNotification {
+.accept_button {
     background-color: #1BB55C;
 }
 
-#rejectNotification {
+.reject_button {
     background-color: #E74C3C;
 }
 
