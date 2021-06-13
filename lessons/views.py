@@ -302,7 +302,6 @@ class RemoveStudent(LoginRequiredMixin, View):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_teacher
 
-
     def post(self, request, classroom_id, student_id):
         resp = dict()
         try:
@@ -438,6 +437,22 @@ class DisplayLesson(LoginRequiredMixin, View):
             return redirect('display-lesson', classroom_id=classroom_id, lesson_id=lesson_id)
         except:
             raise ValueError("Nie udało się zapisać klasy")
+
+
+class DeleteLesson(LoginRequiredMixin, View):
+    def get(self, request, classroom_id, lesson_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=classroom_id)
+        lesson = Lesson.objects.get(id=lesson_id)
+        if classroom.owner != owner or lesson.owner != owner:
+            raise PermissionDenied("Nie możesz usunąć nieswojej lekcji!")
+        if not request.user.is_teacher:
+            raise PermissionDenied("Musisz byc nauczycielem aby móc usunąć lekcję!")
+        try:
+            lesson.delete()
+            return redirect('display-classroom', classroom_id=classroom_id)
+        except Exception:
+            return HttpResponseForbidden("Coś poszło nieteges")
 
 
 class CreateTimeSlot(LoginRequiredMixin, UserPassesTestMixin, View):
