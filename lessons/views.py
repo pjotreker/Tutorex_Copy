@@ -83,7 +83,7 @@ class JoinClassroom(LoginRequiredMixin, View):
         return render(request, "join_classroom.html")
 
     def post(self, request):
-        classroom_id = request.POST.get('classroom_id')
+        classroom_id = request.POST.get('classroom_id').strip()
         user_id = request.user
         student = BaseUser.objects.get(pk=user_id.id)
         try:
@@ -222,7 +222,7 @@ class ShowClassrooms(LoginRequiredMixin, View):
             context['error'] = "Ajjj coś poszło nie tak"
             return render(request, "show_classrooms.html", context) # empty display!
         if not request.user.is_teacher:
-            classroom_id = request.POST.get('classroom_id')
+            classroom_id = request.POST.get('classroom_id').strip()
             user_id = request.user
             student = BaseUser.objects.get(pk=user_id.id)
             try:
@@ -253,7 +253,8 @@ class DisplayClassroom(LoginRequiredMixin, View):
         else:
             lessons = []
         students = classroom.students.all()
-        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons})
+        today = datetime.today()
+        return render(request, "display_classroom.html", {'classroom': classroom, 'students': students, 'lessons': lessons, 'today': today})
 
     def post(self, request, classroom_id):
         owner = TeacherProfile.objects.get(user=request.user)
@@ -300,7 +301,6 @@ class DisplayClassroom(LoginRequiredMixin, View):
 class RemoveStudent(LoginRequiredMixin, View):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_teacher
-
 
     def post(self, request, classroom_id, student_id):
         resp = dict()
@@ -437,6 +437,22 @@ class DisplayLesson(LoginRequiredMixin, View):
             return redirect('display-lesson', classroom_id=classroom_id, lesson_id=lesson_id)
         except:
             raise ValueError("Nie udało się zapisać klasy")
+
+
+class DeleteLesson(LoginRequiredMixin, View):
+    def get(self, request, classroom_id, lesson_id):
+        owner = TeacherProfile.objects.get(user=request.user)
+        classroom = Classroom.objects.get(id=classroom_id)
+        lesson = Lesson.objects.get(id=lesson_id)
+        if classroom.owner != owner or lesson.owner != owner:
+            raise PermissionDenied("Nie możesz usunąć nieswojej lekcji!")
+        if not request.user.is_teacher:
+            raise PermissionDenied("Musisz byc nauczycielem aby móc usunąć lekcję!")
+        try:
+            lesson.delete()
+            return redirect('display-classroom', classroom_id=classroom_id)
+        except Exception:
+            return HttpResponseForbidden("Coś poszło nieteges")
 
 
 class CreateTimeSlot(LoginRequiredMixin, UserPassesTestMixin, View):

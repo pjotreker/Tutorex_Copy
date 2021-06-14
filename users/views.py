@@ -20,6 +20,7 @@ from notifications.signals import notify
 from notifications.utils import id2slug
 import datetime
 from dateutil.relativedelta import relativedelta
+import locale
 import pytz
 import json
 from .forms import SignUpForm, SignUpParentForm, UpdateUserDataForm, ChangePasswordForm
@@ -561,6 +562,11 @@ class NotificationsView(LoginRequiredMixin, View):
         new_notifications = user.notifications.all()
         request_timestamp = datetime.datetime.now()
         request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
+        for n in new_notifications:
+            if abs(request_timestamp - n.timestamp).days > 7:
+                n.unread = False
+                n.save()
+
         new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
         return render(request, "notifications_view.html", {'all_count': len(new_notifications), "notifications": new_notifications})
 
@@ -574,17 +580,21 @@ class Terms(View):
 
 def get_user_notifications(request):
     user = request.user
+    locale.setlocale(locale.LC_TIME, "pl_PL.utf8")
     new_notifications = user.notifications.all()
     request_timestamp = datetime.datetime.now()
-
     request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
+    for n in new_notifications:
+        if abs(request_timestamp - n.timestamp).days > 7:
+            n.unread = False
+            n.save()
     new_notifications = [line for line in new_notifications if abs(request_timestamp - line.timestamp).days <= 7]
     all_list = []
     for notification in new_notifications:
         struct = model_to_dict(notification)
         struct['slug'] = id2slug(notification.id)
         struct['id'] = str(notification.id)
-        struct['timestamp'] = str(notification.timestamp.strftime("%B %d, %Y %H:%M %p"))
+        struct['timestamp'] = str(notification.timestamp.strftime("%d %B %Y %H:%M %p"))
         if notification.actor:
             struct['actor'] = str(notification.actor)
         if notification.target:
