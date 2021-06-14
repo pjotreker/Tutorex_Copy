@@ -106,9 +106,13 @@ Testy sprawdzają podstawy działania aplikacji:
 - edytowanie danych przez użytkownika (zwracanie kodu **200** w przypadku powodzenia oraz kodu **403** (odmowa dostępu) w przypadku próby zmiany danych innego użytkownika)
 - tworzenie nowej klasy (podanie części danych lub wszystkich możliwych, zwracanie kodu **302** w przypadku powodzenia)
 - dołączanie do klasy poprzez wpisanie kodu klasy przez ucznia (zwracanie kodu **200**)
+- akceptowanie oraz odrzucanie prośby ucznia o dołączenie do klasy (zwracanie kodu **200** w obu przypadkach)
 - modyfikowanie danych klasy przez nauczyciela (zwracanie kodu **302** w przypadku powodzenia)
+- usuwanie klasy przez nauczyciela (zwracanie kodu **302** w przypadku powodzenia)
+- dodawanie lekcji przez nauczyciela (zwracanie kodu **200**)
+- modyfikowanie lekcji przez nauczyciela (zwracanie kodu **302** w przypadku powodzenia)
 
-Testy związane ze stroną główną i użytkownikami (logowanie, rejestracja, edycja profilu) znajdują się w pliku *users/tests.py*, natomiast związane z powiadomieniami, klasami i lekcjami w pliku *lessons/tests.py*.
+Testy związane ze stroną główną i użytkownikami (logowanie, rejestracja, edycja profilu) znajdują się w pliku *users/tests.py*, natomiast związane z powiadomieniami, klasami i lekcjami w pliku *lessons/tests.py*. W pliku *calendar-google/tests.py* znajdują się testy związane z wyświetlaniem kalendarza.
 
 
 
