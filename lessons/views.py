@@ -390,6 +390,11 @@ class AddLesson(LoginRequiredMixin, View):
         except Exception:
             context['error'] = "Coś poszło nie tak"
             return render(request, "add_lesson.html", context)
+
+        for line in classroom.students.all():
+            notify.send(sender=request.user, recipient=line,
+                        verb=mark_safe(
+                            f"{request.user.first_name} {request.user.last_name} Utworzył nową lekcję o nazwie <em>{lesson.subject}</em> w klasie <em> {classroom.name}</em>"),)
         return redirect('display-classroom', classroom_id=classroom_id)
 
 
