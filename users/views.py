@@ -574,9 +574,11 @@ class Contact(View):
     def get(self, request, *args, **kwargs):
         return render(request, "contact_us.html")
 
+
 class Terms(View):
     def get(self, request, *args, **kwargs):
         return render(request, "terms.html")        
+
 
 def get_user_notifications(request):
     user = request.user
