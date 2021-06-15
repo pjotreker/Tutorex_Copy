@@ -582,7 +582,7 @@ class Terms(View):
 
 def get_user_notifications(request):
     user = request.user
-    # locale.setlocale(locale.LC_TIME, "pl_PL.utf8")
+    locale.setlocale(locale.LC_TIME, "pl_PL.utf8")
     new_notifications = user.notifications.all()
     request_timestamp = datetime.datetime.now()
     request_timestamp = request_timestamp.replace(tzinfo=pytz.utc)
