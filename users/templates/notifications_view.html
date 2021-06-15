@@ -45,8 +45,11 @@
             setInterval(update_notifications, 10000);
         });
         function mark_read(event){
+            console.log("mark read startuje!");
             let elem = event.currentTarget
             let record_id = $(elem).attr("id");
+            console.log("Element:"+elem);
+            console.log("Id elementu:"+record_id);
             $.ajax({
                 'type': 'GET',
                 'url': "/notifications/mark-as-read/"+record_id+"/",
@@ -58,6 +61,7 @@
         }
 
         function update_notifications(){
+            console.log("Startuje!");
             $.ajax({
                 'type': 'GET',
                 'url': "/api/user/notifications/",
@@ -108,6 +112,7 @@
                 },
                 error: function (response) {
                 // alert the error if any error occured
+                    console.log(response);
                     console.log("COŚ POSZŁO NIE TAK!");
             }
             });
