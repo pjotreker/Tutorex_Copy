@@ -335,4 +335,10 @@ class ClassroomTest(BaseTest):
         self.client.logout()
 
     # delete lesson tests
-    # def test_delete_lesson(self):
+    def test_delete_lesson(self):
+        teacher = self.set_up_teacher()
+        classroom = self.set_up_classroom(teacher)
+        lesson = self.set_up_lesson(classroom)
+        response = self.client.get(reverse('delete-lesson', args=[classroom.id, lesson.id]), secure=True)
+        self.assertEqual(response.status_code, 302)
+        self.client.logout()
