@@ -107,11 +107,11 @@
                         {% endif %}
                     </div>
                     <div id="classInfoContainer">
-                        <div class="class_info">Min. wiek uczniów w klasie:
+                        <div class="class_info">Min. liczba uczniów w klasie:
                             <input name="age_range_min" id="minNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value="{{ classroom.age_range_min }}" min="1">
                         </div>
-                        <div class="class_info">Max. wiek uczniów w klasie:
-                            <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value="{{ classroom.age_range_max }}" max="99">
+                        <div class="class_info">Max. liczba uczniów w klasie:
+                            <input name="age_range_max" id="maxNumberOfStudentsInClass" class="class_info_input" type="number" disabled="true" value="{{ classroom.age_range_max }}" max="20">
                         </div>
                         <div class="class_info">Planowane rozpoczęcie zajęć:
                             <input name="time_frame_start" id="startDateOfClass" class="class_date_input" type="date" disabled="true" value="{{ classroom.time_frame_start|date:'Y-m-d' }}" required/>
