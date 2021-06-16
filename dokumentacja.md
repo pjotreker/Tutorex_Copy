@@ -93,6 +93,24 @@
 8. Zakończono tworzenie strony powiadomień *id=tui-notification_page* wraz z przykładową templatką powiadomienia *class=notification_sample* dla prośby o dołączenie do klasy (po stronie nauczyciela) oraz dla zaakceptowania prośby o dołączenie do klasy (po stronie ucznia). Strona powiadomień została wykonana responsywnie i będzie poszerzana o kolejne rodzaje powiadomień w kolejnych sprintach.
 9. Stworzono ogólny widok wszystkich klas, które prowadzi nauczyciel *class=class_of_teacher* lub klas, do których należy uczeń *class=class_of_student*. Wszystkie klasy zawierają się w kontenerze *class=grid-container id=classesContainer*, który to wraz z *id=classesTopBar* zawiera się w stronie klas *id=tui-classes_page*.
 
+##### Widok tworzenia klasy i dołączania do klasy
+
+10. Tworzenie klasy zawarte jest w pliku z widokiem wszystkich klas *classesTeacher.html* i tak naprawdę jest podwidokiem, o id *id="createNewClassBar"*. Podczas tworzenia nowe klasy uzupełnia się pola nazwa klasy *id="nameOfNewClassCodeInput"* oraz opis klasy *id="descriptionOfNewClassCodeInput"*, a także pola pomocnicze, takie jak maksymalna i minimalna liczba uczniów w klasie oraz data rozpoczęcia i zakończenia klasy.
+11. Dołączanie do klasy analogicznie, jest podwidokiem o id *id="joinNewClassBar"* zawartym w pliku *classesStudent.html*. Kod klasy wpisuje się w input o id *id="joinNewClassCodeInput"*.
+
+##### Widok pojedynczej klasy
+
+12. Widok pojedynczej klasy został stworzony w pliku *class.html*, a sama klasa oznaczona jest *id="tui-class_box"*. Informacje, które wyświetlają się w widoku to nazwa i opis klasy (*id="nameOfTheClassBox"* oraz *id="descriptionOfTheClassBox"*), oba te pola są rozwijane na wypadek długości tekstu przekraczającej wysokość elementu. Poniżej zawarte zostały widoki pokazujące listę lekcji przypisanych do klasy *id="listOfClassLessonsBox"*, uczniów dodanych do klasy *id="listOfClassStudentsBox"* oraz informacje o klasie *id="classInfoContainer"*.
+13. Zaimplementowano również buttony przeznaczone do edycji pól klasy *id="editClassButton"*, do usunięcia uczniów z klasy *id="deleteStudentsFromClassButton"*, a także do usunięcia samej klasy *id="deleteClassButton"*. Z poziomu pojedynczej klasy można też utworzyć nową lekcję, a służy do tego button *id="addLessonButton"* zawarty w podwidoku listy lekcji, w elemencie *id="listOfClassLessonsBox"*.
+
+##### Tworzenie i widok lekcji
+
+14. Po klinięciu buttona DODAJ LEKCJĘ *id="addLessonButton"* ukazuje się wysuwany widok tworzenia lekcji *id="newLessonView"*.
+15. Przy tworzeniu lekcji (*id="newLessonBox"*) uzupełnia się w formie (*id="createNewLessonForm"*) odpowiednie pola: tytuł, opis i notatkę do lekcji, a także datę i godzinę rozpoczęcia lekcji w harmonogramie.
+16. Widok pojedynczej lekcji został stworzony w pliku *lesson.html*, a sama klasa oznaczona jest *class="tui-lesson_page"*. Powrót do widoku klasy znajduje się w elemencie *id="returnLessonBar"*, natomiast nawigowanie między lekcjami w elemencie *id="navLessonBar*.
+17. Wszystkie informacje o lekcji znajdują się w elemencie *id="tui-lesson_box"*. Przesłane materiały wyświetlane są w elemencie *id="filesForTheLessonBox"*, natomiast zadania domowe w *id="homeworkForTheLessonBox"*.
+18. Do edycji pól lekcji służy button *id="editLessonButton"*, do dodania materiałów *id="addFileToLessonButton"*, do usunięcia materiałów *id="deleteFileFromLessonButton"*, do dodania zadania domowego *id="addHomeworkToLessonButton"*, do usunięcia zadania domowego *id="deleteHomeworkFromLessonButton"*, a do usunięcia lekcji *id="deleteLessonButton"*.
+
 ### Testy
 
 Testy automatyczne realizowane są przy pomocy wbudowanego w Django modułu **django.test**.
